@@ -4,6 +4,17 @@ import { useState, useEffect } from 'react';
 import { Star, Quote } from 'lucide-react';
 import { TestimonialSkeleton } from './Skeleton';
 
+const featuredQuotes = [
+  {
+    quote: "Since starting with ZoomieVan, my dog is calmer, healthier, and happier than ever. It's not just exercise—it's transformation.",
+    author: "Dr. Amanda Liu, Veterinarian & Client",
+  },
+  {
+    quote: "We built ZoomieVan because every dog deserves access to professional fitness—regardless of their owner's schedule or location.",
+    author: "ZoomieVan Founding Team",
+  },
+];
+
 const testimonials = [
   {
     name: 'Sarah Chen',
@@ -77,7 +88,7 @@ export default function Testimonials() {
   }, [inView]);
 
   return (
-    <section id="testimonials" className="relative py-24 lg:py-32 overflow-hidden">
+    <section id="testimonials" className="relative py-16 lg:py-24 overflow-hidden">
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[150px]" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
@@ -98,6 +109,25 @@ export default function Testimonials() {
             Don't just take our word for it. Here's what our community says about their ZoomieVan experience.
           </p>
         </motion.div>
+
+        {/* Featured Quotes */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          {featuredQuotes.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="relative rounded-2xl border border-brand-500/20 bg-brand-500/5 p-6 overflow-hidden"
+            >
+              <Quote className="w-8 h-8 text-brand-500/20 mb-3" />
+              <p className="font-display text-base sm:text-lg font-semibold text-white leading-relaxed italic">
+                "{item.quote}"
+              </p>
+              <p className="mt-3 text-sm text-brand-400 font-medium">{item.author}</p>
+            </motion.div>
+          ))}
+        </div>
 
         {/* Testimonial Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

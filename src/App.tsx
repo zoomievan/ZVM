@@ -9,25 +9,19 @@ import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import UserDashboard from './pages/UserDashboard';
+import CoveragePage from './pages/CoveragePage';
+import FAQPage from './pages/FAQPage';
 
 const Hero = lazy(() => import('./components/Hero'));
-const ValueProps = lazy(() => import('./components/ValueProps'));
-const HowItWorks = lazy(() => import('./components/HowItWorks'));
-const Stats = lazy(() => import('./components/Stats'));
-const Pricing = lazy(() => import('./components/Pricing'));
+const WhyZoomieVan = lazy(() => import('./components/WhyZoomieVan'));
+const BookNow = lazy(() => import('./components/BookNow'));
 const Testimonials = lazy(() => import('./components/Testimonials'));
-const PostalCodeChecker = lazy(() => import('./components/PostalCodeChecker'));
-const GetStarted = lazy(() => import('./components/GetStarted'));
-
-const SchedulePreview = lazy(() => import('./components/SchedulePreview'));
-const ParallaxDivider = lazy(() => import('./components/ParallaxDivider'));
 const CTA = lazy(() => import('./components/CTA'));
-const FAQ = lazy(() => import('./components/FAQ'));
 const Footer = lazy(() => import('./components/Footer'));
 
 function SectionLoader() {
   return (
-    <div className="flex items-center justify-center py-32">
+    <div className="flex items-center justify-center py-20">
       <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
     </div>
   );
@@ -64,7 +58,7 @@ function LandingPage() {
 
           <div className="fixed top-16 lg:top-20 left-0 right-0 z-40 bg-amber-500/10 border-b border-amber-500/20 backdrop-blur-sm">
             <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-center gap-2 text-sm">
-              <span className="text-amber-400">⚠️</span>
+              <span className="text-amber-400">&#9888;&#65039;</span>
               <span className="text-amber-300 text-xs sm:text-sm">
                 <strong>Weather Advisory:</strong> Some routes in Greater Vancouver may experience 30-min delays today due to road conditions.
               </span>
@@ -72,29 +66,9 @@ function LandingPage() {
           </div>
 
           <Suspense fallback={<SectionLoader />}><Hero /></Suspense>
-          <Suspense fallback={<SectionLoader />}><ValueProps /></Suspense>
-          <Suspense fallback={<SectionLoader />}><HowItWorks /></Suspense>
-          <Suspense fallback={<SectionLoader />}><Stats /></Suspense>
-          <Suspense fallback={<SectionLoader />}><PostalCodeChecker /></Suspense>
-          <Suspense fallback={<SectionLoader />}>
-            <ParallaxDivider
-              image="https://images.pexels.com/photos/5749781/pexels-photo-5749781.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200"
-              quote="Since starting with ZoomieVan, my dog is calmer, healthier, and happier than ever. It's not just exercise—it's transformation."
-              author="— Dr. Amanda Liu, Veterinarian & Client"
-            />
-          </Suspense>
-          <Suspense fallback={<SectionLoader />}><SchedulePreview /></Suspense>
-          <Suspense fallback={<SectionLoader />}><Pricing /></Suspense>
-          <Suspense fallback={<SectionLoader />}><GetStarted /></Suspense>
+          <Suspense fallback={<SectionLoader />}><WhyZoomieVan /></Suspense>
+          <Suspense fallback={<SectionLoader />}><BookNow /></Suspense>
           <Suspense fallback={<SectionLoader />}><Testimonials /></Suspense>
-          <Suspense fallback={<SectionLoader />}>
-            <ParallaxDivider
-              image="/images/van-exterior.jpg"
-              quote="We built ZoomieVan because every dog deserves access to professional fitness—regardless of their owner's schedule or location."
-              author="— ZoomieVan Founding Team"
-            />
-          </Suspense>
-          <Suspense fallback={<SectionLoader />}><FAQ /></Suspense>
           <Suspense fallback={<SectionLoader />}><CTA /></Suspense>
           <Suspense fallback={<SectionLoader />}><Footer /></Suspense>
         </motion.div>
@@ -112,6 +86,8 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/dashboard" element={<UserDashboard />} />
+        <Route path="/coverage" element={<CoveragePage />} />
+        <Route path="/faq" element={<FAQPage />} />
       </Routes>
     </AuthProvider>
   );

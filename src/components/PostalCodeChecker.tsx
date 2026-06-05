@@ -55,7 +55,7 @@ export default function PostalCodeChecker() {
   };
 
   return (
-    <section id="coverage" className="relative py-24 lg:py-32 overflow-hidden">
+    <section id="coverage" className="relative py-16 lg:py-24 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-dark-900 via-dark-800/50 to-dark-900" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-500/5 rounded-full blur-[200px]" />
 

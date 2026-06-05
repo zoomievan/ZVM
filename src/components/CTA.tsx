@@ -12,7 +12,7 @@ export default function CTA() {
   const bgY = useTransform(scrollYProgress, [0, 1], [0, -60]);
 
   return (
-    <section ref={containerRef} className="relative py-24 lg:py-32 overflow-hidden">
+    <section ref={containerRef} className="relative py-16 lg:py-24 overflow-hidden">
       {/* Animated gradient background */}
       <motion.div style={{ y: bgY }} className="absolute inset-0 -top-20 -bottom-20">
         <div className="absolute inset-0 bg-gradient-to-br from-brand-900 via-brand-800 to-dark-900" />
