@@ -56,14 +56,6 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           <div className="absolute inset-0 bg-gradient-to-tl from-dark-900/60 via-transparent to-transparent" />
         </div>
 
-        <div className="relative z-10 flex flex-col items-center gap-6">
-          <img
-            src="/images/zvm_logo.png"
-            alt="ZoomieVan"
-            className="glow-logo w-28 h-28 object-contain"
-          />
-        </div>
-
         <div className="relative z-10 flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-3">
             <h2 className="font-display text-2xl font-bold text-white tracking-tight">
