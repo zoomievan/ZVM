@@ -27,27 +27,18 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="flex flex-col items-center gap-8">
-          <div className="capybaraloader">
-            <div className="capybara">
-              <div className="capyhead">
-                <div className="capyear">
-                  <div className="capyear2" />
+          <div className="road">
+            <div className="dog">
+              <div className="body">
+                <div className="head">
+                  <div className="ear" />
                 </div>
-                <div className="capyear" />
-                <div className="capymouth">
-                  <div className="capylips" />
-                  <div className="capylips" />
-                </div>
-                <div className="capyeye" />
-                <div className="capyeye" />
+                <div className="tail" />
+                <div className="leg leg1" />
+                <div className="leg leg2" />
+                <div className="leg leg3" />
+                <div className="leg leg4" />
               </div>
-              <div className="capyleg" />
-              <div className="capyleg2" />
-              <div className="capyleg2" />
-              <div className="capy" />
-            </div>
-            <div className="capy-loader">
-              <div className="capy-loaderline" />
             </div>
           </div>
           <div className="flex flex-col items-center gap-3">

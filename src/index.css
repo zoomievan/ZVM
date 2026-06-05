@@ -66,173 +66,95 @@ body {
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
-/* Capybara loader */
-.capybaraloader {
-  width: 14em;
-  height: 10em;
+/* Dog loader */
+.road {
+  width: 80%;
+  max-width: 280px;
+  height: 110px;
+  border-bottom: 6px solid #52525B;
   position: relative;
-  z-index: 1;
-  --color: rgb(204, 125, 45);
-  --color2: rgb(83, 56, 28);
-  transform: scale(0.75);
 }
-.capybara {
-  width: 100%;
-  height: 7.5em;
+
+.dog {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.body {
+  width: 72px;
+  height: 36px;
+  background: #a3a3a3;
+  border-radius: 18px;
   position: relative;
-  z-index: 1;
 }
-.capy-loader {
-  width: 100%;
-  height: 2.5em;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-}
-.capy {
-  width: 85%;
-  height: 100%;
-  background: linear-gradient(var(--color), 90%, var(--color2));
-  border-radius: 45%;
-  position: relative;
-  z-index: 1;
-  animation: capy-movebody 1s linear infinite;
-}
-.capyhead {
-  width: 7.5em;
-  height: 7em;
-  bottom: 0em;
-  right: 0em;
-  position: absolute;
-  background-color: var(--color);
-  z-index: 3;
-  border-radius: 3.5em;
-  box-shadow: -1em 0em var(--color2);
-  animation: capy-movebody 1s linear infinite;
-}
-.capyear {
-  width: 2em;
-  height: 2em;
-  background: linear-gradient(-45deg, var(--color), 90%, var(--color2));
-  top: 0em;
-  left: 0em;
-  border-radius: 100%;
-  position: absolute;
-  overflow: hidden;
-  z-index: 3;
-}
-.capyear:nth-child(2) {
-  left: 5em;
-  background: linear-gradient(25deg, var(--color), 90%, var(--color2));
-}
-.capyear2 {
-  width: 100%;
-  height: 1em;
-  background-color: var(--color2);
-  bottom: 0em;
-  left: 0.5em;
-  border-radius: 100%;
-  position: absolute;
-  transform: rotate(-45deg);
-}
-.capymouth {
-  width: 3.5em;
-  height: 2em;
-  background-color: var(--color2);
-  position: absolute;
-  bottom: 0em;
-  left: 2.5em;
+
+.head {
+  width: 30px;
+  height: 30px;
+  background: #a3a3a3;
   border-radius: 50%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0.5em;
-}
-.capylips {
-  width: 0.25em;
-  height: 0.75em;
-  border-radius: 100%;
-  transform: rotate(-45deg);
-  background-color: var(--color);
-}
-.capylips:nth-child(2) {
-  transform: rotate(45deg);
-}
-.capyeye {
-  width: 2em;
-  height: 0.5em;
-  background-color: var(--color2);
   position: absolute;
-  bottom: 3.5em;
-  left: 1.5em;
-  border-radius: 5em;
-  transform: rotate(45deg);
+  top: -4px;
+  right: -16px;
 }
-.capyeye + .capyeye {
-  transform: rotate(-45deg);
-  left: 5.5em;
-  width: 1.75em;
-}
-.capyleg {
-  width: 6em;
-  height: 5em;
-  bottom: 0em;
-  left: 0em;
+
+.ear {
+  width: 10px;
+  height: 16px;
+  background: #666;
+  border-radius: 8px;
   position: absolute;
-  background: linear-gradient(var(--color), 95%, var(--color2));
-  z-index: 2;
-  border-radius: 2em;
-  animation: capy-movebody 1s linear infinite;
+  top: -10px;
+  right: -2px;
+  transform-origin: bottom center;
+  animation: earMove 0.4s infinite alternate;
 }
-.capyleg2 {
-  width: 1.75em;
-  height: 3em;
-  bottom: 0em;
-  left: 3.25em;
+
+.tail {
+  width: 22px;
+  height: 5px;
+  background: #a3a3a3;
   position: absolute;
-  background: linear-gradient(var(--color), 80%, var(--color2));
-  z-index: 2;
-  border-radius: 0.75em;
-  box-shadow: inset 0em -0.5em var(--color2);
-  animation: capy-moveleg 1s linear infinite;
-}
-.capyleg2:nth-child(3) {
-  width: 1.25em;
-  left: 0.5em;
-  height: 2em;
-  animation: capy-moveleg2 1s linear infinite 0.075s;
+  left: -12px;
+  top: 10px;
+  transform-origin: right center;
+  animation: wag 0.4s infinite alternate;
 }
 
-@keyframes capy-moveleg {
-  0% { transform: rotate(-45deg) translateX(-5%); }
-  50% { transform: rotate(45deg) translateX(5%); }
-  100% { transform: rotate(-45deg) translateX(-5%); }
+.leg {
+  width: 5px;
+  height: 24px;
+  background: #666;
+  position: absolute;
+  top: 28px;
+  transform-origin: top center;
 }
 
-@keyframes capy-moveleg2 {
-  0% { transform: rotate(45deg); }
-  50% { transform: rotate(-45deg); }
-  100% { transform: rotate(45deg); }
+.leg1 { left: 14px; animation: walk 0.4s infinite alternate; }
+.leg2 { left: 27px; animation: walkReverse 0.4s infinite alternate; }
+.leg3 { left: 45px; animation: walkReverse 0.4s infinite alternate; }
+.leg4 { left: 58px; animation: walk 0.4s infinite alternate; }
+
+@keyframes walk {
+  from { transform: rotate(25deg); }
+  to { transform: rotate(-25deg); }
 }
 
-@keyframes capy-movebody {
-  0% { transform: translateX(0%); }
-  50% { transform: translateX(2%); }
-  100% { transform: translateX(0%); }
+@keyframes walkReverse {
+  from { transform: rotate(-25deg); }
+  to { transform: rotate(25deg); }
 }
 
-.capy-loaderline {
-  width: 50em;
-  height: 0.5em;
-  border-top: 0.5em dashed var(--color2);
-  animation: capy-moveline 10s linear infinite;
+@keyframes wag {
+  from { transform: rotate(20deg); }
+  to { transform: rotate(-20deg); }
 }
 
-@keyframes capy-moveline {
-  0% { transform: translateX(0%); opacity: 0%; }
-  5% { opacity: 100%; }
-  95% { opacity: 100%; }
-  100% { opacity: 0%; transform: translateX(-70%); }
+@keyframes earMove {
+  from { transform: rotate(-10deg); }
+  to { transform: rotate(10deg); }
 }
 
 /* Floating animation */
