@@ -41,30 +41,30 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         exit={{ opacity: 0, scale: 1.05 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="flex flex-col items-center gap-6">
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-30"
+            style={{ objectPosition: 'center 35%' }}
+            onEnded={() => setVideoEnded(true)}
+          >
+            <source src="/loader.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-tl from-dark-900/60 via-transparent to-transparent" />
+        </div>
+
+        <div className="relative z-10 flex flex-col items-center gap-6">
           <img
             src="/images/zvm_logo.png"
             alt="ZoomieVan"
             className="glow-logo w-28 h-28 object-contain"
           />
-
-          <div className="relative w-64 h-48 overflow-hidden rounded-2xl">
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              playsInline
-              className="w-full h-full object-cover opacity-50"
-              style={{ objectPosition: 'center 35%' }}
-              onEnded={() => setVideoEnded(true)}
-            >
-              <source src="/loader.mp4" type="video/mp4" />
-            </video>
-            <div className="absolute inset-0 bg-gradient-to-tl from-dark-900/80 via-transparent to-transparent pointer-events-none" />
-          </div>
         </div>
 
-        <div className="flex flex-col items-center gap-8">
+        <div className="relative z-10 flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-3">
             <h2 className="font-display text-2xl font-bold text-white tracking-tight">
               Zoomie<span className="text-brand-500">Van</span>
