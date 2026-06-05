@@ -18,7 +18,7 @@ const Pricing = lazy(() => import('./components/Pricing'));
 const Testimonials = lazy(() => import('./components/Testimonials'));
 const PostalCodeChecker = lazy(() => import('./components/PostalCodeChecker'));
 const GetStarted = lazy(() => import('./components/GetStarted'));
-const AdminPreview = lazy(() => import('./components/AdminPreview'));
+
 const SchedulePreview = lazy(() => import('./components/SchedulePreview'));
 const ParallaxDivider = lazy(() => import('./components/ParallaxDivider'));
 const CTA = lazy(() => import('./components/CTA'));
@@ -94,7 +94,6 @@ function LandingPage() {
               author="— ZoomieVan Founding Team"
             />
           </Suspense>
-          <Suspense fallback={<SectionLoader />}><AdminPreview /></Suspense>
           <Suspense fallback={<SectionLoader />}><FAQ /></Suspense>
           <Suspense fallback={<SectionLoader />}><CTA /></Suspense>
           <Suspense fallback={<SectionLoader />}><Footer /></Suspense>
