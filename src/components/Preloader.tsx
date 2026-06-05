@@ -26,21 +26,20 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         exit={{ opacity: 0, scale: 1.05 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="flex flex-col items-center gap-8">
-          <div className="road">
-            <div className="dog">
-              <div className="body">
-                <div className="head">
-                  <div className="ear" />
-                </div>
-                <div className="tail" />
-                <div className="leg leg1" />
-                <div className="leg leg2" />
-                <div className="leg leg3" />
-                <div className="leg leg4" />
-              </div>
-            </div>
-          </div>
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-30"
+          >
+            <source src="/loader.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-tl from-dark-900 via-transparent to-transparent" />
+        </div>
+
+        <div className="relative z-10 flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-3">
             <h2 className="font-display text-2xl font-bold text-white tracking-tight">
               Zoomie<span className="text-brand-500">Van</span>
