@@ -1,15 +1,24 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
+  const [videoEnded, setVideoEnded] = useState(false);
+  const [contentLoaded, setContentLoaded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 2.5;
+    }
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(onComplete, 400);
+          setContentLoaded(true);
           return 100;
         }
         return prev + Math.random() * 15 + 5;
@@ -17,7 +26,13 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
     }, 120);
 
     return () => clearInterval(interval);
-  }, [onComplete]);
+  }, []);
+
+  useEffect(() => {
+    if (contentLoaded && videoEnded) {
+      setTimeout(onComplete, 400);
+    }
+  }, [contentLoaded, videoEnded, onComplete]);
 
   return (
     <AnimatePresence>
@@ -28,11 +43,12 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       >
         <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
           <video
+            ref={videoRef}
             autoPlay
-            loop
             muted
             playsInline
             className="w-full h-full object-cover opacity-30"
+            onEnded={() => setVideoEnded(true)}
           >
             <source src="/loader.mp4" type="video/mp4" />
           </video>
