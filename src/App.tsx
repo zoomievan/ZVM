@@ -41,6 +41,15 @@ function LandingPage() {
     setTimeout(() => setShowContent(true), 100);
   };
 
+  useEffect(() => {
+    if (showContent && window.location.hash) {
+      setTimeout(() => {
+        const el = document.querySelector(window.location.hash);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  }, [showContent]);
+
   return (
     <div className="relative bg-dark-900 min-h-screen">
       <AnimatePresence mode="wait">

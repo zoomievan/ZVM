@@ -5,11 +5,11 @@ import { Menu, X, ChevronRight, Settings, LogIn, UserPlus, LayoutDashboard, LogO
 import { useAuth } from '../lib/auth';
 
 const navLinks = [
-  { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'Testimonials', href: '#testimonials' },
-  { label: 'Coverage', href: '#coverage' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'How It Works', href: '/#why-zoomievan', page: false },
+  { label: 'Pricing', href: '/#book-now', page: false },
+  { label: 'Testimonials', href: '/#testimonials', page: false },
+  { label: 'Coverage', href: '/coverage', page: true },
+  { label: 'FAQ', href: '/faq', page: true },
 ];
 
 export default function Navbar() {
@@ -49,13 +49,23 @@ export default function Navbar() {
             {/* Desktop Links */}
             <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="px-4 py-2 text-sm text-dark-200 hover:text-white transition-colors rounded-lg hover:bg-white/5"
-                >
-                  {link.label}
-                </a>
+                link.page ? (
+                  <button
+                    key={link.label}
+                    onClick={() => navigate(link.href)}
+                    className="px-4 py-2 text-sm text-dark-200 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                  >
+                    {link.label}
+                  </button>
+                ) : (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="px-4 py-2 text-sm text-dark-200 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                  >
+                    {link.label}
+                  </a>
+                )
               ))}
               <button
                 onClick={() => navigate('/admin')}
@@ -129,17 +139,30 @@ export default function Navbar() {
           >
             <div className="flex flex-col items-center gap-2 p-6">
               {navLinks.map((link, i) => (
-                <motion.a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setIsMobileOpen(false)}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.08 }}
-                  className="w-full text-center py-4 text-lg text-dark-100 hover:text-brand-400 transition-colors border-b border-dark-700"
-                >
-                  {link.label}
-                </motion.a>
+                link.page ? (
+                  <motion.button
+                    key={link.label}
+                    onClick={() => { setIsMobileOpen(false); navigate(link.href); }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                    className="w-full text-center py-4 text-lg text-dark-100 hover:text-brand-400 transition-colors border-b border-dark-700"
+                  >
+                    {link.label}
+                  </motion.button>
+                ) : (
+                  <motion.a
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setIsMobileOpen(false)}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                    className="w-full text-center py-4 text-lg text-dark-100 hover:text-brand-400 transition-colors border-b border-dark-700"
+                  >
+                    {link.label}
+                  </motion.a>
+                )
               ))}
               <motion.button
                 onClick={() => { setIsMobileOpen(false); navigate('/admin'); }}

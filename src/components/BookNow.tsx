@@ -77,7 +77,7 @@ export default function BookNow() {
   }, [selectedDay]);
 
   return (
-    <section className="relative py-16 lg:py-24 overflow-hidden" ref={ref}>
+    <section id="book-now" className="relative py-16 lg:py-24 overflow-hidden" ref={ref}>
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-brand-500/5 rounded-full blur-[150px]" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
