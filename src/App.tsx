@@ -17,8 +17,7 @@ const Stats = lazy(() => import('./components/Stats'));
 const Pricing = lazy(() => import('./components/Pricing'));
 const Testimonials = lazy(() => import('./components/Testimonials'));
 const PostalCodeChecker = lazy(() => import('./components/PostalCodeChecker'));
-const OnboardingPreview = lazy(() => import('./components/OnboardingPreview'));
-const TechStack = lazy(() => import('./components/TechStack'));
+const GetStarted = lazy(() => import('./components/GetStarted'));
 const AdminPreview = lazy(() => import('./components/AdminPreview'));
 const SchedulePreview = lazy(() => import('./components/SchedulePreview'));
 const ParallaxDivider = lazy(() => import('./components/ParallaxDivider'));
@@ -86,7 +85,7 @@ function LandingPage() {
           </Suspense>
           <Suspense fallback={<SectionLoader />}><SchedulePreview /></Suspense>
           <Suspense fallback={<SectionLoader />}><Pricing /></Suspense>
-          <Suspense fallback={<SectionLoader />}><OnboardingPreview /></Suspense>
+          <Suspense fallback={<SectionLoader />}><GetStarted /></Suspense>
           <Suspense fallback={<SectionLoader />}><Testimonials /></Suspense>
           <Suspense fallback={<SectionLoader />}>
             <ParallaxDivider
@@ -95,7 +94,6 @@ function LandingPage() {
               author="— ZoomieVan Founding Team"
             />
           </Suspense>
-          <Suspense fallback={<SectionLoader />}><TechStack /></Suspense>
           <Suspense fallback={<SectionLoader />}><AdminPreview /></Suspense>
           <Suspense fallback={<SectionLoader />}><FAQ /></Suspense>
           <Suspense fallback={<SectionLoader />}><CTA /></Suspense>
