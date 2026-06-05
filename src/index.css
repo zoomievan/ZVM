@@ -159,6 +159,15 @@ body {
   to { transform: rotate(10deg); }
 }
 
+/* Glow pulse for logo */
+@keyframes glow-pulse {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.3)); }
+  50% { filter: drop-shadow(0 0 24px rgba(249, 115, 22, 0.7)); }
+}
+.glow-logo {
+  animation: glow-pulse 2.5s ease-in-out infinite;
+}
+
 /* Floating animation */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
