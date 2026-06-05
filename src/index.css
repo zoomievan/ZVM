@@ -1,0 +1,283 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  
+  --color-brand-50: #FFF7ED;
+  --color-brand-100: #FFEDD5;
+  --color-brand-200: #FED7AA;
+  --color-brand-300: #FDBA74;
+  --color-brand-400: #FB923C;
+  --color-brand-500: #F97316;
+  --color-brand-600: #EA580C;
+  --color-brand-700: #C2410C;
+  --color-brand-800: #9A3412;
+  --color-brand-900: #7C2D12;
+  
+  --color-dark-900: #0A0A0B;
+  --color-dark-800: #121214;
+  --color-dark-700: #1A1A1F;
+  --color-dark-600: #252529;
+  --color-dark-500: #333338;
+  --color-dark-400: #52525B;
+  --color-dark-300: #71717A;
+  --color-dark-200: #A1A1AA;
+  --color-dark-100: #D4D4D8;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0B;
+}
+::-webkit-scrollbar-thumb {
+  background: #333338;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #52525B;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #0A0A0B;
+  color: #D4D4D8;
+  overflow-x: hidden;
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #1A1A1F 25%, #252529 50%, #1A1A1F 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Capybara loader */
+.capybaraloader {
+  width: 14em;
+  height: 10em;
+  position: relative;
+  z-index: 1;
+  --color: rgb(204, 125, 45);
+  --color2: rgb(83, 56, 28);
+  transform: scale(0.75);
+}
+.capybara {
+  width: 100%;
+  height: 7.5em;
+  position: relative;
+  z-index: 1;
+}
+.capy-loader {
+  width: 100%;
+  height: 2.5em;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.capy {
+  width: 85%;
+  height: 100%;
+  background: linear-gradient(var(--color), 90%, var(--color2));
+  border-radius: 45%;
+  position: relative;
+  z-index: 1;
+  animation: capy-movebody 1s linear infinite;
+}
+.capyhead {
+  width: 7.5em;
+  height: 7em;
+  bottom: 0em;
+  right: 0em;
+  position: absolute;
+  background-color: var(--color);
+  z-index: 3;
+  border-radius: 3.5em;
+  box-shadow: -1em 0em var(--color2);
+  animation: capy-movebody 1s linear infinite;
+}
+.capyear {
+  width: 2em;
+  height: 2em;
+  background: linear-gradient(-45deg, var(--color), 90%, var(--color2));
+  top: 0em;
+  left: 0em;
+  border-radius: 100%;
+  position: absolute;
+  overflow: hidden;
+  z-index: 3;
+}
+.capyear:nth-child(2) {
+  left: 5em;
+  background: linear-gradient(25deg, var(--color), 90%, var(--color2));
+}
+.capyear2 {
+  width: 100%;
+  height: 1em;
+  background-color: var(--color2);
+  bottom: 0em;
+  left: 0.5em;
+  border-radius: 100%;
+  position: absolute;
+  transform: rotate(-45deg);
+}
+.capymouth {
+  width: 3.5em;
+  height: 2em;
+  background-color: var(--color2);
+  position: absolute;
+  bottom: 0em;
+  left: 2.5em;
+  border-radius: 50%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.5em;
+}
+.capylips {
+  width: 0.25em;
+  height: 0.75em;
+  border-radius: 100%;
+  transform: rotate(-45deg);
+  background-color: var(--color);
+}
+.capylips:nth-child(2) {
+  transform: rotate(45deg);
+}
+.capyeye {
+  width: 2em;
+  height: 0.5em;
+  background-color: var(--color2);
+  position: absolute;
+  bottom: 3.5em;
+  left: 1.5em;
+  border-radius: 5em;
+  transform: rotate(45deg);
+}
+.capyeye + .capyeye {
+  transform: rotate(-45deg);
+  left: 5.5em;
+  width: 1.75em;
+}
+.capyleg {
+  width: 6em;
+  height: 5em;
+  bottom: 0em;
+  left: 0em;
+  position: absolute;
+  background: linear-gradient(var(--color), 95%, var(--color2));
+  z-index: 2;
+  border-radius: 2em;
+  animation: capy-movebody 1s linear infinite;
+}
+.capyleg2 {
+  width: 1.75em;
+  height: 3em;
+  bottom: 0em;
+  left: 3.25em;
+  position: absolute;
+  background: linear-gradient(var(--color), 80%, var(--color2));
+  z-index: 2;
+  border-radius: 0.75em;
+  box-shadow: inset 0em -0.5em var(--color2);
+  animation: capy-moveleg 1s linear infinite;
+}
+.capyleg2:nth-child(3) {
+  width: 1.25em;
+  left: 0.5em;
+  height: 2em;
+  animation: capy-moveleg2 1s linear infinite 0.075s;
+}
+
+@keyframes capy-moveleg {
+  0% { transform: rotate(-45deg) translateX(-5%); }
+  50% { transform: rotate(45deg) translateX(5%); }
+  100% { transform: rotate(-45deg) translateX(-5%); }
+}
+
+@keyframes capy-moveleg2 {
+  0% { transform: rotate(45deg); }
+  50% { transform: rotate(-45deg); }
+  100% { transform: rotate(45deg); }
+}
+
+@keyframes capy-movebody {
+  0% { transform: translateX(0%); }
+  50% { transform: translateX(2%); }
+  100% { transform: translateX(0%); }
+}
+
+.capy-loaderline {
+  width: 50em;
+  height: 0.5em;
+  border-top: 0.5em dashed var(--color2);
+  animation: capy-moveline 10s linear infinite;
+}
+
+@keyframes capy-moveline {
+  0% { transform: translateX(0%); opacity: 0%; }
+  5% { opacity: 100%; }
+  95% { opacity: 100%; }
+  100% { opacity: 0%; transform: translateX(-70%); }
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Pulse ring */
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.5; }
+  100% { transform: scale(0.95); opacity: 1; }
+}
+
+.pulse-ring {
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, #F97316, #FB923C, #FDBA74);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(26, 26, 31, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Noise overlay */
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}

@@ -1,0 +1,97 @@
+export interface CMSSettings {
+  heroTagline: string;
+  baseSessionRate: number;
+  weeklyPackRate: number;
+  eightPackRate: number;
+  emergencyBannerText: string;
+  emergencyBannerActive: boolean;
+}
+
+export const DEFAULT_CMS: CMSSettings = {
+  heroTagline: 'A Professional Dog Gym That Comes to You',
+  baseSessionRate: 49,
+  weeklyPackRate: 39,
+  eightPackRate: 34,
+  emergencyBannerText: '',
+  emergencyBannerActive: false,
+};
+
+export interface FSARecord {
+  id: string;
+  fsa: string;
+  city: string;
+  province: string;
+  tier: 'Tier 1' | 'Tier 2';
+  surcharge: number;
+  status: 'active' | 'pending' | 'inactive';
+  createdAt: string;
+}
+
+export interface VaccineRecord {
+  id: string;
+  dogName: string;
+  ownerName: string;
+  vaccineType: string;
+  submittedAt: string;
+  status: 'pending' | 'approved' | 'rejected';
+}
+
+export interface FleetVan {
+  id: string;
+  name: string;
+  status: 'Active' | 'Maintenance' | 'Offline';
+  location: string;
+  sessionsToday: number;
+  totalSessions: number;
+  createdAt: string;
+}
+
+export interface Booking {
+  id: string;
+  vanId: string;
+  fsa: string;
+  customerName: string;
+  dogName: string;
+  date: string;
+  sessionFee: number;
+  surcharge: number;
+  status: 'completed' | 'cancelled' | 'scheduled';
+  createdAt: string;
+}
+
+export interface UserAddress {
+  line1: string;
+  city: string;
+  province: string;
+  postalCode: string;
+}
+
+export interface UserDog {
+  name: string;
+  breed: string;
+  weight: number;
+  age: number;
+  energyLevel: string;
+  reactivityNotes: string;
+}
+
+export interface UserVaccines {
+  rabiesFileName: string;
+  dhppFileName: string;
+  vetName: string;
+  vetPhone: string;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  password: string;
+  name: string;
+  phone: string;
+  address: UserAddress;
+  dog: UserDog;
+  vaccines: UserVaccines;
+  legalAccepted: boolean;
+  legalAcceptedAt: string | null;
+  createdAt: string;
+}
