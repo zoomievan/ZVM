@@ -59,13 +59,8 @@ export default function AdminPage() {
       }`}>
         <div className="p-4 border-b border-dark-600 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-gradient-to-br from-brand-500 to-brand-600 rounded-xl flex items-center justify-center">
-              <PawPrint className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <span className="font-display text-sm font-bold text-white">Zoomie<span className="text-brand-500">Van</span></span>
-              <p className="text-[10px] text-dark-400 uppercase tracking-wider">Admin</p>
-            </div>
+            <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-6 w-auto" />
+            <span className="text-[10px] text-dark-400 uppercase tracking-wider mt-1.5">Admin</span>
           </div>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1 text-dark-400 hover:text-white">
             <X className="w-5 h-5" />
@@ -106,7 +101,7 @@ export default function AdminPage() {
             <Menu className="w-5 h-5" />
           </button>
           <span className="text-sm font-display font-bold text-white">
-            Zoomie<span className="text-brand-500">Van</span> Admin
+            Admin
           </span>
         </div>
 

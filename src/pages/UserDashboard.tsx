@@ -36,11 +36,8 @@ export default function UserDashboard() {
     <div className="min-h-screen bg-dark-900">
       {/* Top bar */}
       <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-dark-600">
-        <Link to="/" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-gradient-to-br from-brand-500 to-brand-600 rounded-xl flex items-center justify-center">
-            <PawPrint className="w-4 h-4 text-white" />
-          </div>
-          <span className="font-display text-sm font-bold text-white">Zoomie<span className="text-brand-500">Van</span></span>
+        <Link to="/" className="flex items-center">
+          <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-6 w-auto" />
         </Link>
         <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 text-sm text-dark-300 hover:text-red-400 transition-colors rounded-xl hover:bg-dark-800">
           <LogOut className="w-4 h-4" /> Sign Out

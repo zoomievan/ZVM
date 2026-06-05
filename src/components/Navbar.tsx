@@ -43,16 +43,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             <Link to="/" className="flex items-center gap-2.5 group">
-              <div className="relative">
-                <div className="w-9 h-9 bg-gradient-to-br from-brand-500 to-brand-600 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/25 group-hover:shadow-brand-500/40 transition-shadow">
-                  <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
-                    <path d="M4.5 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm15 0a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zM3 14c0-3.87 3.13-7 7-7h4c3.87 0 7 3.13 7 7v2c0 1.1-.9 2-2 2h-2.5l-1.5 3h-5l-1.5-3H5c-1.1 0-2-.9-2-2v-2z" />
-                  </svg>
-                </div>
-              </div>
-              <span className="font-display text-xl font-bold text-white">
-                Zoomie<span className="text-brand-500">Van</span>
-              </span>
+              <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-8 w-auto" />
             </Link>
 
             {/* Desktop Links */}

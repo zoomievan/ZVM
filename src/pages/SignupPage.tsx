@@ -72,11 +72,8 @@ export default function SignupPage() {
     <div className="min-h-screen bg-dark-900 flex">
       {/* Sidebar nav */}
       <aside className="hidden lg:flex w-64 shrink-0 flex-col p-6 border-r border-dark-600">
-        <Link to="/" className="flex items-center gap-2.5 mb-10">
-          <div className="w-8 h-8 bg-gradient-to-br from-brand-500 to-brand-600 rounded-xl flex items-center justify-center">
-            <PawPrint className="w-4 h-4 text-white" />
-          </div>
-          <span className="font-display text-sm font-bold text-white">Zoomie<span className="text-brand-500">Van</span></span>
+        <Link to="/" className="flex items-center mb-10">
+          <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-6 w-auto" />
         </Link>
         <nav className="space-y-1 flex-1">
           {steps.map((s, i) => (
@@ -109,9 +106,8 @@ export default function SignupPage() {
       <main className="flex-1 overflow-y-auto">
         {/* Mobile top bar */}
         <div className="lg:hidden flex items-center justify-between p-4 border-b border-dark-600">
-          <Link to="/" className="flex items-center gap-2">
-            <PawPrint className="w-5 h-5 text-brand-500" />
-            <span className="font-display text-sm font-bold text-white">Zoomie<span className="text-brand-500">Van</span></span>
+          <Link to="/" className="flex items-center">
+            <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-6 w-auto" />
           </Link>
           <Link to="/login" className="text-sm text-dark-400 hover:text-dark-200">Sign In</Link>
         </div>

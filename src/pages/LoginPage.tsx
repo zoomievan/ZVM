@@ -36,10 +36,7 @@ export default function LoginPage() {
       >
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2.5 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-br from-brand-500 to-brand-600 rounded-xl flex items-center justify-center">
-              <PawPrint className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-display text-2xl font-bold text-white">Zoomie<span className="text-brand-500">Van</span></span>
+            <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-8 w-auto" />
           </Link>
           <h1 className="font-display text-3xl font-bold text-white">Welcome back</h1>
           <p className="text-dark-300 mt-2">Sign in to manage your account.</p>
