@@ -65,15 +65,6 @@ function LandingPage() {
           <ScrollProgress />
           <Navbar />
 
-          <div className="fixed top-16 lg:top-20 left-0 right-0 z-40 bg-amber-500/10 border-b border-amber-500/20 backdrop-blur-sm">
-            <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-center gap-2 text-sm">
-              <span className="text-amber-400">&#9888;&#65039;</span>
-              <span className="text-amber-300 text-xs sm:text-sm">
-                <strong>Weather Advisory:</strong> Some routes in Greater Vancouver may experience 30-min delays today due to road conditions.
-              </span>
-            </div>
-          </div>
-
           <Suspense fallback={<SectionLoader />}><Hero /></Suspense>
           <Suspense fallback={<SectionLoader />}><WhyZoomieVan /></Suspense>
           <Suspense fallback={<SectionLoader />}><BookNow /></Suspense>
@@ -86,17 +77,27 @@ function LandingPage() {
   );
 }
 
+function PageLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative bg-dark-900 min-h-screen">
+      <ScrollProgress />
+      <Navbar />
+      {children}
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/dashboard" element={<UserDashboard />} />
-        <Route path="/coverage" element={<CoveragePage />} />
-        <Route path="/faq" element={<FAQPage />} />
+        <Route path="/admin" element={<PageLayout><AdminPage /></PageLayout>} />
+        <Route path="/login" element={<PageLayout><LoginPage /></PageLayout>} />
+        <Route path="/signup" element={<PageLayout><SignupPage /></PageLayout>} />
+        <Route path="/dashboard" element={<PageLayout><UserDashboard /></PageLayout>} />
+        <Route path="/coverage" element={<PageLayout><CoveragePage /></PageLayout>} />
+        <Route path="/faq" element={<PageLayout><FAQPage /></PageLayout>} />
       </Routes>
     </AuthProvider>
   );
