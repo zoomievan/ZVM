@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { User, PawPrint, FileCheck, PenTool, Check, ChevronRight, ArrowLeft, Loader2, Eye, EyeOff } from 'lucide-react';
+import { User, PenTool, Check, ChevronRight, ArrowLeft, Loader2, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../lib/auth';
-import { UserDog, UserAddress, UserVaccines } from '../lib/types';
+import { UserAddress } from '../lib/types';
 
 const steps = [
   { step: 1, icon: <User className="w-5 h-5" />, title: 'Your Profile', subtitle: 'Account & Address' },
-  { step: 2, icon: <PawPrint className="w-5 h-5" />, title: 'Pet Biometrics', subtitle: 'Dog Profile Builder' },
-  { step: 3, icon: <FileCheck className="w-5 h-5" />, title: 'Health Vault', subtitle: 'Vaccine Credentials' },
-  { step: 4, icon: <PenTool className="w-5 h-5" />, title: 'Legal Release', subtitle: 'Liability Agreement' },
+  { step: 2, icon: <PenTool className="w-5 h-5" />, title: 'Legal Release', subtitle: 'Liability Agreement' },
 ];
 
 export default function SignupPage() {
@@ -24,10 +22,6 @@ export default function SignupPage() {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState<UserAddress>({ line1: '', city: '', province: '', postalCode: '' });
 
-  const [dog, setDog] = useState<UserDog>({ name: '', breed: '', weight: 0, age: 0, energyLevel: '', reactivityNotes: '' });
-
-  const [vaccines, setVaccines] = useState<UserVaccines>({ rabiesFileName: '', dhppFileName: '', vetName: '', vetPhone: '' });
-
   const [legalAccepted, setLegalAccepted] = useState(false);
 
   const { signup } = useAuth();
@@ -36,16 +30,14 @@ export default function SignupPage() {
   const canProceed = () => {
     switch (activeStep) {
       case 0: return name && email && password.length >= 6 && address.line1 && address.city && address.province && address.postalCode;
-      case 1: return dog.name && dog.breed && dog.weight > 0 && dog.age > 0;
-      case 2: return vaccines.vetName && vaccines.vetPhone;
-      case 3: return legalAccepted;
+      case 1: return legalAccepted;
       default: return false;
     }
   };
 
   const handleNext = () => {
     if (!canProceed()) return;
-    setActiveStep(Math.min(3, activeStep + 1));
+    setActiveStep(1);
   };
 
   const handleSubmit = async () => {
@@ -55,8 +47,8 @@ export default function SignupPage() {
     const result = await signup({
       email, password, name, phone,
       address,
-      dog,
-      vaccines,
+      dog: { name: '', breed: '', weight: 0, age: 0, energyLevel: '', reactivityNotes: '' },
+      vaccines: { rabiesFileName: '', dhppFileName: '', vetName: '', vetPhone: '' },
       legalAccepted,
       legalAcceptedAt: new Date().toISOString(),
     });
@@ -123,7 +115,7 @@ export default function SignupPage() {
           <motion.div key={activeStep} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
             {/* Step header */}
             <div className="mb-8">
-              <span className="text-xs font-mono text-brand-400 bg-brand-500/10 px-2 py-1 rounded">STEP {activeStep + 1} OF 4</span>
+              <span className="text-xs font-mono text-brand-400 bg-brand-500/10 px-2 py-1 rounded">STEP {activeStep + 1} OF {steps.length}</span>
               <h1 className="font-display text-2xl font-bold text-white mt-2">{steps[activeStep].title}</h1>
             </div>
 
@@ -179,76 +171,6 @@ export default function SignupPage() {
             )}
 
             {activeStep === 1 && (
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">Dog Name</label>
-                    <input value={dog.name} onChange={e => setDog({ ...dog, name: e.target.value })} placeholder="Max" className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">Breed</label>
-                    <input value={dog.breed} onChange={e => setDog({ ...dog, breed: e.target.value })} placeholder="Golden Retriever" className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">Weight (lbs)</label>
-                    <input type="number" value={dog.weight || ''} onChange={e => setDog({ ...dog, weight: Number(e.target.value) })} placeholder="65" className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">Age (years)</label>
-                    <input type="number" value={dog.age || ''} onChange={e => setDog({ ...dog, age: Number(e.target.value) })} placeholder="3" className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
-                  </div>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs text-dark-400 uppercase tracking-wider">Energy Level</label>
-                  <select value={dog.energyLevel} onChange={e => setDog({ ...dog, energyLevel: e.target.value })} className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-brand-500/50">
-                    <option value="">Select...</option>
-                    <option>Low — couch potato</option>
-                    <option>Moderate — daily walks</option>
-                    <option>High — needs serious exercise</option>
-                    <option>Extreme — endless energy</option>
-                  </select>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs text-dark-400 uppercase tracking-wider">Reactivity Notes</label>
-                  <textarea value={dog.reactivityNotes} onChange={e => setDog({ ...dog, reactivityNotes: e.target.value })} placeholder="Any behavioral notes, fears, or special handling instructions..." className="w-full h-24 bg-dark-800 border border-dark-500 rounded-xl px-4 py-3 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50 resize-none" />
-                </div>
-              </div>
-            )}
-
-            {activeStep === 2 && (
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">Rabies Certificate</label>
-                    <label className="flex items-center justify-center h-20 border-2 border-dashed border-dark-500 rounded-xl cursor-pointer hover:border-brand-500/50 transition-colors">
-                      <span className="text-sm text-dark-400">{vaccines.rabiesFileName || 'Click to upload'}</span>
-                      <input type="file" accept=".pdf,.jpg,.png" onChange={e => setVaccines({ ...vaccines, rabiesFileName: e.target.files?.[0]?.name || '' })} className="hidden" />
-                    </label>
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">DHPP Certificate</label>
-                    <label className="flex items-center justify-center h-20 border-2 border-dashed border-dark-500 rounded-xl cursor-pointer hover:border-brand-500/50 transition-colors">
-                      <span className="text-sm text-dark-400">{vaccines.dhppFileName || 'Click to upload'}</span>
-                      <input type="file" accept=".pdf,.jpg,.png" onChange={e => setVaccines({ ...vaccines, dhppFileName: e.target.files?.[0]?.name || '' })} className="hidden" />
-                    </label>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">Vet Name</label>
-                    <input value={vaccines.vetName} onChange={e => setVaccines({ ...vaccines, vetName: e.target.value })} placeholder="Dr. Smith" className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">Vet Phone</label>
-                    <input value={vaccines.vetPhone} onChange={e => setVaccines({ ...vaccines, vetPhone: e.target.value })} placeholder="(555) 123-4567" className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeStep === 3 && (
               <div className="space-y-6">
                 <div className="p-6 bg-dark-800/50 rounded-xl border border-dark-600 space-y-4 text-sm text-dark-200 leading-relaxed">
                   <p><strong className="text-white">Liability Waiver</strong></p>
@@ -283,7 +205,7 @@ export default function SignupPage() {
               >
                 Back
               </button>
-              {activeStep < 3 ? (
+              {activeStep < 1 ? (
                 <button
                   onClick={handleNext}
                   disabled={!canProceed()}

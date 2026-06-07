@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
-import { getUserByEmail, createUser } from './repositories/userRepository';
+import { getUserByEmail, createUser, updateUser as updateUserRepo } from './repositories/userRepository';
 import { User } from './types';
 
 interface AuthContext {
@@ -7,6 +7,7 @@ interface AuthContext {
   loading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   signup: (data: Omit<User, 'id' | 'createdAt'>) => Promise<{ success: boolean; error?: string }>;
+  updateUser: (updates: Partial<User>) => Promise<void>;
   logout: () => void;
 }
 
@@ -45,16 +46,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     sessionStorage.setItem(SESSION_KEY, created.id);
     setUser(created);
 
-    import('./repositories/vaccineRepository').then(({ addVaccine }) => {
-      addVaccine({
-        dogName: data.dog.name,
-        ownerName: data.name,
-        vaccineType: 'Rabies + DHPP',
+    if (data.dog.name) {
+      import('./repositories/vaccineRepository').then(({ addVaccine }) => {
+        addVaccine({
+          dogName: data.dog.name,
+          ownerName: data.name,
+          vaccineType: 'Rabies + DHPP',
+        });
       });
-    });
+    }
 
     return { success: true };
   }, []);
+
+  const updateUser = useCallback(async (updates: Partial<User>) => {
+    if (!user) throw new Error('Not logged in');
+    const updated = await updateUserRepo(user.id, updates);
+    setUser(updated);
+  }, [user]);
 
   const logout = useCallback(() => {
     sessionStorage.removeItem(SESSION_KEY);
@@ -62,7 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthCtx.Provider value={{ user, loading, login, signup, logout }}>
+    <AuthCtx.Provider value={{ user, loading, login, signup, updateUser, logout }}>
       {children}
     </AuthCtx.Provider>
   );

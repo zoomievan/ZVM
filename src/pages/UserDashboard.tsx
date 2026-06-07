@@ -1,11 +1,19 @@
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { User, PawPrint, ShieldCheck, MapPinned, LogOut, Calendar, ChevronRight } from 'lucide-react';
+import { User, PawPrint, ShieldCheck, MapPinned, LogOut, Calendar, ChevronRight, Plus, X, Save, Loader2 } from 'lucide-react';
 import { useAuth } from '../lib/auth';
+import { UserDog } from '../lib/types';
+
+const emptyDog: UserDog = { name: '', breed: '', weight: 0, age: 0, energyLevel: '', reactivityNotes: '' };
 
 export default function UserDashboard() {
-  const { user, logout, loading } = useAuth();
+  const { user, updateUser, logout, loading } = useAuth();
   const navigate = useNavigate();
+
+  const [showDogForm, setShowDogForm] = useState(false);
+  const [dogForm, setDogForm] = useState<UserDog>(emptyDog);
+  const [savingDog, setSavingDog] = useState(false);
 
   if (loading) {
     return (
@@ -25,11 +33,28 @@ export default function UserDashboard() {
     navigate('/');
   };
 
+  const openDogForm = () => {
+    if (user.dog.name) {
+      setDogForm({ ...user.dog });
+    } else {
+      setDogForm({ ...emptyDog });
+    }
+    setShowDogForm(true);
+  };
+
+  const saveDog = async () => {
+    if (!dogForm.name || !dogForm.breed || dogForm.weight <= 0 || dogForm.age <= 0) return;
+    setSavingDog(true);
+    await updateUser({ dog: dogForm, vaccines: user.vaccines });
+    setSavingDog(false);
+    setShowDogForm(false);
+  };
+
+  const hasDog = !!user.dog.name;
+
   const details = [
     { icon: User, label: 'Name', value: user.name },
     { icon: MapPinned, label: 'Address', value: `${user.address.line1}, ${user.address.city}, ${user.address.province} ${user.address.postalCode}` },
-    { icon: PawPrint, label: 'Dog', value: `${user.dog.name} — ${user.dog.breed}, ${user.dog.weight}lbs, ${user.dog.age}yrs` },
-    { icon: ShieldCheck, label: 'Vaccines', value: user.vaccines.rabiesFileName ? 'Rabies + DHPP submitted' : 'Not yet submitted' },
   ];
 
   return (
@@ -66,6 +91,41 @@ export default function UserDashboard() {
               <p className="text-sm text-white">{d.value}</p>
             </motion.div>
           ))}
+
+          {/* Dog Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.16 }}
+            className="p-5 bg-dark-800/50 rounded-xl border border-dark-600"
+          >
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <PawPrint className="w-4 h-4 text-brand-400" />
+                <span className="text-xs text-dark-400 uppercase tracking-wider">Dog</span>
+              </div>
+              <button onClick={openDogForm} className="text-xs text-brand-400 hover:underline">
+                {hasDog ? 'Edit' : 'Add'} {hasDog ? '' : <Plus className="w-3 h-3 inline" />}
+              </button>
+            </div>
+            <p className="text-sm text-white">
+              {hasDog ? `${user.dog.name} — ${user.dog.breed}, ${user.dog.weight}lbs, ${user.dog.age}yrs` : 'No pet profile yet'}
+            </p>
+          </motion.div>
+
+          {/* Vaccines Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.24 }}
+            className="p-5 bg-dark-800/50 rounded-xl border border-dark-600"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <ShieldCheck className="w-4 h-4 text-brand-400" />
+              <span className="text-xs text-dark-400 uppercase tracking-wider">Vaccines</span>
+            </div>
+            <p className="text-sm text-white">{hasDog ? (user.vaccines.rabiesFileName ? 'Rabies + DHPP submitted' : 'Not yet submitted') : 'Add a dog profile first'}</p>
+          </motion.div>
         </div>
 
         <motion.div
@@ -75,16 +135,85 @@ export default function UserDashboard() {
           className="mt-6 p-5 bg-brand-500/5 rounded-xl border border-brand-500/20"
         >
           <p className="text-sm text-dark-300 mb-4">
-            Your vaccine records are pending review by our team. You'll be notified once approved.
+            Ready for a session? Check availability and book a visit.
           </p>
           <Link
-            to="/#pricing"
+            to="/#book-now"
             className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-brand-600 to-brand-500 rounded-xl hover:from-brand-500 hover:to-brand-400 transition-all shadow-lg shadow-brand-500/25"
           >
             <Calendar className="w-4 h-4" /> Book a Session <ChevronRight className="w-4 h-4" />
           </Link>
         </motion.div>
       </div>
+
+      {/* Dog Profile Modal */}
+      {showDogForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-dark-800 border border-dark-600 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
+          >
+            <div className="flex items-center justify-between p-5 border-b border-dark-600">
+              <h2 className="font-display text-lg font-bold text-white">
+                {hasDog ? 'Edit Your Dog' : 'Add Your Dog'}
+              </h2>
+              <button onClick={() => setShowDogForm(false)} className="p-1 text-dark-400 hover:text-white">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-5 space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs text-dark-400 uppercase tracking-wider">Name</label>
+                  <input value={dogForm.name} onChange={e => setDogForm({ ...dogForm, name: e.target.value })} placeholder="Max" className="w-full h-11 bg-dark-900 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-dark-400 uppercase tracking-wider">Breed</label>
+                  <input value={dogForm.breed} onChange={e => setDogForm({ ...dogForm, breed: e.target.value })} placeholder="Golden Retriever" className="w-full h-11 bg-dark-900 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs text-dark-400 uppercase tracking-wider">Weight (lbs)</label>
+                  <input type="number" value={dogForm.weight || ''} onChange={e => setDogForm({ ...dogForm, weight: Number(e.target.value) })} placeholder="65" className="w-full h-11 bg-dark-900 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-dark-400 uppercase tracking-wider">Age (years)</label>
+                  <input type="number" value={dogForm.age || ''} onChange={e => setDogForm({ ...dogForm, age: Number(e.target.value) })} placeholder="3" className="w-full h-11 bg-dark-900 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs text-dark-400 uppercase tracking-wider">Energy Level</label>
+                <select value={dogForm.energyLevel} onChange={e => setDogForm({ ...dogForm, energyLevel: e.target.value })} className="w-full h-11 bg-dark-900 border border-dark-500 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-brand-500/50">
+                  <option value="">Select...</option>
+                  <option>Low — couch potato</option>
+                  <option>Moderate — daily walks</option>
+                  <option>High — needs serious exercise</option>
+                  <option>Extreme — endless energy</option>
+                </select>
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs text-dark-400 uppercase tracking-wider">Reactivity Notes</label>
+                <textarea value={dogForm.reactivityNotes} onChange={e => setDogForm({ ...dogForm, reactivityNotes: e.target.value })} placeholder="Any behavioral notes, fears, or special handling instructions..." className="w-full h-20 bg-dark-900 border border-dark-500 rounded-xl px-4 py-3 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50 resize-none" />
+              </div>
+            </div>
+            <div className="flex justify-end gap-3 p-5 border-t border-dark-600">
+              <button onClick={() => setShowDogForm(false)} className="px-5 py-2.5 text-sm font-medium rounded-xl border border-dark-500 text-dark-200 hover:bg-dark-700 transition-colors">
+                Cancel
+              </button>
+              <button
+                onClick={saveDog}
+                disabled={!dogForm.name || !dogForm.breed || dogForm.weight <= 0 || dogForm.age <= 0 || savingDog}
+                className="px-5 py-2.5 text-sm font-semibold rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 text-white hover:from-brand-500 hover:to-brand-400 transition-all shadow-lg shadow-brand-500/25 disabled:opacity-40 flex items-center gap-1.5"
+              >
+                {savingDog ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                Save
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
