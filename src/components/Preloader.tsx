@@ -53,7 +53,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           >
             <source src="/loader.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-tl from-dark-900/60 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-tl from-dark-900 via-dark-900/20 to-transparent" />
         </div>
 
         <div className="relative z-10 flex flex-col items-center gap-8">
