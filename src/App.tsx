@@ -91,19 +91,23 @@ function PageLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App() {
+function BackendRequired({ children }: { children: React.ReactNode }) {
   if (isProductionBuild && !isProductionBackendReady) {
     return <ProductionReadinessGate />;
   }
 
+  return children;
+}
+
+export default function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/admin" element={<PageLayout><ProtectedRoute requireAdmin><AdminPage /></ProtectedRoute></PageLayout>} />
-        <Route path="/login" element={<PageLayout><LoginPage /></PageLayout>} />
-        <Route path="/signup" element={<PageLayout><SignupPage /></PageLayout>} />
-        <Route path="/dashboard" element={<PageLayout><ProtectedRoute><UserDashboard /></ProtectedRoute></PageLayout>} />
+        <Route path="/admin" element={<BackendRequired><PageLayout><ProtectedRoute requireAdmin><AdminPage /></ProtectedRoute></PageLayout></BackendRequired>} />
+        <Route path="/login" element={<BackendRequired><PageLayout><LoginPage /></PageLayout></BackendRequired>} />
+        <Route path="/signup" element={<BackendRequired><PageLayout><SignupPage /></PageLayout></BackendRequired>} />
+        <Route path="/dashboard" element={<BackendRequired><PageLayout><ProtectedRoute><UserDashboard /></ProtectedRoute></PageLayout></BackendRequired>} />
         <Route path="/coverage" element={<PageLayout><CoveragePage /></PageLayout>} />
         <Route path="/faq" element={<PageLayout><FAQPage /></PageLayout>} />
         <Route path="/legal/:page" element={<PageLayout><LegalPage /></PageLayout>} />
