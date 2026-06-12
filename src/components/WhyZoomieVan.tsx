@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import {
   Truck, Heart, ShieldCheck, Zap, Gauge, CalendarCheck,
   MapPin, ClipboardCheck, Activity,
-  BarChart3, Users, Star, Map
+  BarChart3, Star
 } from 'lucide-react';
 import { useCountUp } from '../hooks/useCountUp';
 

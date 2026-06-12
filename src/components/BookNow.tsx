@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
-import { Check, ArrowRight, Clock, MapPin, ChevronLeft, ChevronRight, Star, Shield, CreditCard } from 'lucide-react';
+import { Check, ArrowRight, Clock, MapPin, ChevronLeft, ChevronRight, Shield } from 'lucide-react';
 import { Skeleton } from './Skeleton';
-import { useCountUp } from '../hooks/useCountUp';
 
 const plans = [
   {

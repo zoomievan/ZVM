@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, Users, Calendar, DollarSign, Download } from 'lucide-react';
+import { TrendingUp, Calendar, DollarSign, Download } from 'lucide-react';
 import { getAllBookings } from '../../lib/repositories/bookingRepository';
 import { getAllVans } from '../../lib/repositories/fleetRepository';
 import { Booking, FleetVan } from '../../lib/types';
@@ -36,10 +36,6 @@ export default function AdminReports() {
   const totalSurcharges = completed.reduce((sum, b) => sum + b.surcharge, 0);
   const gst = totalRevenue * 0.05;
   const hst = totalRevenue * 0.13;
-  const gstProvinces = completed.filter(b => ['AB', 'BC', 'MB', 'NT', 'NU', 'QC', 'SK', 'YT'].includes(b.fsa.charAt(0) === 'T' ? 'AB' : b.fsa.charAt(0) === 'V' ? 'BC' : 'ON'));
-  const hstProvinces = completed.filter(b => ['ON', 'NL', 'NB', 'NS', 'PE'].includes(b.fsa.charAt(0) === 'M' || b.fsa.charAt(0) === 'K' ? 'ON' : ''));
-  const gstAmount = gstProvinces.length * (totalRevenue / completed.length) * 0.05;
-  const hstAmount = hstProvinces.length * (totalRevenue / completed.length) * 0.13;
 
   const sessionsByVan = vans.map(van => ({
     name: van.name,

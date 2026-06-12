@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     question: 'How does billing work? What about taxes?',
-    answer: 'We process all payments securely through Stripe. Our itemized invoice calculator automatically reviews your province and applies the correct taxes—GST (5%), PST (varies by province), or HST—as separate line items. Regional travel tier surcharges are also transparently disclosed before you confirm payment. No hidden fees, ever.',
+    answer: 'Pricing shown on the site is a base estimate. Production checkout, payment processing, taxes, surcharges, cancellation fees, and receipts still need to be finalized before paid bookings go live.',
   },
   {
     question: 'What if my dog is reactive or has behavioural issues?',

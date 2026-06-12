@@ -169,9 +169,8 @@ export default function Pricing() {
           <div className="flex items-start gap-3 p-4 rounded-xl bg-dark-800/50 border border-dark-600">
             <Info className="w-5 h-5 text-brand-400 mt-0.5 shrink-0" />
             <p className="text-xs text-dark-400 leading-relaxed">
-              Prices shown are base session rates. Applicable provincial taxes (GST 5%, PST varies, or HST) 
-              and regional travel tier surcharges are calculated and fully disclosed in the itemized checkout 
-              summary before payment. All billing processed securely via Stripe.
+              Prices shown are base session rates. Production checkout will disclose applicable taxes,
+              travel surcharges, cancellation terms, and payment details before paid bookings go live.
             </p>
           </div>
         </motion.div>

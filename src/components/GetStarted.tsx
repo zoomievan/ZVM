@@ -1,31 +1,31 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Shield, Clock, CreditCard, Star, CheckCircle } from 'lucide-react';
+import { ArrowRight, Shield, Clock, CreditCard, CheckCircle } from 'lucide-react';
 
 const steps = [
   {
     icon: <Shield className="w-6 h-6" />,
     title: 'Create Your Account',
-    description: 'Set up your profile and dog\'s health credentials in under 3 minutes. All documents are encrypted and PIPEDA compliant.',
+    description: 'Set up your profile and dog health details in a guided flow. Production storage is being prepared for the client-owned backend.',
   },
   {
     icon: <Clock className="w-6 h-6" />,
     title: 'Book Your Session',
-    description: 'Choose a time that works for you. Our vans operate 7 days a week across Greater Vancouver with morning, afternoon, and evening slots.',
+    description: 'Choose a time that works for you. Our vans operate 7 days a week across active service zones with morning, afternoon, and evening slots.',
   },
   {
     icon: <CreditCard className="w-6 h-6" />,
     title: 'We Come to You',
-    description: 'A fully-equipped mobile gym arrives at your door. Your dog gets a professional slatmill workout while you watch — no driving, no waiting.',
+    description: 'A fully-equipped mobile gym arrives at your door. Your dog gets a professional slatmill workout while you watch - no driving, no waiting.',
   },
 ];
 
 const trustSignals = [
-  { number: '1,200+', label: 'Active Members' },
-  { number: '98%', label: 'Retention Rate' },
-  { number: '4.9★', label: 'Average Rating' },
-  { number: '15K+', label: 'Sessions Completed' },
+  { number: '1,200+', label: 'Interested Members' },
+  { number: '98%', label: 'Target Retention' },
+  { number: '4.9', label: 'Target Rating' },
+  { number: '15K+', label: 'Session Goal' },
 ];
 
 export default function GetStarted() {
@@ -52,8 +52,8 @@ export default function GetStarted() {
             <span className="text-gradient">3 Simple Steps</span>
           </h2>
           <p className="mt-6 text-lg text-dark-300 leading-relaxed">
-            Join Canada's fastest-growing mobile dog fitness service. No contracts,
-            no hidden fees — just expert care for your dog.
+            Join Canada's mobile dog fitness service. No contracts,
+            no hidden fees - just expert care for your dog.
           </p>
         </motion.div>
 
@@ -106,7 +106,7 @@ export default function GetStarted() {
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
           <p className="mt-4 text-sm text-dark-400">
-            No credit card required · Cancel anytime ·{' '}
+            No credit card required &bull; Cancel anytime &bull;{' '}
             <span className="text-brand-400">Start with a trial session</span>
           </p>
         </motion.div>

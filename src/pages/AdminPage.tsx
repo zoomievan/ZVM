@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Settings, MapPinned, ShieldCheck,
-  Truck, Receipt, ArrowLeft, PawPrint, Menu, X
+  Truck, Receipt, ArrowLeft, Menu, X
 } from 'lucide-react';
 import AdminDashboard from './admin/Dashboard';
 import AdminCMSPanel from './admin/CMSPanel';

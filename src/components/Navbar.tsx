@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronRight, Settings, LogIn, UserPlus, LayoutDashboard, LogOut } from 'lucide-react';
+import { Menu, X, ChevronRight, Settings, LogIn, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../lib/auth';
 
 const navLinks = [
@@ -67,13 +67,15 @@ export default function Navbar() {
                   </a>
                 )
               ))}
-              <button
-                onClick={() => navigate('/admin')}
-                className="flex items-center gap-1.5 px-4 py-2 text-sm text-dark-200 hover:text-brand-400 transition-colors rounded-lg hover:bg-white/5"
-              >
-                <Settings className="w-3.5 h-3.5" />
-                Admin
-              </button>
+              {user?.role === 'admin' && (
+                <button
+                  onClick={() => navigate('/admin')}
+                  className="flex items-center gap-1.5 px-4 py-2 text-sm text-dark-200 hover:text-brand-400 transition-colors rounded-lg hover:bg-white/5"
+                >
+                  <Settings className="w-3.5 h-3.5" />
+                  Admin
+                </button>
+              )}
             </div>
 
             {/* CTA Buttons */}
@@ -164,17 +166,19 @@ export default function Navbar() {
                   </motion.a>
                 )
               ))}
-              <motion.button
-                onClick={() => { setIsMobileOpen(false); navigate('/admin'); }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.32 }}
-                className="w-full text-center py-4 text-lg text-dark-100 hover:text-brand-400 transition-colors border-b border-dark-700"
-              >
-                <span className="flex items-center justify-center gap-2">
-                  <Settings className="w-4 h-4" /> Admin
-                </span>
-              </motion.button>
+              {user?.role === 'admin' && (
+                <motion.button
+                  onClick={() => { setIsMobileOpen(false); navigate('/admin'); }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.32 }}
+                  className="w-full text-center py-4 text-lg text-dark-100 hover:text-brand-400 transition-colors border-b border-dark-700"
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <Settings className="w-4 h-4" /> Admin
+                  </span>
+                </motion.button>
+              )}
 
               {user ? (
                 <>

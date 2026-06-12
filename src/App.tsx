@@ -11,6 +11,10 @@ import SignupPage from './pages/SignupPage';
 import UserDashboard from './pages/UserDashboard';
 import CoveragePage from './pages/CoveragePage';
 import FAQPage from './pages/FAQPage';
+import LegalPage from './pages/LegalPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import ProductionReadinessGate from './components/ProductionReadinessGate';
+import { isProductionBackendReady, isProductionBuild } from './lib/runtime';
 
 const Hero = lazy(() => import('./components/Hero'));
 const WhyZoomieVan = lazy(() => import('./components/WhyZoomieVan'));
@@ -88,16 +92,21 @@ function PageLayout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  if (isProductionBuild && !isProductionBackendReady) {
+    return <ProductionReadinessGate />;
+  }
+
   return (
     <AuthProvider>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/admin" element={<PageLayout><AdminPage /></PageLayout>} />
+        <Route path="/admin" element={<PageLayout><ProtectedRoute requireAdmin><AdminPage /></ProtectedRoute></PageLayout>} />
         <Route path="/login" element={<PageLayout><LoginPage /></PageLayout>} />
         <Route path="/signup" element={<PageLayout><SignupPage /></PageLayout>} />
-        <Route path="/dashboard" element={<PageLayout><UserDashboard /></PageLayout>} />
+        <Route path="/dashboard" element={<PageLayout><ProtectedRoute><UserDashboard /></ProtectedRoute></PageLayout>} />
         <Route path="/coverage" element={<PageLayout><CoveragePage /></PageLayout>} />
         <Route path="/faq" element={<PageLayout><FAQPage /></PageLayout>} />
+        <Route path="/legal/:page" element={<PageLayout><LegalPage /></PageLayout>} />
       </Routes>
     </AuthProvider>
   );

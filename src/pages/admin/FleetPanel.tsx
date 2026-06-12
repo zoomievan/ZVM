@@ -8,7 +8,11 @@ export default function AdminFleetPanel() {
   const [vans, setVans] = useState<FleetVan[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ name: '', location: '', status: 'Active' as const });
+  const [form, setForm] = useState<Pick<FleetVan, 'name' | 'location' | 'status'>>({
+    name: '',
+    location: '',
+    status: 'Active',
+  });
 
   const load = useCallback(async () => {
     setLoading(true);

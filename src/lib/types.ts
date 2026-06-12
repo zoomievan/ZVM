@@ -85,7 +85,9 @@ export interface UserVaccines {
 export interface User {
   id: string;
   email: string;
-  password: string;
+  passwordHash: string;
+  passwordSalt: string;
+  role: 'customer' | 'admin';
   name: string;
   phone: string;
   address: UserAddress;

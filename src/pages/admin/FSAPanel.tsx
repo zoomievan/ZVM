@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, X, Edit2, Trash2, Search } from 'lucide-react';
+import { Plus, X, Trash2, Search } from 'lucide-react';
 import { getAllZones, addZone, updateZone, deleteZone } from '../../lib/repositories/fsaRepository';
 import { FSARecord } from '../../lib/types';
 
@@ -9,7 +9,14 @@ export default function AdminFSAPanel() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ fsa: '', city: '', province: '', tier: 'Tier 1' as const, surcharge: 0, status: 'pending' as const });
+  const [form, setForm] = useState<Omit<FSARecord, 'id' | 'createdAt'>>({
+    fsa: '',
+    city: '',
+    province: '',
+    tier: 'Tier 1',
+    surcharge: 0,
+    status: 'pending',
+  });
 
   const load = useCallback(async () => {
     setLoading(true);

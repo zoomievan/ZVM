@@ -6,38 +6,38 @@ import { Layers, Shield, Zap, Globe, Database, Lock } from 'lucide-react';
 const techFeatures = [
   {
     icon: <Zap className="w-6 h-6" />,
-    title: 'Real-Time Data Streaming',
-    description: 'Powered by Convex\'s permanent WebSocket pipeline. Every schedule change, session update, and fleet status syncs to your screen in milliseconds—zero polling, zero stale data.',
+    title: 'Convex-Ready Backend',
+    description: 'The production data model is prepared for Convex so bookings, fleet status, CMS settings, vaccine records, and user profiles can move off demo browser storage.',
     tag: 'CONVEX',
   },
   {
     icon: <Shield className="w-6 h-6" />,
-    title: 'Zero Layout Shifts',
-    description: 'Skeleton shimmers match exact layout dimensions and disappear the millisecond data loads. No content jumping, no flickering—just seamless, professional transitions.',
+    title: 'Stable UI Loading',
+    description: 'Skeleton states and section loaders keep the interface steady while backend queries and route-level content load.',
     tag: 'UX',
   },
   {
     icon: <Lock className="w-6 h-6" />,
-    title: 'PIPEDA Compliant',
-    description: 'All sensitive client data is stored exclusively on AWS Canada Central (Montreal). We maintain full compliance with Canadian federal privacy regulations.',
+    title: 'Privacy-Ready Data Model',
+    description: 'Customer, dog, booking, vaccine, and admin audit records are separated in the schema so retention, access, deletion, and review workflows can be enforced before launch.',
     tag: 'SECURITY',
   },
   {
     icon: <Database className="w-6 h-6" />,
-    title: 'Smart Tax Engine',
-    description: 'Our itemized invoice calculator reviews your province code and applies correct GST, PST, or HST line items alongside regional delivery fees—automatically.',
-    tag: 'BILLING',
+    title: 'Operational Reporting',
+    description: 'Admin reporting is structured around bookings, vans, service zones, session fees, and surcharges so finance workflows can be validated before payments go live.',
+    tag: 'REPORTS',
   },
   {
     icon: <Globe className="w-6 h-6" />,
-    title: 'Edge-Optimized Delivery',
-    description: 'Frontend deployed on Vercel\'s global edge network for sub-100ms page loads. Combined with server-side rendering for maximum local SEO performance.',
-    tag: 'PERFORMANCE',
+    title: 'Vercel Deployment',
+    description: 'The frontend is ready for Vercel preview and production deployments with repeatable build, typecheck, and dependency-audit gates.',
+    tag: 'RELEASE',
   },
   {
     icon: <Layers className="w-6 h-6" />,
-    title: 'Enterprise Auth',
-    description: 'Multi-tenant authentication with role-based access control. Separate dashboards for dog owners, fleet administrators, and company operators.',
+    title: 'Role-Aware Access',
+    description: 'Customer and admin routes are separated in the UI now, with backend-enforced roles planned for the Convex production migration.',
     tag: 'AUTH',
   },
 ];
@@ -76,8 +76,8 @@ export default function TechStack() {
             Powered by <span className="text-gradient">Modern Tech</span>
           </h2>
           <p className="mt-6 text-lg text-dark-300 leading-relaxed">
-            We don't cut corners on infrastructure. Here's what's running under the hood 
-            to deliver a flawless experience for you and your dog.
+            The frontend is being prepared for a production backend, safer release gates,
+            and clearer operational ownership before real customer data is collected.
           </p>
         </motion.div>
 
@@ -112,7 +112,6 @@ export default function TechStack() {
           ))}
         </motion.div>
 
-        {/* Tech Stack Bar */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -122,15 +121,14 @@ export default function TechStack() {
           <p className="text-xs text-dark-400 uppercase tracking-[0.15em] text-center mb-6">Technology Stack</p>
           <div className="flex flex-wrap justify-center gap-4">
             {[
-              { name: 'Next.js 14+', color: 'text-white' },
+              { name: 'React 19', color: 'text-cyan-400' },
+              { name: 'Vite', color: 'text-yellow-400' },
               { name: 'Convex', color: 'text-red-400' },
               { name: 'Tailwind CSS', color: 'text-cyan-400' },
-              { name: 'Shadcn/ui', color: 'text-white' },
               { name: 'Framer Motion', color: 'text-purple-400' },
-              { name: 'Clerk Auth', color: 'text-violet-400' },
-              { name: 'Stripe', color: 'text-indigo-400' },
+              { name: 'React Router', color: 'text-blue-400' },
               { name: 'Vercel', color: 'text-white' },
-              { name: 'AWS Canada', color: 'text-yellow-400' },
+              { name: 'GitHub Actions', color: 'text-white' },
             ].map((tech) => (
               <span
                 key={tech.name}

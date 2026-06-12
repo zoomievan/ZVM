@@ -38,7 +38,6 @@ export default function AdminDashboard() {
 
   const completedBookings = bookings.filter(b => b.status === 'completed');
   const totalRevenue = completedBookings.reduce((sum, b) => sum + b.sessionFee + b.surcharge, 0);
-  const totalGst = totalRevenue * 0.05;
   const activeVans = vans.filter(v => v.status === 'Active').length;
   const activeZones = zones.filter(z => z.status === 'active').length;
   const pendingVaccines = vaccines.filter(v => v.status === 'pending').length;

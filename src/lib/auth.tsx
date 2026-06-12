@@ -2,11 +2,15 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 import { getUserByEmail, createUser, updateUser as updateUserRepo } from './repositories/userRepository';
 import { User } from './types';
 
+type SignupData = Omit<User, 'id' | 'createdAt' | 'passwordHash' | 'passwordSalt' | 'role'> & {
+  password: string;
+};
+
 interface AuthContext {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  signup: (data: Omit<User, 'id' | 'createdAt'>) => Promise<{ success: boolean; error?: string }>;
+  signup: (data: SignupData) => Promise<{ success: boolean; error?: string }>;
   updateUser: (updates: Partial<User>) => Promise<void>;
   logout: () => void;
 }
@@ -14,6 +18,23 @@ interface AuthContext {
 const AuthCtx = createContext<AuthContext | null>(null);
 
 const SESSION_KEY = 'zoomievan_session';
+
+function bytesToHex(bytes: ArrayBuffer): string {
+  return Array.from(new Uint8Array(bytes))
+    .map(byte => byte.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+function randomSalt(): string {
+  const bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes).map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+async function hashDemoPassword(password: string, salt: string): Promise<string> {
+  const data = new TextEncoder().encode(`${salt}:${password}`);
+  return bytesToHex(await crypto.subtle.digest('SHA-256', data));
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -32,17 +53,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (email: string, password: string) => {
     const found = await getUserByEmail(email);
-    if (!found) return { success: false, error: 'No account found with this email.' };
-    if (found.password !== password) return { success: false, error: 'Incorrect password.' };
+    if (!found) return { success: false, error: 'Invalid email or password.' };
+    const passwordHash = await hashDemoPassword(password, found.passwordSalt);
+    if (found.passwordHash !== passwordHash) return { success: false, error: 'Invalid email or password.' };
     sessionStorage.setItem(SESSION_KEY, found.id);
     setUser(found);
     return { success: true };
   }, []);
 
-  const signup = useCallback(async (data: Omit<User, 'id' | 'createdAt'>) => {
+  const signup = useCallback(async (data: SignupData) => {
     const existing = await getUserByEmail(data.email);
     if (existing) return { success: false, error: 'An account with this email already exists.' };
-    const created = await createUser(data);
+    const passwordSalt = randomSalt();
+    const passwordHash = await hashDemoPassword(data.password, passwordSalt);
+    const { password, ...profile } = data;
+    void password;
+    const created = await createUser({
+      ...profile,
+      passwordHash,
+      passwordSalt,
+      role: 'customer',
+    });
     sessionStorage.setItem(SESSION_KEY, created.id);
     setUser(created);
 
