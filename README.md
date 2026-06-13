@@ -22,13 +22,21 @@ npm run check
 
 ## Convex Setup Later
 
-When the client-owned Convex project is ready:
+Client project:
+
+- Dashboard: `https://dashboard.convex.dev/t/zoomievan87/zmv/proper-toad-507`
+- Team slug from dashboard URL: `zoomievan87`
+- Project slug from dashboard URL: `zmv`
+
+When the Convex CLI is logged into an account with access to that team:
 
 1. Add the production values to Vercel and local `.env.local`.
 2. Set `VITE_CONVEX_URL`.
 3. Run `npm run convex:dev` locally to generate Convex types during development.
 4. Run `npm run convex:deploy` from CI or a controlled release machine.
 5. Replace the local repository adapter with Convex queries and mutations.
+
+The local Convex CLI must be logged into a Convex account that can access the `zoomievan87` team, or a production deploy key must be configured in Vercel as `CONVEX_DEPLOY_KEY`.
 
 Required environment variables are listed in `.env.example`.
 
