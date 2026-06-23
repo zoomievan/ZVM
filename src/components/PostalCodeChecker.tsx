@@ -1,9 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useState } from 'react';
-import { MapPin, CheckCircle2, AlertCircle, ArrowRight, Mail, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { MapPin, CheckCircle2, AlertCircle, ArrowRight, Mail, Loader2, Route, Sparkles } from 'lucide-react';
 
-// Simulated active FSA zones
 const ACTIVE_FSAS = [
   'M1B','M1C','M1E','M1G','M1H','M1J','M1K','M1L','M1M','M1N','M1P','M1R','M1S','M1T','M1V','M1W','M1X',
   'M2H','M2J','M2K','M2L','M2M','M2N','M2P','M2R','M3A','M3B','M3C','M3H','M3J','M3K','M3L','M3M','M3N',
@@ -32,21 +32,17 @@ export default function PostalCodeChecker() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
+  const navigate = useNavigate();
+
+  const fsa = postalCode.toUpperCase().replace(/\s/g, '').slice(0, 3);
 
   const handleCheck = () => {
     if (postalCode.length < 3) return;
 
     setStatus('loading');
-    const fsa = postalCode.toUpperCase().replace(/\s/g, '').slice(0, 3);
-
-    // Simulate API call
     setTimeout(() => {
-      if (ACTIVE_FSAS.includes(fsa)) {
-        setStatus('serviceable');
-      } else {
-        setStatus('unserviceable');
-      }
-    }, 1200);
+      setStatus(ACTIVE_FSAS.includes(fsa) ? 'serviceable' : 'unserviceable');
+    }, 900);
   };
 
   const handleWaitlist = () => {
@@ -55,160 +51,151 @@ export default function PostalCodeChecker() {
   };
 
   return (
-    <section id="coverage" className="relative py-16 lg:py-24 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-900 via-dark-800/50 to-dark-900" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-500/5 rounded-full blur-[200px]" />
+    <section id="coverage" className="relative overflow-hidden px-4 pb-16 pt-32 sm:px-6 lg:px-8 lg:pb-24">
+      <div className="absolute left-0 top-20 h-80 w-80 rounded-full bg-[#dff3ff] blur-3xl" />
+      <div className="absolute bottom-10 right-0 h-96 w-96 rounded-full bg-[#fff2de] blur-3xl" />
 
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center space-y-6"
-        >
-          <span className="text-brand-500 font-semibold text-sm uppercase tracking-[0.15em]">
-            Coverage Check
-          </span>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-            Are We In Your <span className="text-gradient">Neighbourhood?</span>
-          </h2>
-          <p className="text-lg text-dark-300 max-w-2xl mx-auto">
-            Enter your Canadian postal code below. We'll instantly check if our mobile gym fleet 
-            services your area.
-          </p>
-        </motion.div>
+      <div ref={ref} className="relative mx-auto max-w-6xl">
+        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-brand-600 shadow-sm">
+              <Route className="h-4 w-4" />
+              Coverage check
+            </span>
+            <h1 className="font-display text-4xl font-bold leading-tight text-[#2b1d16] sm:text-5xl lg:text-6xl">
+              Is ZoomieVan on your route?
+            </h1>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-[#6f5848]">
+              Enter your Canadian postal code and we will check whether a mobile dog gym route already serves your neighbourhood.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {['Door-to-door visits', 'GTA and major metros', 'More routes opening soon'].map((item) => (
+                <span key={item} className="rounded-full border border-[#ead8c6] bg-white px-4 py-2 text-sm font-bold text-[#4d392d]">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </motion.div>
 
-        {/* Postal Code Input */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-12 max-w-lg mx-auto"
-        >
-          <div className="relative">
-            <div className="flex flex-col sm:flex-row gap-3">
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.12 }}
+            className="friendly-card rounded-3xl border border-[#ead8c6] bg-white p-5 shadow-xl shadow-[#513a2a]/5 sm:p-7"
+          >
+            <div className="flex flex-col gap-3 sm:flex-row">
               <div className="relative flex-1">
-                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-dark-400" />
+                <MapPin className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-brand-500" />
                 <input
                   type="text"
-                  placeholder="Enter postal code (e.g., M5V 2T6)"
+                  placeholder="M5V 2T6"
                   value={postalCode}
-                  onChange={(e) => {
-                    setPostalCode(e.target.value.toUpperCase());
+                  onChange={(event) => {
+                    setPostalCode(event.target.value.toUpperCase());
                     if (status !== 'idle') setStatus('idle');
                     setWaitlistSubmitted(false);
                   }}
-                  onKeyDown={(e) => e.key === 'Enter' && handleCheck()}
-                  className="w-full pl-12 pr-4 py-4 bg-dark-800 border border-dark-500 rounded-2xl text-white placeholder:text-dark-400 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500/50 transition-all text-lg"
+                  onKeyDown={(event) => event.key === 'Enter' && handleCheck()}
+                  className="h-14 w-full rounded-2xl border border-[#d6bdab] bg-[#fffaf2] pl-12 pr-4 text-lg font-bold text-[#2b1d16] placeholder:text-[#8d7565] focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
                   maxLength={7}
                 />
               </div>
               <button
                 onClick={handleCheck}
                 disabled={postalCode.length < 3 || status === 'loading'}
-                className="px-8 py-4 bg-gradient-to-r from-brand-600 to-brand-500 text-white font-semibold rounded-2xl hover:from-brand-500 hover:to-brand-400 transition-all shadow-lg shadow-brand-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="keep-white inline-flex h-14 items-center justify-center gap-2 rounded-2xl bg-brand-500 px-7 font-bold shadow-lg shadow-brand-500/20 transition hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {status === 'loading' ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                ) : (
-                  <>
-                    Check
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
+                {status === 'loading' ? <Loader2 className="h-5 w-5 animate-spin" /> : <>Check <ArrowRight className="h-4 w-4" /></>}
               </button>
             </div>
-          </div>
 
-          {/* Results */}
-          <AnimatePresence mode="wait">
-            {status === 'serviceable' && (
-              <motion.div
-                key="serviceable"
-                initial={{ opacity: 0, y: 10, height: 0 }}
-                animate={{ opacity: 1, y: 0, height: 'auto' }}
-                exit={{ opacity: 0, y: -10, height: 0 }}
-                className="mt-6"
-              >
-                <div className="p-6 rounded-2xl bg-green-500/10 border border-green-500/20">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle2 className="w-6 h-6 text-green-400" />
+            <AnimatePresence mode="wait">
+              {status === 'serviceable' && (
+                <motion.div
+                  key="serviceable"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="mt-5 rounded-2xl border border-[#bbf7d0] bg-[#e8f7ec] p-5"
+                >
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="mt-0.5 h-6 w-6 text-[#16743c]" />
                     <div>
-                      <p className="font-semibold text-green-400">Great news! We're in your area!</p>
-                      <p className="text-sm text-green-400/70 mt-1">
-                        Zone <span className="font-mono font-bold">{postalCode.slice(0, 3)}</span> is actively serviced by our fleet.
-                      </p>
+                      <p className="font-display text-xl font-bold text-[#14532d]">Good news, we are in your area.</p>
+                      <p className="mt-1 text-sm text-[#276749]">Zone <span className="font-bold">{fsa}</span> is currently serviced by our fleet.</p>
                     </div>
                   </div>
-                  <button className="mt-4 w-full py-3 bg-green-500 text-white font-semibold rounded-xl hover:bg-green-400 transition-colors flex items-center justify-center gap-2">
-                    Sign Up & Book Your First Session
-                    <ArrowRight className="w-4 h-4" />
+                  <button
+                    onClick={() => navigate('/signup')}
+                    className="keep-white mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-[#16a34a] py-3 font-bold transition hover:bg-[#15803d]"
+                  >
+                    Book your first run
+                    <ArrowRight className="h-4 w-4" />
                   </button>
-                </div>
-              </motion.div>
-            )}
+                </motion.div>
+              )}
 
-            {status === 'unserviceable' && (
-              <motion.div
-                key="unserviceable"
-                initial={{ opacity: 0, y: 10, height: 0 }}
-                animate={{ opacity: 1, y: 0, height: 'auto' }}
-                exit={{ opacity: 0, y: -10, height: 0 }}
-                className="mt-6"
-              >
-                <div className="p-6 rounded-2xl bg-amber-500/10 border border-amber-500/20">
-                  <div className="flex items-center gap-3 mb-4">
-                    <AlertCircle className="w-6 h-6 text-amber-400" />
+              {status === 'unserviceable' && (
+                <motion.div
+                  key="unserviceable"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="mt-5 rounded-2xl border border-[#f4d19a] bg-[#fff2de] p-5"
+                >
+                  <div className="mb-4 flex items-start gap-3">
+                    <AlertCircle className="mt-0.5 h-6 w-6 text-[#b45309]" />
                     <div>
-                      <p className="font-semibold text-amber-400">We're not there yet—but we're growing fast!</p>
-                      <p className="text-sm text-amber-400/70 mt-1">
-                        Zone <span className="font-mono font-bold">{postalCode.slice(0, 3)}</span> isn't covered yet. Join the waitlist to be first to know.
-                      </p>
+                      <p className="font-display text-xl font-bold text-[#78350f]">Not there yet, but we are growing.</p>
+                      <p className="mt-1 text-sm text-[#8a5a28]">Zone <span className="font-bold">{fsa}</span> is not covered yet. Join the waitlist and we will let you know when routes open.</p>
                     </div>
                   </div>
                   {!waitlistSubmitted ? (
-                    <div className="flex flex-col sm:flex-row gap-2">
+                    <div className="flex flex-col gap-2 sm:flex-row">
                       <div className="relative flex-1">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dark-400" />
+                        <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8d7565]" />
                         <input
                           type="email"
                           placeholder="your@email.com"
                           value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          className="w-full pl-10 pr-4 py-3 bg-dark-800 border border-dark-500 rounded-xl text-white placeholder:text-dark-400 text-sm focus:outline-none focus:border-amber-500"
+                          onChange={(event) => setEmail(event.target.value)}
+                          className="h-12 w-full rounded-xl border border-[#d6bdab] bg-white pl-10 pr-4 text-sm text-[#2b1d16] placeholder:text-[#8d7565] focus:border-brand-500 focus:outline-none"
                         />
                       </div>
-                      <button
-                        onClick={handleWaitlist}
-                        className="px-6 py-3 bg-amber-500 text-white font-semibold text-sm rounded-xl hover:bg-amber-400 transition-colors"
-                      >
-                        Join Waitlist
+                      <button onClick={handleWaitlist} className="keep-white rounded-xl bg-[#f59e0b] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#d97706]">
+                        Join waitlist
                       </button>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-2 text-green-400">
-                      <CheckCircle2 className="w-5 h-5" />
-                      <span className="text-sm font-medium">You're on the list! We'll notify you when we expand to your area.</span>
+                    <div className="flex items-center gap-2 text-[#16743c]">
+                      <CheckCircle2 className="h-5 w-5" />
+                      <span className="text-sm font-bold">You are on the list. We will notify you when coverage expands.</span>
                     </div>
                   )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </div>
 
-        {/* Active Cities */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-16 text-center"
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.22 }}
+          className="mt-10 rounded-3xl border border-[#ead8c6] bg-white/80 p-5"
         >
-          <p className="text-sm text-dark-400 mb-6">Currently active in major Canadian metros:</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {['Toronto (GTA)', 'Vancouver (Metro)', 'Montreal', 'Calgary', 'Ottawa', 'Edmonton', 'Mississauga', 'Brampton', 'Hamilton', 'Surrey'].map((city) => (
-              <span key={city} className="px-4 py-2 bg-dark-800 border border-dark-600 rounded-full text-sm text-dark-200">
-                📍 {city}
+          <div className="mb-5 flex items-center gap-2 text-sm font-bold text-brand-600">
+            <Sparkles className="h-4 w-4" />
+            Currently active in major Canadian metros
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {['Toronto GTA', 'Vancouver Metro', 'Montreal', 'Calgary', 'Ottawa', 'Edmonton', 'Mississauga', 'Brampton', 'Hamilton', 'Surrey'].map((city) => (
+              <span key={city} className="rounded-full border border-[#ead8c6] bg-[#fffaf2] px-4 py-2 text-sm font-semibold text-[#4d392d]">
+                {city}
               </span>
             ))}
           </div>

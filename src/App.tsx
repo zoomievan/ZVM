@@ -93,6 +93,16 @@ function PageLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
+function PublicPageLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="public-site relative bg-dark-900 min-h-screen">
+      <ScrollProgress />
+      <Navbar />
+      {children}
+    </div>
+  );
+}
+
 function BackendRequired({ children }: { children: React.ReactNode }) {
   if (isProductionBuild && !isProductionBackendReady) {
     return <ProductionReadinessGate />;
@@ -107,11 +117,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/admin" element={<BackendRequired><PageLayout><ProtectedRoute requireAdmin><AdminPage /></ProtectedRoute></PageLayout></BackendRequired>} />
-        <Route path="/login" element={<BackendRequired><PageLayout><LoginPage /></PageLayout></BackendRequired>} />
-        <Route path="/signup" element={<BackendRequired><PageLayout><SignupPage /></PageLayout></BackendRequired>} />
+        <Route path="/login" element={<BackendRequired><PublicPageLayout><LoginPage /></PublicPageLayout></BackendRequired>} />
+        <Route path="/signup" element={<BackendRequired><PublicPageLayout><SignupPage /></PublicPageLayout></BackendRequired>} />
         <Route path="/dashboard" element={<BackendRequired><PageLayout><ProtectedRoute><UserDashboard /></ProtectedRoute></PageLayout></BackendRequired>} />
-        <Route path="/coverage" element={<PageLayout><CoveragePage /></PageLayout>} />
-        <Route path="/faq" element={<PageLayout><FAQPage /></PageLayout>} />
+        <Route path="/coverage" element={<PublicPageLayout><CoveragePage /></PublicPageLayout>} />
+        <Route path="/faq" element={<PublicPageLayout><FAQPage /></PublicPageLayout>} />
         <Route path="/legal/:page" element={<PageLayout><LegalPage /></PageLayout>} />
       </Routes>
     </AuthProvider>

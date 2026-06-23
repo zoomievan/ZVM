@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { User, PenTool, Check, ChevronRight, ArrowLeft, Loader2, Eye, EyeOff } from 'lucide-react';
+import { User, PenTool, Check, ChevronRight, ArrowLeft, Loader2, Eye, EyeOff, PawPrint, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../lib/auth';
 import { UserAddress } from '../lib/types';
 
 const steps = [
-  { step: 1, icon: <User className="w-5 h-5" />, title: 'Your Profile', subtitle: 'Account & Address' },
-  { step: 2, icon: <PenTool className="w-5 h-5" />, title: 'Legal Release', subtitle: 'Liability Agreement' },
+  { step: 1, icon: User, title: 'Your Profile', subtitle: 'Account and route details' },
+  { step: 2, icon: PenTool, title: 'Safety Release', subtitle: 'Agreement before booking' },
 ];
+
+const inputClass = 'h-11 w-full rounded-xl border border-[#d6bdab] bg-[#fffaf2] px-4 text-sm text-[#2b1d16] placeholder:text-[#8d7565] focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20';
 
 export default function SignupPage() {
   const [activeStep, setActiveStep] = useState(0);
@@ -21,7 +23,6 @@ export default function SignupPage() {
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState<UserAddress>({ line1: '', city: '', province: '', postalCode: '' });
-
   const [legalAccepted, setLegalAccepted] = useState(false);
 
   const { signup } = useAuth();
@@ -29,9 +30,12 @@ export default function SignupPage() {
 
   const canProceed = () => {
     switch (activeStep) {
-      case 0: return name && email && password.length >= 6 && address.line1 && address.city && address.province && address.postalCode;
-      case 1: return legalAccepted;
-      default: return false;
+      case 0:
+        return name && email && password.length >= 6 && address.line1 && address.city && address.province && address.postalCode;
+      case 1:
+        return legalAccepted;
+      default:
+        return false;
     }
   };
 
@@ -45,7 +49,10 @@ export default function SignupPage() {
     setSaving(true);
     setError('');
     const result = await signup({
-      email, password, name, phone,
+      email,
+      password,
+      name,
+      phone,
       address,
       dog: { name: '', breed: '', weight: 0, age: 0, energyLevel: '', reactivityNotes: '' },
       vaccines: { rabiesFileName: '', dhppFileName: '', vetName: '', vetPhone: '' },
@@ -61,110 +68,120 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-900 flex">
-      {/* Sidebar nav */}
-      <aside className="hidden lg:flex w-64 shrink-0 flex-col p-6 border-r border-dark-600">
-        <Link to="/" className="flex items-center mb-10">
-          <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-6 w-auto" />
-        </Link>
-        <nav className="space-y-1 flex-1">
-          {steps.map((s, i) => (
-            <button
-              key={s.step}
-              onClick={() => { if (i <= activeStep) setActiveStep(i); }}
-              className={`w-full flex items-center gap-3 p-3 rounded-xl text-left transition-all ${
-                activeStep === i ? 'bg-brand-500/10 border border-brand-500/30' : 'hover:bg-dark-800 border border-transparent'
-              }`}
-            >
-              <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                activeStep === i ? 'bg-brand-500 text-white' :
-                i < activeStep ? 'bg-green-500/20 text-green-400' : 'bg-dark-700 text-dark-400'
-              }`}>
-                {i < activeStep ? <Check className="w-4 h-4" /> : s.icon}
-              </div>
-              <div>
-                <p className={`text-sm font-semibold ${activeStep === i ? 'text-white' : 'text-dark-300'}`}>{s.title}</p>
-                <p className="text-xs text-dark-400">{s.subtitle}</p>
-              </div>
-            </button>
-          ))}
-        </nav>
-        <Link to="/login" className="flex items-center gap-2 text-sm text-dark-400 hover:text-dark-200">
-          <ArrowLeft className="w-4 h-4" /> Back to login
-        </Link>
-      </aside>
+    <main className="relative min-h-screen overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-8">
+      <div className="absolute left-0 top-24 h-80 w-80 rounded-full bg-[#dff3ff] blur-3xl" />
+      <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-[#fff2de] blur-3xl" />
 
-      {/* Main */}
-      <main className="flex-1 overflow-y-auto">
-        {/* Mobile top bar */}
-        <div className="lg:hidden flex items-center justify-between p-4 border-b border-dark-600">
-          <Link to="/" className="flex items-center">
-            <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-6 w-auto" />
+      <div className="relative mx-auto grid max-w-6xl gap-6 lg:grid-cols-[310px_1fr]">
+        <aside className="friendly-card hidden rounded-3xl border border-[#ead8c6] bg-white p-6 shadow-xl shadow-[#513a2a]/5 lg:block">
+          <Link to="/" className="mb-9 flex items-center">
+            <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-8 w-auto" />
           </Link>
-          <Link to="/login" className="text-sm text-dark-400 hover:text-dark-200">Sign In</Link>
-        </div>
 
-        {/* Mobile step indicator */}
-        <div className="lg:hidden flex gap-1 px-4 pt-4">
-          {steps.map((_, i) => (
-            <div key={i} className={`h-1 flex-1 rounded-full ${i <= activeStep ? 'bg-brand-500' : 'bg-dark-600'}`} />
-          ))}
-        </div>
-
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
-          <motion.div key={activeStep} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
-            {/* Step header */}
-            <div className="mb-8">
-              <span className="text-xs font-mono text-brand-400 bg-brand-500/10 px-2 py-1 rounded">STEP {activeStep + 1} OF {steps.length}</span>
-              <h1 className="font-display text-2xl font-bold text-white mt-2">{steps[activeStep].title}</h1>
+          <div className="keep-white mb-8 rounded-3xl bg-[#2b1d16] p-5 text-white">
+            <div className="mb-4 inline-flex rounded-2xl bg-white/10 p-3 text-[#ffcf8a]">
+              <PawPrint className="h-6 w-6" />
             </div>
+            <h1 className="font-display text-2xl font-bold leading-tight">Start with one happy run.</h1>
+            <p className="mt-2 text-sm leading-relaxed text-white/75">
+              Create your account, share route details, and complete the safety release before booking.
+            </p>
+          </div>
 
+          <nav className="space-y-2">
+            {steps.map((step, index) => {
+              const Icon = step.icon;
+              const complete = index < activeStep;
+              const active = activeStep === index;
+              return (
+                <button
+                  key={step.step}
+                  onClick={() => { if (index <= activeStep) setActiveStep(index); }}
+                  className={`flex w-full items-center gap-3 rounded-2xl border p-3 text-left transition ${
+                    active ? 'border-brand-300 bg-brand-50' : 'border-transparent hover:bg-[#fffaf2]'
+                  }`}
+                >
+                  <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+                    active ? 'bg-brand-500 text-white' : complete ? 'bg-[#e8f7ec] text-[#16743c]' : 'bg-[#fff2de] text-[#8d7565]'
+                  }`}>
+                    {complete ? <Check className="h-4 w-4" /> : <Icon className="h-5 w-5" />}
+                  </span>
+                  <span>
+                    <span className="block text-sm font-bold text-[#2b1d16]">{step.title}</span>
+                    <span className="block text-xs text-[#8d7565]">{step.subtitle}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
+
+          <Link to="/login" className="mt-8 flex items-center gap-2 text-sm font-bold text-[#6f5848] hover:text-brand-600">
+            <ArrowLeft className="h-4 w-4" /> Back to sign in
+          </Link>
+        </aside>
+
+        <section className="friendly-card rounded-3xl border border-[#ead8c6] bg-white p-5 shadow-xl shadow-[#513a2a]/5 sm:p-8">
+          <div className="mb-7 flex flex-col gap-4 border-b border-[#ead8c6] pb-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#fff2de] px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-brand-600">
+                Step {activeStep + 1} of {steps.length}
+              </span>
+              <h2 className="mt-3 font-display text-3xl font-bold text-[#2b1d16]">{steps[activeStep].title}</h2>
+              <p className="mt-1 text-sm text-[#6f5848]">{steps[activeStep].subtitle}</p>
+            </div>
+            <Link to="/login" className="text-sm font-bold text-[#6f5848] hover:text-brand-600 lg:hidden">Sign in</Link>
+          </div>
+
+          <motion.div key={activeStep} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
             {activeStep === 0 && (
               <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">Full Name</label>
-                    <input value={name} onChange={e => setName(e.target.value)} placeholder="John Doe" className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
+                    <label className="text-xs font-black uppercase tracking-[0.12em] text-[#8d7565]">Full name</label>
+                    <input value={name} onChange={(event) => setName(event.target.value)} placeholder="John Doe" className={inputClass} />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">Email</label>
-                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="john@example.com" className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
+                    <label className="text-xs font-black uppercase tracking-[0.12em] text-[#8d7565]">Email</label>
+                    <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="john@example.com" className={inputClass} />
                   </div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">Password (min 6 chars)</label>
+                    <label className="text-xs font-black uppercase tracking-[0.12em] text-[#8d7565]">Password</label>
                     <div className="relative">
-                      <input type={showPw ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••" className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 pr-10 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
-                      <button type="button" onClick={() => setShowPw(!showPw)} className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-400 hover:text-dark-200">
-                        {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      <input type={showPw ? 'text' : 'password'} value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Minimum 6 characters" className={`${inputClass} pr-10`} />
+                      <button type="button" onClick={() => setShowPw(!showPw)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8d7565] hover:text-brand-600">
+                        {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </button>
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">Phone</label>
-                    <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="+1 (555) 000-0000" className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
+                    <label className="text-xs font-black uppercase tracking-[0.12em] text-[#8d7565]">Phone</label>
+                    <input value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="+1 (555) 000-0000" className={inputClass} />
                   </div>
                 </div>
+
                 <div className="space-y-1.5">
-                  <label className="text-xs text-dark-400 uppercase tracking-wider">Address</label>
-                  <input value={address.line1} onChange={e => setAddress({ ...address, line1: e.target.value })} placeholder="123 Main St" className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
+                  <label className="text-xs font-black uppercase tracking-[0.12em] text-[#8d7565]">Street address</label>
+                  <input value={address.line1} onChange={(event) => setAddress({ ...address, line1: event.target.value })} placeholder="123 Main St" className={inputClass} />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+                <div className="grid gap-4 sm:grid-cols-3">
                   <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">City</label>
-                    <input value={address.city} onChange={e => setAddress({ ...address, city: e.target.value })} placeholder="Toronto" className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
+                    <label className="text-xs font-black uppercase tracking-[0.12em] text-[#8d7565]">City</label>
+                    <input value={address.city} onChange={(event) => setAddress({ ...address, city: event.target.value })} placeholder="Toronto" className={inputClass} />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">Province</label>
-                    <select value={address.province} onChange={e => setAddress({ ...address, province: e.target.value })} className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-brand-500/50">
+                    <label className="text-xs font-black uppercase tracking-[0.12em] text-[#8d7565]">Province</label>
+                    <select value={address.province} onChange={(event) => setAddress({ ...address, province: event.target.value })} className={inputClass}>
                       <option value="">Select</option>
-                      {['AB','BC','MB','NB','NL','NS','NT','NU','ON','PE','QC','SK','YT'].map(p => <option key={p}>{p}</option>)}
+                      {['AB','BC','MB','NB','NL','NS','NT','NU','ON','PE','QC','SK','YT'].map((province) => <option key={province}>{province}</option>)}
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs text-dark-400 uppercase tracking-wider">Postal Code</label>
-                    <input value={address.postalCode} onChange={e => setAddress({ ...address, postalCode: e.target.value.toUpperCase() })} placeholder="M5V 2T6" className="w-full h-11 bg-dark-800 border border-dark-500 rounded-xl px-4 text-sm text-white placeholder-dark-400 focus:outline-none focus:border-brand-500/50" />
+                    <label className="text-xs font-black uppercase tracking-[0.12em] text-[#8d7565]">Postal code</label>
+                    <input value={address.postalCode} onChange={(event) => setAddress({ ...address, postalCode: event.target.value.toUpperCase() })} placeholder="M5V 2T6" className={inputClass} />
                   </div>
                 </div>
               </div>
@@ -172,36 +189,40 @@ export default function SignupPage() {
 
             {activeStep === 1 && (
               <div className="space-y-6">
-                <div className="p-6 bg-dark-800/50 rounded-xl border border-dark-600 space-y-4 text-sm text-dark-200 leading-relaxed">
-                  <p><strong className="text-white">Liability Waiver</strong></p>
+                <div className="rounded-3xl border border-[#ead8c6] bg-[#fffaf2] p-6 text-sm leading-relaxed text-[#4d392d]">
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="rounded-2xl bg-[#e8f7ec] p-3 text-[#16743c]">
+                      <ShieldCheck className="h-6 w-6" />
+                    </div>
+                    <strong className="font-display text-xl text-[#2b1d16]">Liability waiver</strong>
+                  </div>
                   <p>I acknowledge that participation in ZoomieVan mobile dog gym sessions involves physical activity for my dog. I understand the risks and agree to hold ZoomieVan, its handlers, and affiliates harmless from any claims arising from my dog's participation.</p>
-                  <p>I confirm that my dog is in good health and that I have disclosed any known medical conditions, behavioral issues, or reactivity concerns.</p>
-                  <p>I consent to photo/video documentation for training and quality assurance purposes. I understand I can opt out at any time.</p>
+                  <p className="mt-3">I confirm that my dog is in good health and that I have disclosed any known medical conditions, behavioral issues, or reactivity concerns.</p>
+                  <p className="mt-3">I consent to photo and video documentation for training and quality assurance purposes. I understand I can opt out at any time.</p>
                 </div>
 
-                <label className="flex items-start gap-3 cursor-pointer">
+                <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-[#ead8c6] bg-white p-4">
                   <input
                     type="checkbox"
                     checked={legalAccepted}
-                    onChange={e => setLegalAccepted(e.target.checked)}
-                    className="mt-0.5 rounded border-dark-500 bg-dark-800 text-brand-500 focus:ring-brand-500"
+                    onChange={(event) => setLegalAccepted(event.target.checked)}
+                    className="mt-1 rounded border-[#d6bdab] text-brand-500 focus:ring-brand-500"
                   />
-                  <span className="text-sm text-dark-200">I have read and agree to the terms above.</span>
+                  <span className="text-sm font-semibold text-[#4d392d]">I have read and agree to the terms above.</span>
                 </label>
               </div>
             )}
 
             {error && (
-              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2">
+              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
                 {error}
               </motion.p>
             )}
 
-            {/* Navigation */}
-            <div className="flex justify-between mt-8 pt-6 border-t border-dark-600">
+            <div className="mt-8 flex justify-between border-t border-[#ead8c6] pt-6">
               <button
                 onClick={() => setActiveStep(Math.max(0, activeStep - 1))}
-                className={`px-5 py-2.5 text-sm font-medium rounded-xl border border-dark-500 text-dark-200 hover:bg-dark-700 transition-colors ${activeStep === 0 ? 'opacity-30 pointer-events-none' : ''}`}
+                className={`rounded-xl border border-[#d6bdab] px-5 py-2.5 text-sm font-bold text-[#6f5848] transition hover:bg-[#fffaf2] ${activeStep === 0 ? 'pointer-events-none opacity-30' : ''}`}
               >
                 Back
               </button>
@@ -209,23 +230,23 @@ export default function SignupPage() {
                 <button
                   onClick={handleNext}
                   disabled={!canProceed()}
-                  className="px-5 py-2.5 text-sm font-semibold rounded-xl bg-brand-500 text-white hover:bg-brand-400 transition-colors disabled:opacity-40 flex items-center gap-1.5"
+                  className="keep-white flex items-center gap-1.5 rounded-xl bg-brand-500 px-5 py-2.5 text-sm font-bold transition hover:bg-brand-600 disabled:opacity-40"
                 >
-                  Continue <ChevronRight className="w-4 h-4" />
+                  Continue <ChevronRight className="h-4 w-4" />
                 </button>
               ) : (
                 <button
                   onClick={handleSubmit}
                   disabled={!canProceed() || saving}
-                  className="px-5 py-2.5 text-sm font-semibold rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 text-white hover:from-brand-500 hover:to-brand-400 transition-all shadow-lg shadow-brand-500/25 disabled:opacity-40 flex items-center gap-1.5"
+                  className="keep-white flex items-center gap-1.5 rounded-xl bg-brand-500 px-5 py-2.5 text-sm font-bold shadow-lg shadow-brand-500/20 transition hover:bg-brand-600 disabled:opacity-40"
                 >
-                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Create Account'}
+                  {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Create account'}
                 </button>
               )}
             </div>
           </motion.div>
-        </div>
-      </main>
-    </div>
+        </section>
+      </div>
+    </main>
   );
 }
