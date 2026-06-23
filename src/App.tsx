@@ -38,7 +38,7 @@ function LandingPage() {
 
   useEffect(() => {
     const img = new Image();
-    img.src = '/images/hero-bg.jpg';
+    img.src = '/images/hero-dog-van.jpg';
   }, []);
 
   const handlePreloaderComplete = () => {

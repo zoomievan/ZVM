@@ -24,12 +24,12 @@ export default function Hero() {
     <section ref={containerRef} className="hero-section relative min-h-screen flex items-center overflow-hidden">
       <motion.div className="absolute inset-0" style={{ y }}>
         <img
-          src="/images/hero-bg.jpg"
-          alt="Happy dog exercising safely inside the ZoomieVan mobile dog gym"
+          src="/images/hero-dog-van.jpg"
+          alt="Happy dog standing beside a mobile dog fitness van on a sunny neighbourhood street"
           className="h-full w-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(37,23,14,0.88)_0%,rgba(37,23,14,0.62)_48%,rgba(37,23,14,0.12)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.38)_0%,transparent_30%,rgba(37,23,14,0.44)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(37,23,14,0.86)_0%,rgba(37,23,14,0.58)_45%,rgba(37,23,14,0.08)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.24)_0%,transparent_34%,rgba(37,23,14,0.34)_100%)]" />
       </motion.div>
 
       <motion.div
