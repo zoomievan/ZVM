@@ -125,7 +125,7 @@ export default function WhyZoomieVan() {
           initial={{ opacity: 0, y: 28 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55, delay: 0.35 }}
-          className="mt-8 overflow-hidden rounded-3xl bg-[#2b1d16] text-white"
+          className="keep-white mt-8 overflow-hidden rounded-3xl bg-[#2b1d16] text-white"
         >
           <div className="grid lg:grid-cols-[1fr_0.75fr]">
             <div className="p-7 sm:p-9">

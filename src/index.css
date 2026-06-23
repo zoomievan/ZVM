@@ -79,8 +79,14 @@ body {
 
 .public-site [class*="bg-brand-"].text-white,
 .public-site [class*="from-brand-"].text-white,
-.public-site .keep-white {
+.public-site .keep-white,
+.public-site .keep-white * {
   color: #ffffff;
+}
+
+.public-site .keep-white .text-white\/75,
+.public-site .keep-white .text-white\/80 {
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .public-site .glass-light {
