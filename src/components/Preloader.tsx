@@ -1,12 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, useRef } from 'react';
-import { Activity, MapPin, Truck } from 'lucide-react';
-
-const loadingSteps = [
-  { icon: MapPin, label: 'Route' },
-  { icon: Truck, label: 'Van' },
-  { icon: Activity, label: 'Run' },
-];
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
@@ -61,25 +54,10 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,250,242,0.96),rgba(255,250,242,0.68),rgba(223,243,255,0.72))]" />
         </div>
 
-        <div className="relative z-10 mx-4 flex w-full max-w-xs flex-col items-center rounded-3xl border border-[#ead8c6] bg-white/90 px-6 py-7 text-center shadow-2xl shadow-[#513a2a]/10 backdrop-blur lg:hidden">
-          <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-14 w-auto sm:h-16" />
-          <p className="mt-4 text-sm font-semibold text-[#4d392d]">Getting tails moving...</p>
-
-          <div className="mt-5 grid w-full grid-cols-3 gap-2">
-            {loadingSteps.map(({ icon: Icon, label }, index) => (
-              <motion.div
-                key={label}
-                animate={{ y: [0, -3, 0] }}
-                transition={{ duration: 1.2, repeat: Infinity, delay: index * 0.16, ease: 'easeInOut' }}
-                className="flex flex-col items-center gap-1 rounded-2xl bg-[#fffaf2] px-2 py-3 text-[#6f5848]"
-              >
-                <Icon className="h-4 w-4 text-brand-500" />
-                <span className="text-[11px] font-black uppercase tracking-[0.12em]">{label}</span>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mt-6 h-1.5 w-full overflow-hidden rounded-full bg-[#fff0dc] shadow-inner">
+        <div className="relative z-10 flex w-full max-w-[220px] flex-col items-center px-4 text-center lg:hidden">
+          <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-14 w-auto" />
+          <p className="mt-4 text-sm font-medium text-[#6f5848]">Getting tails moving...</p>
+          <div className="mt-5 h-1 w-full overflow-hidden rounded-full bg-[#fff0dc]">
             <motion.div
               className="h-full bg-gradient-to-r from-brand-600 to-brand-400 rounded-full"
               initial={{ width: 0 }}
@@ -87,7 +65,6 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
               transition={{ ease: 'easeOut' }}
             />
           </div>
-          <p className="mt-3 text-xs font-medium text-[#8d7565]">Preparing a smoother first visit.</p>
         </div>
 
         <div className="relative z-10 hidden flex-col items-center gap-8 lg:flex">
