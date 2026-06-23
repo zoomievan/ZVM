@@ -7,25 +7,25 @@ const steps = [
     icon: MapPin,
     title: 'Check your area',
     description: 'Tell us where you are and we confirm whether a ZoomieVan route can reach your neighbourhood.',
-    image: 'https://images.pexels.com/photos/5482854/pexels-photo-5482854.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=760&w=1100',
+    image: '/images/how-route-check.jpg',
   },
   {
     icon: ClipboardCheck,
     title: 'Share your dog profile',
     description: 'Add age, breed, weight, temperament, and vaccine details so the first session starts thoughtfully.',
-    image: 'https://images.pexels.com/photos/5749781/pexels-photo-5749781.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=760&w=1100',
+    image: '/images/how-dog-profile.jpg',
   },
   {
     icon: Truck,
     title: 'We arrive at your curb',
     description: 'A handler brings the mobile dog gym to you, introduces the setup, and eases your dog in calmly.',
-    image: '/images/van-exterior.jpg',
+    image: '/images/how-van-arrival.jpg',
   },
   {
     icon: Activity,
     title: 'Your dog runs at their pace',
     description: 'The slatmill is dog-powered, supervised, and followed by simple notes you can actually use.',
-    image: '/images/slatmill.jpg',
+    image: '/images/how-slatmill-run.jpg',
   },
 ];
 
