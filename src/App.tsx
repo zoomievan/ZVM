@@ -55,7 +55,7 @@ function LandingPage() {
   }, [showContent]);
 
   return (
-    <div className="relative bg-dark-900 min-h-screen">
+    <div className="public-site relative bg-dark-900 min-h-screen">
       <AnimatePresence mode="wait">
         {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
       </AnimatePresence>

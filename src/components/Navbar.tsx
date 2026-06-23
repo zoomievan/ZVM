@@ -36,8 +36,8 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled ? 'glass shadow-2xl shadow-black/20' : 'bg-transparent'
+        className={`fixed top-0 left-0 right-0 z-50 border-b border-[#ead8c6]/80 bg-white/95 backdrop-blur-xl transition-all duration-300 ${
+          isScrolled ? 'shadow-lg shadow-[#6f5848]/10' : ''
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,7 +53,7 @@ export default function Navbar() {
                   <button
                     key={link.label}
                     onClick={() => navigate(link.href)}
-                    className="px-4 py-2 text-sm text-dark-200 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                    className="px-4 py-2 text-sm font-medium text-[#5f493b] hover:text-brand-600 transition-colors rounded-lg hover:bg-brand-50"
                   >
                     {link.label}
                   </button>
@@ -61,7 +61,7 @@ export default function Navbar() {
                   <a
                     key={link.label}
                     href={link.href}
-                    className="px-4 py-2 text-sm text-dark-200 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                    className="px-4 py-2 text-sm font-medium text-[#5f493b] hover:text-brand-600 transition-colors rounded-lg hover:bg-brand-50"
                   >
                     {link.label}
                   </a>
@@ -70,7 +70,7 @@ export default function Navbar() {
               {user?.role === 'admin' && (
                 <button
                   onClick={() => navigate('/admin')}
-                  className="flex items-center gap-1.5 px-4 py-2 text-sm text-dark-200 hover:text-brand-400 transition-colors rounded-lg hover:bg-white/5"
+                  className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-[#5f493b] hover:text-brand-600 transition-colors rounded-lg hover:bg-brand-50"
                 >
                   <Settings className="w-3.5 h-3.5" />
                   Admin
@@ -84,14 +84,14 @@ export default function Navbar() {
                 <>
                   <button
                     onClick={() => navigate('/dashboard')}
-                    className="flex items-center gap-2 px-4 py-2 text-sm text-dark-200 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#5f493b] hover:text-brand-600 transition-colors rounded-lg hover:bg-brand-50"
                   >
                     <LayoutDashboard className="w-4 h-4" />
                     Dashboard
                   </button>
                   <button
                     onClick={handleLogout}
-                    className="px-4 py-2 text-sm text-dark-300 hover:text-red-400 transition-colors"
+                    className="px-4 py-2 text-sm text-[#6f5848] hover:text-red-600 transition-colors"
                   >
                     Sign Out
                   </button>
@@ -100,14 +100,14 @@ export default function Navbar() {
                 <>
                   <button
                     onClick={() => navigate('/login')}
-                    className="flex items-center gap-2 px-4 py-2 text-sm text-dark-200 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#5f493b] hover:text-brand-600 transition-colors rounded-lg hover:bg-brand-50"
                   >
                     <LogIn className="w-3.5 h-3.5" />
                     Sign In
                   </button>
                   <button
                     onClick={() => navigate('/signup')}
-                    className="group relative px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-brand-600 to-brand-500 rounded-xl hover:from-brand-500 hover:to-brand-400 transition-all shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40"
+                    className="group relative px-5 py-2.5 text-sm font-semibold text-white bg-brand-500 rounded-xl hover:bg-brand-600 transition-all shadow-md shadow-brand-500/20"
                   >
                     <span className="flex items-center gap-1.5">
                       Get Started
@@ -121,7 +121,7 @@ export default function Navbar() {
             {/* Mobile Toggle */}
             <button
               onClick={() => setIsMobileOpen(!isMobileOpen)}
-              className="lg:hidden p-2 text-dark-200 hover:text-white transition-colors"
+              className="lg:hidden p-2 text-[#4d392d] hover:text-brand-600 transition-colors"
             >
               {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -137,7 +137,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-dark-900/98 backdrop-blur-xl pt-20"
+            className="fixed inset-0 z-40 bg-[#fffaf2]/98 backdrop-blur-xl pt-20"
           >
             <div className="flex flex-col items-center gap-2 p-6">
               {navLinks.map((link, i) => (

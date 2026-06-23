@@ -1,75 +1,62 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowRight, CalendarHeart, CheckCircle2, PawPrint } from 'lucide-react';
 
 export default function CTA() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'end start'],
-  });
-
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, -60]);
-
   return (
-    <section ref={containerRef} className="relative py-16 lg:py-24 overflow-hidden">
-      {/* Animated gradient background */}
-      <motion.div style={{ y: bgY }} className="absolute inset-0 -top-20 -bottom-20">
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-900 via-brand-800 to-dark-900" />
-        <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 to-transparent" />
-        {/* Pattern overlay */}
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-        }} />
-      </motion.div>
+    <section className="cta-section relative overflow-hidden bg-[#dff3ff] py-16 lg:py-24">
+      <div className="absolute inset-y-0 right-0 hidden w-2/5 lg:block">
+        <img
+          src="/images/van-exterior.jpg"
+          alt="ZoomieVan mobile dog gym vehicle"
+          className="h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#dff3ff] via-[#dff3ff]/35 to-transparent" />
+      </div>
 
-      {/* Floating orbs */}
-      <div className="absolute top-20 left-20 w-64 h-64 bg-brand-500/10 rounded-full blur-[100px] animate-pulse" />
-      <div className="absolute bottom-20 right-20 w-48 h-48 bg-orange-500/10 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1s' }} />
-
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="space-y-8"
+          transition={{ duration: 0.65 }}
+          className="max-w-2xl"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/10">
-            <Sparkles className="w-4 h-4 text-brand-400" />
-            <span className="text-sm font-medium text-white/80">Limited spots available this month</span>
+          <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-[#16743c] shadow-sm">
+            <CalendarHeart className="h-4 w-4" />
+            A healthier routine, delivered
           </div>
 
-          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-            Ready to Transform Your Dog's{' '}
-            <span className="text-gradient">Fitness Journey?</span>
+          <h2 className="mt-6 font-display text-4xl font-bold leading-tight text-[#2b1d16] sm:text-5xl lg:text-6xl">
+            More movement. Less mischief.{' '}
+            <span className="text-brand-600">Happier days.</span>
           </h2>
 
-          <p className="text-lg sm:text-xl text-white/60 max-w-2xl mx-auto leading-relaxed">
-            Join thousands of happy dog owners across Canada. Book your first trial session 
-            and see why dogs love ZoomieVan.
+          <p className="mt-5 max-w-xl text-lg leading-relaxed text-[#5f493b]">
+            Give your dog a focused workout without rearranging your whole day.
+            We bring the gym, the handler, and the energy outlet to you.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <a
-              href="#coverage"
-              className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 text-base font-semibold text-dark-900 bg-white rounded-2xl hover:bg-brand-100 transition-all shadow-2xl hover:-translate-y-0.5"
-            >
-              Get Started Now
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
-              href="#pricing"
-              className="inline-flex items-center justify-center gap-2.5 px-8 py-4 text-base font-semibold text-white border-2 border-white/20 rounded-2xl hover:bg-white/10 transition-all hover:-translate-y-0.5"
-            >
-              View Pricing
-            </a>
+          <div className="mt-7 grid gap-3 text-sm font-semibold text-[#4d392d] sm:grid-cols-2">
+            <div className="flex items-center gap-2"><CheckCircle2 className="h-5 w-5 text-[#16a34a]" /> Supervised sessions</div>
+            <div className="flex items-center gap-2"><CheckCircle2 className="h-5 w-5 text-[#16a34a]" /> Built around your dog</div>
           </div>
 
-          <p className="text-sm text-white/40">
-            No commitments required. Cancel anytime. 🇨🇦 100% Canadian operated.
-          </p>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <a
+              href="#book-now"
+              className="group inline-flex items-center gap-2 rounded-xl bg-brand-500 px-7 py-3.5 font-bold text-white shadow-lg shadow-brand-500/20 transition hover:-translate-y-0.5 hover:bg-brand-600"
+            >
+              Check availability
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </a>
+            <a
+              href="#why-zoomievan"
+              className="inline-flex items-center gap-2 rounded-xl border border-[#b7d8e8] bg-white px-7 py-3.5 font-bold text-[#3e3027] transition hover:border-brand-300"
+            >
+              <PawPrint className="h-5 w-5 text-brand-500" />
+              Explore the service
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>

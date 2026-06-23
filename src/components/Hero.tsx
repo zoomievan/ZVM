@@ -1,6 +1,12 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { ArrowRight, MapPin, Shield, Clock, Star } from 'lucide-react';
+import { ArrowRight, MapPin, ShieldCheck, Clock3, Star, Heart, PawPrint } from 'lucide-react';
+
+const trustItems = [
+  { icon: ShieldCheck, label: 'Insured handlers' },
+  { icon: MapPin, label: 'Door-to-door service' },
+  { icon: Clock3, label: '30-minute sessions' },
+];
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -9,184 +15,116 @@ export default function Hero() {
     offset: ['start start', 'end start'],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Image with Parallax */}
-      <motion.div
-        className="absolute inset-0 z-0"
-        style={{ y, scale }}
-      >
+    <section ref={containerRef} className="hero-section relative min-h-screen flex items-center overflow-hidden">
+      <motion.div className="absolute inset-0" style={{ y }}>
         <img
           src="/images/hero-bg.jpg"
-          alt="Dog running on slatmill"
-          className="w-full h-full object-cover"
+          alt="Happy dog exercising safely inside the ZoomieVan mobile dog gym"
+          className="h-full w-full object-cover object-center"
         />
-        {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-dark-900 via-dark-900/80 to-dark-900/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-dark-900/50" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(37,23,14,0.88)_0%,rgba(37,23,14,0.62)_48%,rgba(37,23,14,0.12)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.38)_0%,transparent_30%,rgba(37,23,14,0.44)_100%)]" />
       </motion.div>
 
-      {/* Animated grid pattern */}
-      <div className="absolute inset-0 z-[1]" style={{
-        backgroundImage: 'linear-gradient(rgba(249,115,22,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.03) 1px, transparent 1px)',
-        backgroundSize: '64px 64px',
-      }} />
-
-      {/* Content */}
       <motion.div
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20"
+        className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-20 pt-32 sm:px-6 lg:px-8"
         style={{ opacity }}
       >
         <div className="max-w-3xl">
-          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.15 }}
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/90 px-4 py-2 text-sm font-semibold text-[#5b3824] shadow-lg"
+          >
+            <Heart className="h-4 w-4 fill-[#f97316] text-[#f97316]" />
+            Fitness that fits your dog's life
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.25 }}
+            className="font-display text-5xl font-bold leading-[1.03] text-white sm:text-6xl lg:text-7xl"
+          >
+            Happy dogs start with a{' '}
+            <span className="text-[#ffb24b]">great run.</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85 sm:text-xl"
+          >
+            ZoomieVan brings a safe, supervised dog gym right to your neighbourhood,
+            giving busy owners an easier way to keep energetic dogs healthy and fulfilled.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.55 }}
+            className="mt-9 flex flex-wrap gap-3"
+          >
+            <a
+              href="#book-now"
+              className="keep-white group inline-flex items-center gap-2 rounded-xl bg-brand-500 px-7 py-3.5 text-base font-bold shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-brand-600"
+            >
+              Find a session
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </a>
+            <a
+              href="#why-zoomievan"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/40 bg-white/12 px-7 py-3.5 text-base font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
+            >
+              <PawPrint className="h-5 w-5" />
+              How it works
+            </a>
+          </motion.div>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500/10 border border-brand-500/20 mb-8"
+            transition={{ duration: 0.7, delay: 0.7 }}
+            className="mt-10 flex flex-wrap gap-x-7 gap-y-3"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500" />
-            </span>
-            <span className="text-sm font-medium text-brand-400">Now serving Greater Toronto & Vancouver</span>
-          </motion.div>
-
-          {/* Main Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight"
-          >
-            A Professional{' '}
-            <span className="text-gradient">Dog Gym</span>{' '}
-            That Comes to{' '}
-            <span className="relative inline-block">
-              You
-              <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
-                <path d="M2 8 Q50 2 100 6 T198 4" stroke="#F97316" strokeWidth="3" strokeLinecap="round" />
-              </svg>
-            </span>
-          </motion.h1>
-
-          {/* Subheadline */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-6 text-lg sm:text-xl text-dark-200 leading-relaxed max-w-2xl"
-          >
-            Canada's first mobile canine fitness service. Our custom-built gym vans bring professional slatmill 
-            workouts directly to your neighborhood—keeping your dog fit, focused, and fulfilled.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="mt-10 flex flex-wrap gap-4"
-          >
-            <a
-              href="#coverage"
-              className="group relative inline-flex items-center gap-2.5 px-8 py-4 text-base font-semibold text-white bg-gradient-to-r from-brand-600 to-brand-500 rounded-2xl hover:from-brand-500 hover:to-brand-400 transition-all shadow-2xl shadow-brand-500/25 hover:shadow-brand-500/40 hover:-translate-y-0.5"
-            >
-              Check Your Area
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
-              href="#how-it-works"
-              className="inline-flex items-center gap-2.5 px-8 py-4 text-base font-semibold text-white border border-dark-500 rounded-2xl hover:bg-white/5 hover:border-dark-400 transition-all hover:-translate-y-0.5"
-            >
-              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                <svg viewBox="0 0 16 16" className="w-3.5 h-3.5 ml-0.5" fill="white">
-                  <path d="M4 2 L14 8 L4 14 Z" />
-                </svg>
-              </div>
-              See How It Works
-            </a>
-          </motion.div>
-
-          {/* Trust Badges */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            className="mt-14 flex flex-wrap gap-6 lg:gap-10"
-          >
-            {[
-              { icon: <Shield className="w-4 h-4 text-brand-400" />, label: 'Fully Insured & Certified' },
-              { icon: <MapPin className="w-4 h-4 text-brand-400" />, label: 'Door-to-Door Service' },
-              { icon: <Clock className="w-4 h-4 text-brand-400" />, label: '30-Min Power Sessions' },
-              { icon: <Star className="w-4 h-4 text-brand-400" />, label: '4.9/5 Avg Rating' },
-            ].map((badge) => (
-              <div key={badge.label} className="flex items-center gap-2 text-sm text-dark-300">
-                {badge.icon}
-                <span>{badge.label}</span>
+            {trustItems.map(({ icon: Icon, label }) => (
+              <div key={label} className="flex items-center gap-2 text-sm font-medium text-white/80">
+                <Icon className="h-4 w-4 text-[#ffb24b]" />
+                {label}
               </div>
             ))}
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Floating Stats Card */}
       <motion.div
-        initial={{ opacity: 0, x: 60, y: 40 }}
-        animate={{ opacity: 1, x: 0, y: 0 }}
-        transition={{ duration: 1, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
-        className="hidden xl:block absolute right-12 bottom-32 z-10"
+        initial={{ opacity: 0, x: 40 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 0.85 }}
+        className="friendly-card absolute bottom-10 right-8 z-10 hidden w-72 rounded-2xl border border-white/70 bg-white/94 p-5 text-[#2b1d16] shadow-2xl backdrop-blur lg:block"
       >
-        <div className="glass rounded-3xl p-6 space-y-5 w-72 float-animation">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-brand-500/10 flex items-center justify-center">
-              <span className="text-2xl">🐕</span>
-            </div>
-            <div>
-              <p className="text-sm text-dark-300">Dogs Trained</p>
-              <p className="text-2xl font-bold text-white">2,847+</p>
-            </div>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#8d7565]">Dog-approved care</p>
+            <p className="mt-1 font-display text-xl font-bold">Built around their pace</p>
           </div>
-          <div className="h-px bg-dark-600" />
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center">
-              <span className="text-2xl">📍</span>
-            </div>
-            <div>
-              <p className="text-sm text-dark-300">Active Zones</p>
-              <p className="text-2xl font-bold text-white">140+</p>
-            </div>
-          </div>
-          <div className="h-px bg-dark-600" />
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center">
-              <span className="text-2xl">⭐</span>
-            </div>
-            <div>
-              <p className="text-sm text-dark-300">Average Rating</p>
-              <p className="text-2xl font-bold text-white">4.9/5.0</p>
-            </div>
+          <div className="rounded-xl bg-[#e8f7ec] p-2.5 text-[#16803a]">
+            <PawPrint className="h-6 w-6" />
           </div>
         </div>
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
-      >
-        <span className="text-xs text-dark-400 uppercase tracking-[0.2em]">Scroll</span>
-        <div className="w-6 h-10 border-2 border-dark-500 rounded-full flex items-start justify-center p-1.5">
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-1.5 h-1.5 bg-brand-500 rounded-full"
-          />
+        <div className="mt-4 flex items-center gap-2 rounded-xl bg-[#fff2de] p-3">
+          <div className="flex gap-0.5">
+            {[0, 1, 2, 3, 4].map((value) => (
+              <Star key={value} className="h-4 w-4 fill-[#f59e0b] text-[#f59e0b]" />
+            ))}
+          </div>
+          <span className="text-sm font-semibold">Friendly, focused sessions</span>
         </div>
       </motion.div>
     </section>

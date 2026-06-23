@@ -56,6 +56,44 @@ body {
   overflow-x: hidden;
 }
 
+/* Bright public-facing theme. Admin and backend screens keep their existing palette. */
+.public-site {
+  --color-dark-900: #fffaf2;
+  --color-dark-800: #ffffff;
+  --color-dark-700: #fff0dc;
+  --color-dark-600: #ead8c6;
+  --color-dark-500: #d6bdab;
+  --color-dark-400: #8d7565;
+  --color-dark-300: #6f5848;
+  --color-dark-200: #4d392d;
+  --color-dark-100: #2b1d16;
+  color: #4d392d;
+  background:
+    linear-gradient(180deg, #fffaf2 0%, #ffffff 45%, #f0f9ff 100%);
+}
+
+.public-site section:not(.hero-section):not(.cta-section) .text-white,
+.public-site footer .text-white {
+  color: #2b1d16;
+}
+
+.public-site [class*="bg-brand-"].text-white,
+.public-site [class*="from-brand-"].text-white,
+.public-site .keep-white {
+  color: #ffffff;
+}
+
+.public-site .glass-light {
+  background: rgba(255, 253, 248, 0.94);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(111, 88, 72, 0.14);
+}
+
+.public-site .friendly-card {
+  box-shadow: 0 18px 50px rgba(81, 58, 42, 0.08);
+}
+
 /* Skeleton shimmer */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
@@ -182,7 +220,7 @@ body {
 
 /* Gradient text */
 .text-gradient {
-  background: linear-gradient(135deg, #F97316, #FB923C, #FDBA74);
+  background: linear-gradient(135deg, #ea580c, #f97316 55%, #16a34a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
