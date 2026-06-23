@@ -3,7 +3,7 @@ import { MapPin, Mail, Phone, Globe, MessageCircle, Camera } from 'lucide-react'
 
 const footerLinks = {
   Service: [
-    { label: 'How It Works', href: '/#why-zoomievan' },
+    { label: 'How It Works', href: '/#how-it-works' },
     { label: 'Pricing', href: '/#book-now' },
     { label: 'Coverage Areas', href: '/coverage' },
     { label: 'Book a Session', href: '/#book-now' },
@@ -95,7 +95,7 @@ export default function Footer() {
             &copy; 2025 ZoomieVan Inc. All rights reserved. Proudly Canadian.
           </p>
           <div className="flex items-center gap-4">
-            <span className="text-xs text-dark-500">Production backend pending client-owned Convex setup</span>
+            <span className="text-xs text-dark-500">Safe, supervised mobile dog fitness.</span>
           </div>
         </div>
       </div>

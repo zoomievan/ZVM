@@ -2,32 +2,35 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
-import { Check, ArrowRight, Clock, MapPin, ChevronLeft, ChevronRight, Shield } from 'lucide-react';
+import { ArrowRight, CalendarDays, Check, ChevronLeft, ChevronRight, Clock, Heart, MapPin, ShieldCheck } from 'lucide-react';
 import { Skeleton } from './Skeleton';
 
 const plans = [
   {
-    name: 'Trial Run',
+    name: 'First Run',
     price: 49,
-    period: 'per session',
-    description: 'Perfect for first-timers.',
-    features: ['Single 30-min session', 'Certified handler', 'Post-workout report', 'No commitment'],
+    period: 'trial session',
+    description: 'A gentle first visit to see how your dog takes to the setup.',
+    features: ['30-minute supervised run', 'Handler introduction', 'Post-session notes', 'No subscription needed'],
+    accent: 'bg-[#dff3ff]',
     popular: false,
   },
   {
-    name: 'Weekly Pack',
+    name: 'Weekly Routine',
     price: 39,
     period: 'per session',
-    description: 'Our most popular option.',
-    features: ['Weekly recurring session', 'Auto-scheduled time slot', 'Live tracking', 'Progress analytics', 'Cancel 24hr before', 'Multi-dog discount'],
+    description: 'A steady energy outlet for dogs who thrive with consistency.',
+    features: ['Recurring weekly slot', 'Progress notes', 'Priority rescheduling', 'Multi-dog savings'],
+    accent: 'bg-[#e8f7ec]',
     popular: true,
   },
   {
-    name: '8-Pack Bundle',
+    name: 'Run Pack',
     price: 34,
     period: 'per session',
-    description: 'Best value for committed owners.',
-    features: ['8 pre-paid sessions', 'Priority dispatch', 'Same van each visit', 'Premium reports', 'Flexible scheduling', 'Best per-session rate'],
+    description: 'Flexible prepaid visits for busy owners and changing schedules.',
+    features: ['8 prepaid sessions', 'Flexible booking', 'Same route preference', 'Best session rate'],
+    accent: 'bg-[#fff2de]',
     popular: false,
   },
 ];
@@ -36,34 +39,34 @@ const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const dates = [12, 13, 14, 15, 16, 17, 18];
 
 const timeSlots = [
-  { time: '8:00 AM', available: true, van: 'Thunder' },
-  { time: '9:00 AM', available: false, van: 'Thunder' },
-  { time: '10:00 AM', available: true, van: 'Storm' },
-  { time: '11:00 AM', available: true, van: 'Storm' },
-  { time: '1:00 PM', available: true, van: 'Bolt' },
-  { time: '2:00 PM', available: true, van: 'Thunder' },
-  { time: '3:00 PM', available: true, van: 'Storm' },
-  { time: '4:00 PM', available: false, van: 'Bolt' },
-  { time: '5:00 PM', available: true, van: 'Thunder' },
+  { time: '8:00 AM', available: true, van: 'Sunny' },
+  { time: '9:00 AM', available: false, van: 'Sunny' },
+  { time: '10:00 AM', available: true, van: 'Scout' },
+  { time: '11:00 AM', available: true, van: 'Scout' },
+  { time: '1:00 PM', available: true, van: 'Dash' },
+  { time: '2:00 PM', available: true, van: 'Sunny' },
+  { time: '3:00 PM', available: true, van: 'Scout' },
+  { time: '4:00 PM', available: false, van: 'Dash' },
+  { time: '5:00 PM', available: true, van: 'Sunny' },
 ];
 
 const trustSignals = [
-  { number: '1,200+', label: 'Active Members' },
-  { number: '4.9★', label: 'Average Rating' },
-  { number: '15K+', label: 'Sessions Done' },
+  { number: '1,200+', label: 'active members' },
+  { number: '4.9/5', label: 'owner rating' },
+  { number: '15K+', label: 'sessions run' },
 ];
 
 export default function BookNow() {
   const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
-  const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState(1);
   const [selectedDay, setSelectedDay] = useState(2);
-  const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<number | null>(2);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (inView) {
-      const timer = setTimeout(() => setIsLoading(false), 1400);
+      const timer = setTimeout(() => setIsLoading(false), 900);
       return () => clearTimeout(timer);
     }
   }, [inView]);
@@ -71,193 +74,191 @@ export default function BookNow() {
   useEffect(() => {
     setIsLoading(true);
     setSelectedSlot(null);
-    const timer = setTimeout(() => setIsLoading(false), 600);
+    const timer = setTimeout(() => setIsLoading(false), 450);
     return () => clearTimeout(timer);
   }, [selectedDay]);
 
   return (
-    <section id="book-now" className="relative py-16 lg:py-24 overflow-hidden" ref={ref}>
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-brand-500/5 rounded-full blur-[150px]" />
+    <section id="book-now" className="relative overflow-hidden py-16 lg:py-24" ref={ref}>
+      <div className="absolute bottom-10 left-0 h-80 w-80 rounded-full bg-[#e8f7ec] blur-3xl" />
+      <div className="absolute right-0 top-20 h-96 w-96 rounded-full bg-[#dff3ff] blur-3xl" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 32 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-10"
+          className="mx-auto max-w-3xl text-center"
         >
-          <span className="text-brand-500 font-semibold text-sm uppercase tracking-[0.15em] mb-3 block">
-            Start Today
+          <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-brand-600 shadow-sm">
+            <Heart className="h-4 w-4" />
+            Start with one happy run
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-            Book Your <span className="text-gradient">First Session</span>
+          <h2 className="font-display text-3xl font-bold leading-tight text-[#2b1d16] sm:text-4xl lg:text-5xl">
+            Pick the routine that fits your dog.
           </h2>
-          <p className="mt-4 text-base text-dark-300">Choose a plan, pick a time, and we'll take it from there.</p>
+          <p className="mt-5 text-lg leading-relaxed text-[#6f5848]">
+            Start with a trial or build a weekly outlet for the dog who always has a little more to give.
+          </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 max-w-5xl mx-auto"
-        >
-          {plans.map((plan, index) => (
-            <motion.div
-              key={plan.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.1 + index * 0.08 }}
-              onClick={() => setSelectedPlan(index)}
-              className={`relative cursor-pointer rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-0.5 ${
-                selectedPlan === index
-                  ? 'border-brand-500 bg-brand-500/10 shadow-lg shadow-brand-500/20'
-                  : plan.popular
-                  ? 'border-brand-500/50 bg-dark-800/60'
-                  : 'border-dark-600 bg-dark-800/30 hover:border-dark-500'
-              }`}
-            >
-              {plan.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-brand-500 text-white text-xs font-bold rounded-full">
-                  Most Popular
+        <div className="mt-10 grid gap-5 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="grid gap-4 md:grid-cols-3 lg:grid-cols-1"
+          >
+            {plans.map((plan, index) => (
+              <button
+                key={plan.name}
+                type="button"
+                onClick={() => setSelectedPlan(index)}
+                className={`friendly-card relative overflow-hidden rounded-3xl border bg-white p-5 text-left transition hover:-translate-y-1 ${
+                  selectedPlan === index ? 'border-brand-400 ring-4 ring-brand-500/10' : 'border-[#ead8c6]'
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute right-4 top-4 rounded-full bg-brand-500 px-3 py-1 text-xs font-black uppercase tracking-[0.1em] text-white">
+                    Most loved
+                  </div>
+                )}
+                <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl ${plan.accent} text-[#2b1d16]`}>
+                  <CalendarDays className="h-6 w-6" />
                 </div>
-              )}
-              <div className="text-center">
-                <h3 className="font-display text-lg font-bold text-white">{plan.name}</h3>
-                <div className="mt-3">
-                  <span className="font-display text-3xl font-bold text-white">${plan.price}</span>
-                  <span className="text-dark-400 text-sm ml-1">{plan.period}</span>
+                <div className="flex items-end gap-3">
+                  <h3 className="font-display text-xl font-bold text-[#2b1d16]">{plan.name}</h3>
+                  <div className="mb-0.5 text-sm text-[#8d7565]">
+                    <span className="font-display text-3xl font-bold text-brand-600">${plan.price}</span> {plan.period}
+                  </div>
                 </div>
-                <p className="text-xs text-dark-400 mt-1">{plan.description}</p>
-              </div>
-              <ul className="mt-5 space-y-2">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-xs text-dark-200">
-                    <Check className="w-3.5 h-3.5 text-brand-400 shrink-0" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </motion.div>
+                <p className="mt-2 text-sm leading-relaxed text-[#6f5848]">{plan.description}</p>
+                <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-2">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-center gap-2 text-xs font-semibold text-[#4d392d]">
+                      <Check className="h-4 w-4 shrink-0 text-[#16a34a]" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </button>
+            ))}
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4, delay: 0.3 }}
-          className="max-w-lg mx-auto mb-8"
-        >
-          <div className="rounded-2xl border border-dark-600 bg-dark-800/50 overflow-hidden">
-            <div className="p-4 border-b border-dark-600 flex items-center justify-between">
-              <div>
-                <h3 className="font-display text-sm font-semibold text-white">Pick a Time</h3>
-                <p className="text-xs text-dark-400 flex items-center gap-1 mt-0.5">
-                  <MapPin className="w-3 h-3" /> Zone M5V — GTA Downtown
-                </p>
-              </div>
-              <div className="flex gap-1">
-                <button className="p-1.5 rounded-lg hover:bg-dark-700 text-dark-300 transition-colors">
-                  <ChevronLeft className="w-3.5 h-3.5" />
-                </button>
-                <button className="p-1.5 rounded-lg hover:bg-dark-700 text-dark-300 transition-colors">
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </button>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.18 }}
+            className="friendly-card overflow-hidden rounded-3xl border border-[#ead8c6] bg-white shadow-xl shadow-[#513a2a]/5"
+          >
+            <div className="border-b border-[#ead8c6] bg-[#fffaf2] p-5">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <h3 className="font-display text-xl font-bold text-[#2b1d16]">Preview a pickup window</h3>
+                  <p className="mt-1 flex items-center gap-1 text-sm text-[#6f5848]">
+                    <MapPin className="h-4 w-4 text-brand-500" /> Example route: M5V, GTA Downtown
+                  </p>
+                </div>
+                <div className="flex gap-1">
+                  <button className="rounded-xl border border-[#ead8c6] bg-white p-2 text-[#6f5848] transition hover:text-brand-600" aria-label="Previous week">
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                  <button className="rounded-xl border border-[#ead8c6] bg-white p-2 text-[#6f5848] transition hover:text-brand-600" aria-label="Next week">
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-7 gap-1 p-3 border-b border-dark-600">
-              {days.map((day, i) => (
+            <div className="grid grid-cols-7 gap-1 border-b border-[#ead8c6] p-3">
+              {days.map((day, index) => (
                 <button
                   key={day}
-                  onClick={() => setSelectedDay(i)}
-                  className={`flex flex-col items-center py-1.5 rounded-lg transition-all ${
-                    selectedDay === i
-                      ? 'bg-brand-500 text-white'
-                      : 'text-dark-300 hover:bg-dark-700'
+                  type="button"
+                  onClick={() => setSelectedDay(index)}
+                  className={`flex flex-col items-center rounded-xl py-2 transition ${
+                    selectedDay === index
+                      ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20'
+                      : 'text-[#6f5848] hover:bg-[#fff2de]'
                   }`}
                 >
-                  <span className="text-[10px] font-medium">{day}</span>
-                  <span className="text-sm font-bold mt-0.5">{dates[i]}</span>
+                  <span className="text-[10px] font-bold">{day}</span>
+                  <span className="mt-0.5 text-sm font-black">{dates[index]}</span>
                 </button>
               ))}
             </div>
 
-            <div className="p-3 space-y-1.5 max-h-[240px] overflow-y-auto">
+            <div className="max-h-[300px] space-y-2 overflow-y-auto p-4">
               {isLoading ? (
-                <div className="space-y-1.5">
-                  {[...Array(5)].map((_, i) => (
-                    <Skeleton key={i} className="h-10 w-full rounded-lg" />
+                <div className="space-y-2">
+                  {[...Array(5)].map((_, index) => (
+                    <Skeleton key={index} className="h-12 w-full rounded-xl" />
                   ))}
                 </div>
               ) : (
-                timeSlots.map((slot, i) => (
+                timeSlots.map((slot, index) => (
                   <motion.button
-                    key={i}
+                    key={`${slot.time}-${slot.van}`}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.15, delay: i * 0.03 }}
+                    transition={{ duration: 0.15, delay: index * 0.03 }}
                     disabled={!slot.available}
-                    onClick={() => setSelectedSlot(i)}
-                    className={`w-full flex items-center justify-between p-2.5 rounded-lg border transition-all text-sm ${
-                      selectedSlot === i
-                        ? 'bg-brand-500/10 border-brand-500/40 text-brand-400'
+                    onClick={() => setSelectedSlot(index)}
+                    className={`w-full rounded-2xl border p-3 text-left transition ${
+                      selectedSlot === index
+                        ? 'border-brand-400 bg-brand-50 text-[#2b1d16]'
                         : slot.available
-                        ? 'bg-dark-700/50 border-dark-600 hover:border-dark-500 text-white'
-                        : 'bg-dark-800/30 border-dark-700 text-dark-500 cursor-not-allowed'
+                          ? 'border-[#ead8c6] bg-white text-[#4d392d] hover:border-brand-300'
+                          : 'cursor-not-allowed border-[#ead8c6] bg-[#f7eee4] text-[#a08b7b]'
                     }`}
                   >
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-3.5 h-3.5" />
-                      <span className="text-xs font-medium">{slot.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] text-dark-400">{slot.van}</span>
-                      {slot.available ? (
-                        <span className="text-[10px] bg-green-500/10 text-green-400 px-1.5 py-0.5 rounded">
-                          {selectedSlot === i ? 'Selected' : 'Avail'}
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        <Clock className="h-4 w-4 text-brand-500" />
+                        <span className="text-sm font-bold">{slot.time}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-[#8d7565]">{slot.van} route</span>
+                        <span className={`rounded-full px-2 py-1 text-[10px] font-black uppercase tracking-[0.08em] ${
+                          slot.available ? 'bg-[#e8f7ec] text-[#16743c]' : 'bg-[#ead8c6] text-[#8d7565]'
+                        }`}>
+                          {slot.available ? (selectedSlot === index ? 'Selected' : 'Open') : 'Booked'}
                         </span>
-                      ) : (
-                        <span className="text-[10px] bg-dark-600 text-dark-400 px-1.5 py-0.5 rounded">Taken</span>
-                      )}
+                      </div>
                     </div>
                   </motion.button>
                 ))
               )}
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4, delay: 0.5 }}
-          className="text-center"
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-10 text-center"
         >
           <button
             onClick={() => navigate('/signup')}
-            className="group inline-flex items-center gap-2.5 px-8 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-brand-600 to-brand-500 rounded-2xl hover:from-brand-500 hover:to-brand-400 transition-all shadow-xl shadow-brand-500/25 hover:-translate-y-0.5"
+            className="group inline-flex items-center gap-2.5 rounded-2xl bg-brand-500 px-8 py-4 text-sm font-bold text-white shadow-xl shadow-brand-500/25 transition hover:-translate-y-0.5 hover:bg-brand-600"
           >
-            <Shield className="w-4 h-4" />
-            Create Your Free Account
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <ShieldCheck className="h-4 w-4" />
+            Book a first run
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </button>
-          <p className="mt-3 text-xs text-dark-400">
-            No credit card required · Cancel anytime · <span className="text-brand-400">Start with a trial session</span>
+          <p className="mt-3 text-sm text-[#6f5848]">
+            No credit card required to create an account. Start with a trial session.
           </p>
-        </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4, delay: 0.6 }}
-          className="mt-8 flex justify-center gap-6"
-        >
-          {trustSignals.map((s) => (
-            <div key={s.label} className="text-center">
-              <p className="font-display text-lg font-bold text-white">{s.number}</p>
-              <p className="text-[10px] text-dark-400">{s.label}</p>
-            </div>
-          ))}
+          <div className="mt-7 flex flex-wrap justify-center gap-6">
+            {trustSignals.map((signal) => (
+              <div key={signal.label} className="text-center">
+                <p className="font-display text-2xl font-bold text-[#2b1d16]">{signal.number}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.1em] text-[#8d7565]">{signal.label}</p>
+              </div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

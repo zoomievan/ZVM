@@ -8,6 +8,8 @@ const trustItems = [
   { icon: Clock3, label: '30-minute sessions' },
 ];
 
+const fitTags = ['High-energy dogs', 'Apartment dogs', 'Rainy days', 'Busy owners'];
+
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -79,7 +81,7 @@ export default function Hero() {
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </a>
             <a
-              href="#why-zoomievan"
+              href="#how-it-works"
               className="inline-flex items-center gap-2 rounded-xl border border-white/40 bg-white/12 px-7 py-3.5 text-base font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
             >
               <PawPrint className="h-5 w-5" />
@@ -98,6 +100,19 @@ export default function Hero() {
                 <Icon className="h-4 w-4 text-[#ffb24b]" />
                 {label}
               </div>
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.82 }}
+            className="mt-6 flex flex-wrap gap-2"
+          >
+            {fitTags.map((tag) => (
+              <span key={tag} className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-bold text-white/80 backdrop-blur">
+                {tag}
+              </span>
             ))}
           </motion.div>
         </div>
@@ -126,6 +141,9 @@ export default function Hero() {
           </div>
           <span className="text-sm font-semibold">Friendly, focused sessions</span>
         </div>
+        <p className="mt-4 text-sm leading-relaxed text-[#6f5848]">
+          Dog-powered movement, calm handling, and no pressure to go faster than they are ready for.
+        </p>
       </motion.div>
     </section>
   );

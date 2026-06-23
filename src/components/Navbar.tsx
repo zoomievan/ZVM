@@ -5,7 +5,7 @@ import { Menu, X, ChevronRight, Settings, LogIn, LayoutDashboard } from 'lucide-
 import { useAuth } from '../lib/auth';
 
 const navLinks = [
-  { label: 'How It Works', href: '/#why-zoomievan', page: false },
+  { label: 'How It Works', href: '/#how-it-works', page: false },
   { label: 'Pricing', href: '/#book-now', page: false },
   { label: 'Testimonials', href: '/#testimonials', page: false },
   { label: 'Coverage', href: '/coverage', page: true },

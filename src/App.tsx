@@ -18,6 +18,7 @@ import { isProductionBackendReady, isProductionBuild } from './lib/runtime';
 
 const Hero = lazy(() => import('./components/Hero'));
 const WhyZoomieVan = lazy(() => import('./components/WhyZoomieVan'));
+const HowItWorks = lazy(() => import('./components/HowItWorks'));
 const BookNow = lazy(() => import('./components/BookNow'));
 const Testimonials = lazy(() => import('./components/Testimonials'));
 const CTA = lazy(() => import('./components/CTA'));
@@ -71,6 +72,7 @@ function LandingPage() {
 
           <Suspense fallback={<SectionLoader />}><Hero /></Suspense>
           <Suspense fallback={<SectionLoader />}><WhyZoomieVan /></Suspense>
+          <Suspense fallback={<SectionLoader />}><HowItWorks /></Suspense>
           <Suspense fallback={<SectionLoader />}><BookNow /></Suspense>
           <Suspense fallback={<SectionLoader />}><Testimonials /></Suspense>
           <Suspense fallback={<SectionLoader />}><CTA /></Suspense>

@@ -1,209 +1,155 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import {
-  Truck, Heart, ShieldCheck, Zap, Gauge, CalendarCheck,
-  MapPin, ClipboardCheck, Activity,
-  BarChart3, Star
+  Building2,
+  CloudRain,
+  HeartPulse,
+  Home,
+  ShieldCheck,
+  Sparkles,
+  Zap,
 } from 'lucide-react';
-import { useCountUp } from '../hooks/useCountUp';
 
-type Tab = 'values' | 'steps' | 'stats';
-
-const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
-  { id: 'values', label: 'Why Us', icon: <Star className="w-4 h-4" /> },
-  { id: 'steps', label: 'How It Works', icon: <Activity className="w-4 h-4" /> },
-  { id: 'stats', label: 'By the Numbers', icon: <BarChart3 className="w-4 h-4" /> },
-];
-
-const values = [
+const useCases = [
   {
-    icon: <Truck className="w-6 h-6" />,
-    title: 'Mobile Convenience',
-    description: 'Our fully-equipped gym vans come directly to your door. No commute, no hassle—just professional canine fitness at your curb.',
+    icon: Building2,
+    title: 'Apartment dogs',
+    description: 'A focused outlet when elevators, sidewalks, and busy streets make long runs hard.',
   },
   {
-    icon: <Zap className="w-6 h-6" />,
-    title: 'Slatmill Workouts',
-    description: 'Manual, dog-powered treadmills that provide a natural running gait. No motors—your dog sets the pace for a safe, effective workout.',
+    icon: Zap,
+    title: 'High-energy breeds',
+    description: 'Structured movement for dogs who need more than a quick lap around the block.',
   },
   {
-    icon: <Heart className="w-6 h-6" />,
-    title: 'Tailored Programs',
-    description: 'Every session is customized to your dog\'s breed, weight, age, and energy level. From puppies to seniors, we meet them where they are.',
+    icon: CloudRain,
+    title: 'Bad-weather days',
+    description: 'Keep the routine going through rain, heat, snow, and packed owner schedules.',
   },
   {
-    icon: <ShieldCheck className="w-6 h-6" />,
-    title: 'Safety First',
-    description: 'Certified handlers, sanitized equipment after every session, and comprehensive liability coverage.',
-  },
-  {
-    icon: <Gauge className="w-6 h-6" />,
-    title: 'Real-Time Tracking',
-    description: 'Track your dog\'s session live from our app. See distance covered, calories burned, and get post-workout reports.',
-  },
-  {
-    icon: <CalendarCheck className="w-6 h-6" />,
-    title: 'Flexible Scheduling',
-    description: 'Book, reschedule, or cancel up to 24 hours before your session. Weekly subscriptions auto-schedule for convenience.',
+    icon: HeartPulse,
+    title: 'Weight and wellness',
+    description: 'Consistent low-impact sessions that support healthier habits over time.',
   },
 ];
 
-const steps = [
-  {
-    number: '01', icon: <MapPin className="w-6 h-6" />, title: 'Check Your Zone',
-    description: 'Enter your postal code to confirm our mobile gym fleet operates in your neighborhood.',
-  },
-  {
-    number: '02', icon: <ClipboardCheck className="w-6 h-6" />, title: 'Build Your Profile',
-    description: 'Complete our guided onboarding: address, dog biometrics, vaccine records, and digital liability release.',
-  },
-  {
-    number: '03', icon: <Truck className="w-6 h-6" />, title: 'We Come to You',
-    description: 'Our custom-built gym van arrives at your door at your scheduled time with a certified handler.',
-  },
-  {
-    number: '04', icon: <Activity className="w-6 h-6" />, title: 'Watch Them Thrive',
-    description: 'Your dog gets a tailored 30-minute slatmill session. Track metrics live and get a detailed post-workout report.',
-  },
+const reassurance = [
+  'No forced running',
+  'Dog sets the pace',
+  'Always supervised',
+  'Sanitized equipment',
+  'Session notes included',
+  'Great for nervous dogs',
 ];
-
-const statData = [
-  { value: 2847, suffix: '+', label: 'Dogs Trained' },
-  { value: 140, suffix: '+', label: 'Active Zones' },
-  { value: 15000, suffix: '+', label: 'Sessions Completed' },
-  { value: 98, suffix: '%', label: 'Satisfaction Rate' },
-];
-
-function StatItem({ stat }: { stat: typeof statData[0] }) {
-  const { count, ref } = useCountUp(stat.value, 2500);
-  return (
-    <div ref={ref} className="text-center space-y-1">
-      <div className="font-display text-3xl sm:text-4xl font-bold text-white">
-        {count.toLocaleString()}<span className="text-brand-500">{stat.suffix}</span>
-      </div>
-      <p className="text-sm text-dark-300">{stat.label}</p>
-    </div>
-  );
-}
 
 export default function WhyZoomieVan() {
-  const [activeTab, setActiveTab] = useState<Tab>('values');
-  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
+  const [ref, inView] = useInView({ threshold: 0.12, triggerOnce: true });
 
   return (
-    <section id="why-zoomievan" className="relative py-16 lg:py-24 overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-500/5 rounded-full blur-[150px]" />
+    <section id="why-zoomievan" className="relative overflow-hidden py-16 lg:py-24">
+      <div className="absolute left-0 top-12 h-72 w-72 rounded-full bg-[#dff3ff]/70 blur-3xl" />
+      <div className="absolute bottom-8 right-0 h-80 w-80 rounded-full bg-[#fff2de]/90 blur-3xl" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-10"
-        >
-          <span className="text-brand-500 font-semibold text-sm uppercase tracking-[0.15em] mb-3 block">
-            Why ZoomieVan
-          </span>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-            Everything Your Dog Needs. <span className="text-gradient">Delivered.</span>
-          </h2>
-          <p className="mt-4 text-base text-dark-300 leading-relaxed">
-            We've reimagined canine fitness from the ground up—bringing a fully-equipped, professionally-staffed mobile gym right to your neighborhood.
-          </p>
-        </motion.div>
-
-        <div className="flex justify-center gap-2 mb-10">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
-                activeTab === tab.id
-                  ? 'bg-brand-500 text-white shadow-lg shadow-brand-500/25'
-                  : 'bg-dark-800 text-dark-300 border border-dark-600 hover:border-dark-500 hover:text-white'
-              }`}
-            >
-              {tab.icon}
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        {activeTab === 'values' && (
+      <div ref={ref} className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+            initial={{ opacity: 0, y: 32 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
           >
-            {values.map((value, index) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="group rounded-2xl border border-dark-600 bg-dark-800/50 p-6 hover:border-brand-500/30 transition-all duration-300 hover:-translate-y-0.5"
-              >
-                <div className="w-10 h-10 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-400 mb-4 group-hover:bg-brand-500/20 transition-colors">
-                  {value.icon}
-                </div>
-                <h3 className="font-display text-base font-semibold text-white mb-2 group-hover:text-brand-400 transition-colors">
-                  {value.title}
-                </h3>
-                <p className="text-dark-300 text-sm leading-relaxed">{value.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
-
-        {activeTab === 'steps' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="max-w-4xl mx-auto space-y-4"
-          >
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="flex items-start gap-5 p-5 rounded-2xl border border-dark-600 bg-dark-800/30 hover:border-brand-500/20 transition-all"
-              >
-                <div className="w-12 h-12 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-400 shrink-0">
-                  {step.icon}
-                </div>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-3 mb-1">
-                    <span className="text-xs font-mono text-brand-400 font-bold">STEP {step.number}</span>
-                  </div>
-                  <h3 className="font-display text-base font-semibold text-white">{step.title}</h3>
-                  <p className="text-dark-300 text-sm mt-1">{step.description}</p>
-                </div>
-              </motion.div>
-            ))}
-            <p className="text-center text-xs text-dark-400 pt-2">
-              <a href="/coverage" className="text-brand-400 hover:underline">Check your zone →</a>
+            <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-brand-600 shadow-sm">
+              <Sparkles className="h-4 w-4" />
+              Designed for real dog energy
+            </span>
+            <h2 className="font-display text-3xl font-bold leading-tight text-[#2b1d16] sm:text-4xl lg:text-5xl">
+              For dogs who need more than another walk around the block.
+            </h2>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-[#5f493b]">
+              ZoomieVan gives owners a calm, professional way to help dogs burn energy,
+              build confidence, and come home ready to settle.
             </p>
           </motion.div>
-        )}
 
-        {activeTab === 'stats' && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 32 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.12 }}
+            className="rounded-3xl border border-[#ead8c6] bg-white p-5 shadow-xl shadow-[#513a2a]/5"
           >
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 p-8 rounded-2xl border border-dark-600 bg-dark-800/30">
-              {statData.map((stat) => (
-                <StatItem key={stat.label} stat={stat} />
+            <div className="flex items-start gap-4">
+              <div className="rounded-2xl bg-[#e8f7ec] p-3 text-[#16743c]">
+                <ShieldCheck className="h-7 w-7" />
+              </div>
+              <div>
+                <h3 className="font-display text-xl font-bold text-[#2b1d16]">
+                  Safe, kind, and built around your dog.
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-[#6f5848]">
+                  Each session is handled at your dog's pace with human supervision,
+                  calm introductions, and clear post-session notes.
+                </p>
+              </div>
+            </div>
+            <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {reassurance.map((item) => (
+                <div
+                  key={item}
+                  className="rounded-xl border border-[#f0dfcf] bg-[#fffaf2] px-3 py-2 text-center text-xs font-bold text-[#4d392d]"
+                >
+                  {item}
+                </div>
               ))}
             </div>
           </motion.div>
-        )}
+        </div>
+
+        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {useCases.map(({ icon: Icon, title, description }, index) => (
+            <motion.div
+              key={title}
+              initial={{ opacity: 0, y: 24 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.45, delay: 0.18 + index * 0.06 }}
+              className="friendly-card group rounded-2xl border border-[#ead8c6] bg-white p-6 transition hover:-translate-y-1 hover:border-brand-300"
+            >
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#dff3ff] text-[#13698d] transition group-hover:bg-brand-500 group-hover:text-white">
+                <Icon className="h-6 w-6" />
+              </div>
+              <h3 className="font-display text-lg font-bold text-[#2b1d16]">{title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[#6f5848]">{description}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.55, delay: 0.35 }}
+          className="mt-8 overflow-hidden rounded-3xl bg-[#2b1d16] text-white"
+        >
+          <div className="grid lg:grid-cols-[1fr_0.75fr]">
+            <div className="p-7 sm:p-9">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-[#ffcf8a]">
+                <Home className="h-4 w-4" />
+                The owner promise
+              </div>
+              <p className="mt-5 max-w-2xl font-display text-2xl font-bold leading-snug sm:text-3xl">
+                We bring the energy outlet to your curb, so your dog gets a
+                better day without your day falling apart.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold text-white/80">
+                <span className="rounded-full bg-white/10 px-4 py-2">Less pent-up energy</span>
+                <span className="rounded-full bg-white/10 px-4 py-2">More predictable routines</span>
+                <span className="rounded-full bg-white/10 px-4 py-2">Happier evenings at home</span>
+              </div>
+            </div>
+            <img
+              src="/images/van-exterior.jpg"
+              alt="ZoomieVan vehicle ready for a neighborhood dog fitness visit"
+              className="h-72 w-full object-cover lg:h-full"
+            />
+          </div>
+        </motion.div>
       </div>
     </section>
   );
