@@ -47,7 +47,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             autoPlay
             muted
             playsInline
-            className="w-full h-full object-cover opacity-35"
+            className="h-[42vh] w-[82vw] max-w-md rounded-[28px] object-cover opacity-25 shadow-2xl shadow-[#513a2a]/10 sm:h-[55vh] sm:w-[70vw] lg:h-full lg:w-full lg:max-w-none lg:rounded-none lg:opacity-35 lg:shadow-none"
             style={{ objectPosition: 'center 35%' }}
             onEnded={() => setVideoEnded(true)}
             onError={() => setVideoEnded(true)}
@@ -57,12 +57,12 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,250,242,0.96),rgba(255,250,242,0.68),rgba(223,243,255,0.72))]" />
         </div>
 
-        <div className="relative z-10 flex flex-col items-center gap-8">
+        <div className="relative z-10 flex flex-col items-center gap-5 px-4 sm:gap-8">
           <div className="flex flex-col items-center gap-3">
-            <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-20 w-auto" />
+            <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-14 w-auto sm:h-20" />
             <p className="text-[#6f5848] text-sm font-medium">Getting tails moving...</p>
           </div>
-          <div className="w-48 h-1.5 bg-white rounded-full overflow-hidden shadow-inner">
+          <div className="h-1.5 w-36 overflow-hidden rounded-full bg-white shadow-inner sm:w-48">
             <motion.div
               className="h-full bg-gradient-to-r from-brand-600 to-brand-400 rounded-full"
               initial={{ width: 0 }}

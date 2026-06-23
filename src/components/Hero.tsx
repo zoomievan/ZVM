@@ -21,8 +21,8 @@ export default function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
 
   return (
-    <section ref={containerRef} className="hero-section relative min-h-screen flex items-center overflow-hidden">
-      <motion.div className="absolute inset-0" style={{ y }}>
+    <section ref={containerRef} className="hero-section relative overflow-hidden bg-[#2b1d16] lg:flex lg:min-h-screen lg:items-center">
+      <motion.div className="absolute inset-0 hidden lg:block" style={{ y }}>
         <img
           src="/images/hero-dog-van.jpg"
           alt="Happy dog standing beside a mobile dog fitness van on a sunny neighbourhood street"
@@ -32,8 +32,17 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.24)_0%,transparent_34%,rgba(37,23,14,0.34)_100%)]" />
       </motion.div>
 
+      <div className="relative z-0 block bg-[#fffaf2] pt-20 lg:hidden">
+        <img
+          src="/images/hero-dog-van.jpg"
+          alt="Happy dog standing beside a mobile dog fitness van on a sunny neighbourhood street"
+          className="h-auto w-full object-contain"
+        />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-[#2b1d16]" />
+      </div>
+
       <motion.div
-        className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-20 pt-32 sm:px-6 lg:px-8"
+        className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-12 pt-8 sm:px-6 lg:px-8 lg:pb-20 lg:pt-32"
         style={{ opacity }}
       >
         <div className="max-w-3xl">
@@ -51,7 +60,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.25 }}
-            className="font-display text-5xl font-bold leading-[1.03] text-white sm:text-6xl lg:text-7xl"
+            className="font-display text-4xl font-bold leading-[1.05] text-white sm:text-5xl lg:text-7xl"
           >
             Happy dogs start with a{' '}
             <span className="text-[#ffb24b]">great run.</span>
@@ -61,7 +70,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
-            className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85 sm:text-xl"
+            className="mt-5 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg lg:text-xl"
           >
             ZoomieVan brings a safe, supervised dog gym right to your neighbourhood,
             giving busy owners an easier way to keep energetic dogs healthy and fulfilled.
@@ -71,18 +80,18 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.55 }}
-            className="mt-9 flex flex-wrap gap-3"
+            className="mt-7 flex flex-col gap-3 sm:flex-row lg:mt-9 lg:flex-wrap"
           >
             <a
               href="#book-now"
-              className="keep-white group inline-flex items-center gap-2 rounded-xl bg-brand-500 px-7 py-3.5 text-base font-bold shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-brand-600"
+              className="keep-white group inline-flex items-center justify-center gap-2 rounded-xl bg-brand-500 px-7 py-3.5 text-base font-bold shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-brand-600"
             >
               Find a session
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </a>
             <a
               href="#how-it-works"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/40 bg-white/12 px-7 py-3.5 text-base font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/40 bg-white/12 px-7 py-3.5 text-base font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
             >
               <PawPrint className="h-5 w-5" />
               How it works
@@ -93,7 +102,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.7 }}
-            className="mt-10 flex flex-wrap gap-x-7 gap-y-3"
+            className="mt-8 flex flex-wrap gap-x-5 gap-y-3 lg:mt-10 lg:gap-x-7"
           >
             {trustItems.map(({ icon: Icon, label }) => (
               <div key={label} className="flex items-center gap-2 text-sm font-medium text-white/80">
