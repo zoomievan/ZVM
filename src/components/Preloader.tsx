@@ -61,7 +61,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,250,242,0.96),rgba(255,250,242,0.68),rgba(223,243,255,0.72))]" />
         </div>
 
-        <div className="relative z-10 mx-4 flex w-full max-w-xs flex-col items-center rounded-3xl border border-[#ead8c6] bg-white/90 px-6 py-7 text-center shadow-2xl shadow-[#513a2a]/10 backdrop-blur sm:max-w-sm sm:px-8 sm:py-9">
+        <div className="relative z-10 mx-4 flex w-full max-w-xs flex-col items-center rounded-3xl border border-[#ead8c6] bg-white/90 px-6 py-7 text-center shadow-2xl shadow-[#513a2a]/10 backdrop-blur lg:hidden">
           <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-14 w-auto sm:h-16" />
           <p className="mt-4 text-sm font-semibold text-[#4d392d]">Getting tails moving...</p>
 
@@ -88,6 +88,21 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             />
           </div>
           <p className="mt-3 text-xs font-medium text-[#8d7565]">Preparing a smoother first visit.</p>
+        </div>
+
+        <div className="relative z-10 hidden flex-col items-center gap-8 lg:flex">
+          <div className="flex flex-col items-center gap-3">
+            <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-20 w-auto" />
+            <p className="text-sm font-medium text-[#6f5848]">Getting tails moving...</p>
+          </div>
+          <div className="h-1.5 w-48 overflow-hidden rounded-full bg-white shadow-inner">
+            <motion.div
+              className="h-full rounded-full bg-gradient-to-r from-brand-600 to-brand-400"
+              initial={{ width: 0 }}
+              animate={{ width: `${Math.min(progress, 100)}%` }}
+              transition={{ ease: 'easeOut' }}
+            />
+          </div>
         </div>
       </motion.div>
     </AnimatePresence>
