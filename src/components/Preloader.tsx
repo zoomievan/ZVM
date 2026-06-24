@@ -3,35 +3,25 @@ import { useEffect, useState, useRef } from 'react';
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
-  const [contentLoaded, setContentLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 2.5;
-    }
-  }, []);
+    const v = videoRef.current;
+    if (!v) return;
+    v.playbackRate = 1.0;
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setContentLoaded(true);
-          return 100;
-        }
-        return prev + Math.random() * 15 + 5;
-      });
-    }, 120);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    if (contentLoaded) {
+    const onTime = () => {
+      if (v.duration) setProgress((v.currentTime / v.duration) * 100);
+    };
+    const onEnd = () => {
+      setProgress(100);
       setTimeout(onComplete, 400);
-    }
-  }, [contentLoaded, onComplete]);
+    };
+
+    v.addEventListener('timeupdate', onTime);
+    v.addEventListener('ended', onEnd);
+    return () => { v.removeEventListener('timeupdate', onTime); v.removeEventListener('ended', onEnd); };
+  }, [onComplete]);
 
   return (
     <AnimatePresence>
