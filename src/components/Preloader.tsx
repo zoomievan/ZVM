@@ -36,7 +36,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-[#fffaf2]"
+        className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-[#071A3D]"
         exit={{ opacity: 0, scale: 1.05 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
@@ -51,13 +51,13 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           >
             <source src="/loader.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,250,242,0.96),rgba(255,250,242,0.68),rgba(223,243,255,0.72))]" />
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(7,26,61,0.96),rgba(15,61,145,0.74),rgba(249,115,22,0.18))]" />
         </div>
 
         <div className="relative z-10 flex w-full max-w-[220px] flex-col items-center px-4 text-center lg:hidden">
           <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-14 w-auto" />
-          <p className="mt-4 text-sm font-medium text-[#6f5848]">Getting tails moving...</p>
-          <div className="mt-5 h-1 w-full overflow-hidden rounded-full bg-[#fff0dc]">
+          <p className="mt-4 text-sm font-medium text-white/82">Getting tails moving...</p>
+          <div className="mt-5 h-1 w-full overflow-hidden rounded-full bg-white/20">
             <motion.div
               className="h-full bg-gradient-to-r from-brand-600 to-brand-400 rounded-full"
               initial={{ width: 0 }}
@@ -70,7 +70,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         <div className="relative z-10 hidden flex-col items-center gap-8 lg:flex">
           <div className="flex flex-col items-center gap-3">
             <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-20 w-auto" />
-            <p className="text-sm font-medium text-[#6f5848]">Getting tails moving...</p>
+            <p className="text-sm font-medium text-white/82">Getting tails moving...</p>
           </div>
           <div className="h-1.5 w-48 overflow-hidden rounded-full bg-white shadow-inner">
             <motion.div

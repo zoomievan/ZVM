@@ -82,9 +82,9 @@ export default function Testimonials() {
   }, [inView]);
 
   return (
-    <section id="testimonials" className="relative overflow-hidden bg-[#f0f9ff] py-16 lg:py-24">
-      <div className="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-[#dff3ff] blur-3xl" />
-      <div className="absolute right-0 top-12 h-72 w-72 rounded-full bg-[#fff2de] blur-3xl" />
+    <section id="testimonials" className="relative overflow-hidden bg-[#071A3D] py-16 lg:py-24">
+      <div className="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-[#1557B7]/45 blur-3xl" />
+      <div className="absolute right-0 top-12 h-72 w-72 rounded-full bg-brand-500/18 blur-3xl" />
 
       <div ref={ref} className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -93,14 +93,14 @@ export default function Testimonials() {
           transition={{ duration: 0.6 }}
           className="mx-auto max-w-3xl text-center"
         >
-          <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-brand-600 shadow-sm">
+          <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-[#0F3D91] shadow-sm">
             <Star className="h-4 w-4 fill-brand-500" />
             Owner stories
           </span>
-          <h2 className="font-display text-3xl font-bold leading-tight text-[#2b1d16] sm:text-4xl lg:text-5xl">
+          <h2 className="font-display text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
             Dogs burn energy. Homes get calmer.
           </h2>
-          <p className="mt-5 text-lg leading-relaxed text-[#6f5848]">
+          <p className="mt-5 text-lg leading-relaxed text-white/78">
             The real win is what happens after the van leaves: easier evenings,
             better routines, and dogs who feel understood.
           </p>
@@ -113,10 +113,10 @@ export default function Testimonials() {
               initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="rounded-3xl border border-[#ead8c6] bg-white p-7 shadow-xl shadow-[#513a2a]/5"
+              className="rounded-3xl border border-white/20 bg-white p-7 shadow-xl shadow-black/10"
             >
               <Quote className="mb-4 h-9 w-9 text-brand-500/30" />
-              <p className="font-display text-xl font-bold leading-snug text-[#2b1d16]">"{item.quote}"</p>
+              <p className="font-display text-xl font-bold leading-snug text-[#071A3D]">"{item.quote}"</p>
               <p className="mt-4 text-sm font-bold text-brand-600">{item.author}</p>
             </motion.div>
           ))}
@@ -131,15 +131,15 @@ export default function Testimonials() {
                   initial={{ opacity: 0, y: 28 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, delay: index * 0.06 }}
-                  className="friendly-card flex flex-col rounded-3xl border border-[#ead8c6] bg-white p-6 transition hover:-translate-y-1 hover:border-brand-300"
+                  className="friendly-card flex flex-col rounded-3xl border border-white/20 bg-white p-6 transition hover:-translate-y-1 hover:border-brand-300"
                 >
                   <StarRating />
-                  <p className="mt-4 flex-1 text-sm leading-relaxed text-[#4d392d]">"{testimonial.text}"</p>
-                  <div className="mt-6 flex items-center gap-3 border-t border-[#ead8c6] pt-4">
+                  <p className="mt-4 flex-1 text-sm leading-relaxed text-[#071A3D]">"{testimonial.text}"</p>
+                  <div className="mt-6 flex items-center gap-3 border-t border-[#D6E6FF] pt-4">
                     <img src={testimonial.avatar} alt={testimonial.name} className="h-12 w-12 rounded-2xl object-cover" />
                     <div>
-                      <p className="text-sm font-bold text-[#2b1d16]">{testimonial.name}</p>
-                      <p className="text-xs text-[#8d7565]">{testimonial.location}</p>
+                      <p className="text-sm font-bold text-[#071A3D]">{testimonial.name}</p>
+                      <p className="text-xs text-[#315B96]">{testimonial.location}</p>
                       <p className="text-xs font-semibold text-brand-600">{testimonial.dog}</p>
                     </div>
                   </div>

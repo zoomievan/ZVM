@@ -47,14 +47,14 @@ function FAQItem({ faq, index }: { faq: typeof faqs[0]; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: index * 0.04 }}
-      className="border-b border-[#ead8c6] last:border-b-0"
+      className="border-b border-[#D6E6FF] last:border-b-0"
     >
       <button onClick={() => setIsOpen(!isOpen)} className="group flex w-full items-center justify-between gap-6 py-6 text-left">
-        <span className="text-base font-bold text-[#2b1d16] transition group-hover:text-brand-600 sm:text-lg">
+        <span className="text-base font-bold text-[#071A3D] transition group-hover:text-brand-600 sm:text-lg">
           {faq.question}
         </span>
         <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition ${
-          isOpen ? 'border-brand-500 bg-brand-500 text-white' : 'border-[#d6bdab] bg-[#fffaf2] text-[#6f5848]'
+          isOpen ? 'border-brand-500 bg-brand-500 text-white' : 'border-[#D6E6FF] bg-[#EAF2FF] text-[#315B96]'
         }`}>
           {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
         </span>
@@ -68,7 +68,7 @@ function FAQItem({ faq, index }: { faq: typeof faqs[0]; index: number }) {
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <p className="pb-6 pr-12 text-sm leading-relaxed text-[#6f5848] sm:text-base">
+            <p className="pb-6 pr-12 text-sm leading-relaxed text-[#315B96] sm:text-base">
               {faq.answer}
             </p>
           </motion.div>
@@ -83,8 +83,8 @@ export default function FAQ() {
 
   return (
     <section id="faq" className="relative overflow-hidden px-4 pb-16 pt-32 sm:px-6 lg:px-8 lg:pb-24">
-      <div className="absolute left-0 top-20 h-80 w-80 rounded-full bg-[#dff3ff] blur-3xl" />
-      <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-[#fff2de] blur-3xl" />
+      <div className="absolute left-0 top-20 h-80 w-80 rounded-full bg-brand-500/18 blur-3xl" />
+      <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-[#1557B7]/45 blur-3xl" />
 
       <div ref={ref} className="relative mx-auto max-w-5xl">
         <motion.div
@@ -93,14 +93,14 @@ export default function FAQ() {
           transition={{ duration: 0.6 }}
           className="mx-auto max-w-3xl text-center"
         >
-          <span className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-brand-600 shadow-sm">
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-[#0F3D91] shadow-sm">
             <HelpCircle className="h-4 w-4" />
             FAQ
           </span>
-          <h1 className="font-display text-4xl font-bold leading-tight text-[#2b1d16] sm:text-5xl">
+          <h1 className="font-display text-4xl font-bold leading-tight text-white sm:text-5xl">
             Questions before your dog's first run?
           </h1>
-          <p className="mt-5 text-lg leading-relaxed text-[#6f5848]">
+          <p className="mt-5 text-lg leading-relaxed text-white/78">
             Here are the practical answers owners usually want before booking a supervised mobile dog gym session.
           </p>
         </motion.div>
@@ -109,7 +109,7 @@ export default function FAQ() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55, delay: 0.12 }}
-          className="friendly-card mt-10 rounded-3xl border border-[#ead8c6] bg-white p-5 shadow-xl shadow-[#513a2a]/5 sm:p-8"
+          className="friendly-card mt-10 rounded-3xl border border-white/20 bg-white p-5 shadow-xl shadow-black/10 sm:p-8"
         >
           {faqs.map((faq, index) => (
             <FAQItem key={faq.question} faq={faq} index={index} />
@@ -120,7 +120,7 @@ export default function FAQ() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55, delay: 0.24 }}
-          className="keep-white mt-6 rounded-3xl bg-[#2b1d16] p-6 text-white sm:p-8"
+          className="keep-white mt-6 rounded-3xl border border-white/15 bg-[#071A3D] p-6 text-white shadow-xl shadow-black/10 sm:p-8"
         >
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-start gap-3">

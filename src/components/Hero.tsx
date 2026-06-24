@@ -21,24 +21,24 @@ export default function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
 
   return (
-    <section ref={containerRef} className="hero-section relative overflow-hidden bg-[#2b1d16] lg:flex lg:min-h-screen lg:items-center">
+    <section ref={containerRef} className="hero-section relative overflow-hidden bg-[#071A3D] lg:flex lg:min-h-screen lg:items-center">
       <motion.div className="absolute inset-0 hidden lg:block" style={{ y }}>
         <img
           src="/images/hero-dog-van.jpg"
           alt="Happy dog standing beside a mobile dog fitness van on a sunny neighbourhood street"
           className="h-full w-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(37,23,14,0.86)_0%,rgba(37,23,14,0.58)_45%,rgba(37,23,14,0.08)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.24)_0%,transparent_34%,rgba(37,23,14,0.34)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,26,61,0.92)_0%,rgba(15,61,145,0.70)_48%,rgba(7,26,61,0.10)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,26,61,0.35)_0%,transparent_34%,rgba(7,26,61,0.42)_100%)]" />
       </motion.div>
 
-      <div className="relative z-0 block bg-[#fffaf2] pt-20 lg:hidden">
+      <div className="relative z-0 block bg-[#071A3D] pt-20 lg:hidden">
         <img
           src="/images/hero-dog-van.jpg"
           alt="Happy dog standing beside a mobile dog fitness van on a sunny neighbourhood street"
           className="h-auto w-full object-contain"
         />
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-[#2b1d16]" />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-[#071A3D]" />
       </div>
 
       <motion.div
@@ -50,7 +50,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.15 }}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/90 px-4 py-2 text-sm font-semibold text-[#5b3824] shadow-lg"
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white px-4 py-2 text-sm font-semibold text-[#0F3D91] shadow-lg"
           >
             <Heart className="h-4 w-4 fill-[#f97316] text-[#f97316]" />
             Fitness that fits your dog's life
@@ -131,18 +131,18 @@ export default function Hero() {
         initial={{ opacity: 0, x: 40 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 0.85 }}
-        className="friendly-card absolute bottom-10 right-8 z-10 hidden w-72 rounded-2xl border border-white/70 bg-white/94 p-5 text-[#2b1d16] shadow-2xl backdrop-blur lg:block"
+        className="friendly-card absolute bottom-10 right-8 z-10 hidden w-72 rounded-2xl border border-white/70 bg-white/95 p-5 text-[#071A3D] shadow-2xl backdrop-blur lg:block"
       >
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#8d7565]">Dog-approved care</p>
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#1557B7]">Dog-approved care</p>
             <p className="mt-1 font-display text-xl font-bold">Built around their pace</p>
           </div>
-          <div className="rounded-xl bg-[#e8f7ec] p-2.5 text-[#16803a]">
+          <div className="rounded-xl bg-[#EAF2FF] p-2.5 text-[#0F3D91]">
             <PawPrint className="h-6 w-6" />
           </div>
         </div>
-        <div className="mt-4 flex items-center gap-2 rounded-xl bg-[#fff2de] p-3">
+        <div className="mt-4 flex items-center gap-2 rounded-xl bg-[#FFF7ED] p-3">
           <div className="flex gap-0.5">
             {[0, 1, 2, 3, 4].map((value) => (
               <Star key={value} className="h-4 w-4 fill-[#f59e0b] text-[#f59e0b]" />
@@ -150,7 +150,7 @@ export default function Hero() {
           </div>
           <span className="text-sm font-semibold">Friendly, focused sessions</span>
         </div>
-        <p className="mt-4 text-sm leading-relaxed text-[#6f5848]">
+        <p className="mt-4 text-sm leading-relaxed text-[#315B96]">
           Dog-powered movement, calm handling, and no pressure to go faster than they are ready for.
         </p>
       </motion.div>

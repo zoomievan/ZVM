@@ -12,7 +12,7 @@ const plans = [
     period: 'trial session',
     description: 'A gentle first visit to see how your dog takes to the setup.',
     features: ['30-minute supervised run', 'Handler introduction', 'Post-session notes', 'No subscription needed'],
-    accent: 'bg-[#dff3ff]',
+    accent: 'bg-[#EAF2FF]',
     popular: false,
   },
   {
@@ -21,7 +21,7 @@ const plans = [
     period: 'per session',
     description: 'A steady energy outlet for dogs who thrive with consistency.',
     features: ['Recurring weekly slot', 'Progress notes', 'Priority rescheduling', 'Multi-dog savings'],
-    accent: 'bg-[#e8f7ec]',
+    accent: 'bg-[#FFF7ED]',
     popular: true,
   },
   {
@@ -30,7 +30,7 @@ const plans = [
     period: 'per session',
     description: 'Flexible prepaid visits for busy owners and changing schedules.',
     features: ['8 prepaid sessions', 'Flexible booking', 'Same route preference', 'Best session rate'],
-    accent: 'bg-[#fff2de]',
+    accent: 'bg-[#D6E6FF]',
     popular: false,
   },
 ];
@@ -80,8 +80,8 @@ export default function BookNow() {
 
   return (
     <section id="book-now" className="relative overflow-hidden py-16 lg:py-24" ref={ref}>
-      <div className="absolute bottom-10 left-0 h-80 w-80 rounded-full bg-[#e8f7ec] blur-3xl" />
-      <div className="absolute right-0 top-20 h-96 w-96 rounded-full bg-[#dff3ff] blur-3xl" />
+      <div className="absolute bottom-10 left-0 h-80 w-80 rounded-full bg-brand-500/18 blur-3xl" />
+      <div className="absolute right-0 top-20 h-96 w-96 rounded-full bg-[#1557B7]/45 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -90,14 +90,14 @@ export default function BookNow() {
           transition={{ duration: 0.6 }}
           className="mx-auto max-w-3xl text-center"
         >
-          <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-brand-600 shadow-sm">
+          <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-[#0F3D91] shadow-sm">
             <Heart className="h-4 w-4" />
             Start with one happy run
           </span>
-          <h2 className="font-display text-3xl font-bold leading-tight text-[#2b1d16] sm:text-4xl lg:text-5xl">
+          <h2 className="font-display text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
             Pick the routine that fits your dog.
           </h2>
-          <p className="mt-5 text-lg leading-relaxed text-[#6f5848]">
+          <p className="mt-5 text-lg leading-relaxed text-white/78">
             Start with a trial or build a weekly outlet for the dog who always has a little more to give.
           </p>
         </motion.div>
@@ -115,7 +115,7 @@ export default function BookNow() {
                 type="button"
                 onClick={() => setSelectedPlan(index)}
                 className={`friendly-card relative overflow-hidden rounded-3xl border bg-white p-5 text-left transition hover:-translate-y-1 ${
-                  selectedPlan === index ? 'border-brand-400 ring-4 ring-brand-500/10' : 'border-[#ead8c6]'
+                  selectedPlan === index ? 'border-brand-400 ring-4 ring-brand-500/20' : 'border-white/20'
                 }`}
               >
                 {plan.popular && (
@@ -123,20 +123,20 @@ export default function BookNow() {
                     Most loved
                   </div>
                 )}
-                <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl ${plan.accent} text-[#2b1d16]`}>
+                <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl ${plan.accent} text-[#0F3D91]`}>
                   <CalendarDays className="h-6 w-6" />
                 </div>
                 <div className="flex items-end gap-3">
-                  <h3 className="font-display text-xl font-bold text-[#2b1d16]">{plan.name}</h3>
-                  <div className="mb-0.5 text-sm text-[#8d7565]">
+                  <h3 className="font-display text-xl font-bold text-[#071A3D]">{plan.name}</h3>
+                  <div className="mb-0.5 text-sm text-[#315B96]">
                     <span className="font-display text-3xl font-bold text-brand-600">${plan.price}</span> {plan.period}
                   </div>
                 </div>
-                <p className="mt-2 text-sm leading-relaxed text-[#6f5848]">{plan.description}</p>
+                <p className="mt-2 text-sm leading-relaxed text-[#315B96]">{plan.description}</p>
                 <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-2">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-xs font-semibold text-[#4d392d]">
-                      <Check className="h-4 w-4 shrink-0 text-[#16a34a]" />
+                    <li key={feature} className="flex items-center gap-2 text-xs font-semibold text-[#071A3D]">
+                      <Check className="h-4 w-4 shrink-0 text-brand-500" />
                       {feature}
                     </li>
                   ))}
@@ -149,28 +149,28 @@ export default function BookNow() {
             initial={{ opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.18 }}
-            className="friendly-card overflow-hidden rounded-3xl border border-[#ead8c6] bg-white shadow-xl shadow-[#513a2a]/5"
+            className="friendly-card overflow-hidden rounded-3xl border border-white/20 bg-white shadow-xl shadow-black/10"
           >
-            <div className="border-b border-[#ead8c6] bg-[#fffaf2] p-5">
+            <div className="border-b border-[#D6E6FF] bg-[#EAF2FF] p-5">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-display text-xl font-bold text-[#2b1d16]">Preview a pickup window</h3>
-                  <p className="mt-1 flex items-center gap-1 text-sm text-[#6f5848]">
+                  <h3 className="font-display text-xl font-bold text-[#071A3D]">Preview a pickup window</h3>
+                  <p className="mt-1 flex items-center gap-1 text-sm text-[#315B96]">
                     <MapPin className="h-4 w-4 text-brand-500" /> Example route: M5V, GTA Downtown
                   </p>
                 </div>
                 <div className="flex gap-1">
-                  <button className="rounded-xl border border-[#ead8c6] bg-white p-2 text-[#6f5848] transition hover:text-brand-600" aria-label="Previous week">
+                  <button className="rounded-xl border border-[#D6E6FF] bg-white p-2 text-[#315B96] transition hover:text-brand-600" aria-label="Previous week">
                     <ChevronLeft className="h-4 w-4" />
                   </button>
-                  <button className="rounded-xl border border-[#ead8c6] bg-white p-2 text-[#6f5848] transition hover:text-brand-600" aria-label="Next week">
+                  <button className="rounded-xl border border-[#D6E6FF] bg-white p-2 text-[#315B96] transition hover:text-brand-600" aria-label="Next week">
                     <ChevronRight className="h-4 w-4" />
                   </button>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-7 gap-1 border-b border-[#ead8c6] p-3">
+            <div className="grid grid-cols-7 gap-1 border-b border-[#D6E6FF] p-3">
               {days.map((day, index) => (
                 <button
                   key={day}
@@ -179,7 +179,7 @@ export default function BookNow() {
                   className={`flex flex-col items-center rounded-xl py-2 transition ${
                     selectedDay === index
                       ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20'
-                      : 'text-[#6f5848] hover:bg-[#fff2de]'
+                      : 'text-[#315B96] hover:bg-[#EAF2FF]'
                   }`}
                 >
                   <span className="text-[10px] font-bold">{day}</span>
@@ -206,10 +206,10 @@ export default function BookNow() {
                     onClick={() => setSelectedSlot(index)}
                     className={`w-full rounded-2xl border p-3 text-left transition ${
                       selectedSlot === index
-                        ? 'border-brand-400 bg-brand-50 text-[#2b1d16]'
+                        ? 'border-brand-400 bg-brand-50 text-[#071A3D]'
                         : slot.available
-                          ? 'border-[#ead8c6] bg-white text-[#4d392d] hover:border-brand-300'
-                          : 'cursor-not-allowed border-[#ead8c6] bg-[#f7eee4] text-[#a08b7b]'
+                          ? 'border-[#D6E6FF] bg-white text-[#071A3D] hover:border-brand-300'
+                          : 'cursor-not-allowed border-[#D6E6FF] bg-[#EAF2FF] text-[#7E9ED2]'
                     }`}
                   >
                     <div className="flex items-center justify-between gap-3">
@@ -218,9 +218,9 @@ export default function BookNow() {
                         <span className="text-sm font-bold">{slot.time}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-[#8d7565]">{slot.van} route</span>
+                        <span className="text-xs text-[#315B96]">{slot.van} route</span>
                         <span className={`rounded-full px-2 py-1 text-[10px] font-black uppercase tracking-[0.08em] ${
-                          slot.available ? 'bg-[#e8f7ec] text-[#16743c]' : 'bg-[#ead8c6] text-[#8d7565]'
+                          slot.available ? 'bg-[#EAF2FF] text-[#0F3D91]' : 'bg-[#D6E6FF] text-[#315B96]'
                         }`}>
                           {slot.available ? (selectedSlot === index ? 'Selected' : 'Open') : 'Booked'}
                         </span>
@@ -247,15 +247,15 @@ export default function BookNow() {
             Book a first run
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </button>
-          <p className="mt-3 text-sm text-[#6f5848]">
+          <p className="mt-3 text-sm text-white/75">
             No credit card required to create an account. Start with a trial session.
           </p>
 
           <div className="mt-7 flex flex-wrap justify-center gap-6">
             {trustSignals.map((signal) => (
               <div key={signal.label} className="text-center">
-                <p className="font-display text-2xl font-bold text-[#2b1d16]">{signal.number}</p>
-                <p className="text-xs font-semibold uppercase tracking-[0.1em] text-[#8d7565]">{signal.label}</p>
+                <p className="font-display text-2xl font-bold text-white">{signal.number}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.1em] text-white/65">{signal.label}</p>
               </div>
             ))}
           </div>
