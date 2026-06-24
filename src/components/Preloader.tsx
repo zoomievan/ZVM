@@ -8,7 +8,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    v.playbackRate = 1.5;
+    v.playbackRate = 2.0;
 
     const onTime = () => {
       if (v.duration) setProgress((v.currentTime / v.duration) * 100);
