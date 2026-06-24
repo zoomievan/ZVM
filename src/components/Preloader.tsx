@@ -47,12 +47,11 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             muted
             playsInline
             className="h-full w-full object-cover opacity-25"
-            style={{ objectPosition: 'center 35%' }}
+            style={{ objectPosition: 'center 35%', clipPath: 'polygon(0 0, 100% 0, 100% 85%, 82% 85%, 82% 100%, 0 100%)' }}
           >
             <source src="/loader.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(7,26,61,0.96),rgba(15,61,145,0.74),rgba(249,115,22,0.18))]" />
-          <div className="absolute bottom-0 right-0 h-16 w-48 bg-gradient-to-tl from-[#071A3D] via-[#071A3D] to-transparent" />
         </div>
 
         <div className="relative z-10 flex w-full max-w-[220px] flex-col items-center px-4 text-center lg:hidden">
