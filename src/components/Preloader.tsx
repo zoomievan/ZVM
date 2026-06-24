@@ -51,7 +51,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           >
             <source src="/loader.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(7,26,61,0.96),rgba(15,61,145,0.74),rgba(249,115,22,0.18))]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(15,61,145,0.35),rgba(7,26,61,0.98)_70%)]" />
         </div>
 
         <div className="relative z-10 flex w-full max-w-[220px] flex-col items-center px-4 text-center lg:hidden">
