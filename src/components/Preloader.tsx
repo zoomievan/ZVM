@@ -8,7 +8,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
 
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.playbackRate = 2.5;
+      videoRef.current.playbackRate = 1;
     }
   }, []);
 
@@ -45,11 +45,12 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             ref={videoRef}
             autoPlay
             muted
+            loop
             playsInline
             className="h-full w-full object-cover opacity-25"
             style={{ objectPosition: 'center 35%' }}
           >
-            <source src="/loader.mp4" type="video/mp4" />
+            <source src="/loader-clean.webm" type="video/webm" />
           </video>
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(7,26,61,0.96),rgba(15,61,145,0.74),rgba(249,115,22,0.18))]" />
         </div>
