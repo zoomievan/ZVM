@@ -10,17 +10,29 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
     if (!v) return;
     v.playbackRate = 2.0;
 
-    const onTime = () => {
-      if (v.duration) setProgress((v.currentTime / v.duration) * 100);
-    };
-    const onEnd = () => {
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
       setProgress(100);
       setTimeout(onComplete, 400);
     };
 
+    const onTime = () => {
+      if (v.duration) setProgress((v.currentTime / v.duration) * 100);
+    };
+    const onEnd = () => finish();
+
     v.addEventListener('timeupdate', onTime);
     v.addEventListener('ended', onEnd);
-    return () => { v.removeEventListener('timeupdate', onTime); v.removeEventListener('ended', onEnd); };
+
+    const timer = setTimeout(finish, 3000);
+
+    return () => {
+      clearTimeout(timer);
+      v.removeEventListener('timeupdate', onTime);
+      v.removeEventListener('ended', onEnd);
+    };
   }, [onComplete]);
 
   return (
