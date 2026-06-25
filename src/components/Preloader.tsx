@@ -30,7 +30,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         exit={{ opacity: 0, scale: 1.05 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="absolute inset-0 hidden items-center justify-center overflow-hidden lg:flex">
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden opacity-0 lg:opacity-100">
           <video
             ref={videoRef}
             autoPlay
