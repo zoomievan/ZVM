@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AuthProvider } from './lib/auth';
@@ -15,6 +15,7 @@ import LegalPage from './pages/LegalPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import ProductionReadinessGate from './components/ProductionReadinessGate';
 import { isProductionBackendReady, isProductionBuild } from './lib/runtime';
+import LandingSkeleton from './components/LandingSkeleton';
 
 const Hero = lazy(() => import('./components/Hero'));
 const WhyZoomieVan = lazy(() => import('./components/WhyZoomieVan'));
@@ -24,27 +25,33 @@ const Testimonials = lazy(() => import('./components/Testimonials'));
 const CTA = lazy(() => import('./components/CTA'));
 const Footer = lazy(() => import('./components/Footer'));
 
-function SectionLoader() {
-  return (
-    <div className="flex items-center justify-center py-20">
-      <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
-    </div>
-  );
-}
+const landingModules = Promise.all([
+  Hero, WhyZoomieVan, HowItWorks, BookNow, Testimonials, CTA, Footer,
+].map((loader) => loader()));
 
 function LandingPage() {
   const [isLoading, setIsLoading] = useState(true);
+  const [modulesReady, setModulesReady] = useState(false);
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
     const img = new Image();
     img.src = '/images/hero-dog-van.jpg';
+    landingModules.then(() => setModulesReady(true));
   }, []);
 
   const handlePreloaderComplete = () => {
     setIsLoading(false);
-    setTimeout(() => setShowContent(true), 100);
+    if (modulesReady) {
+      setTimeout(() => setShowContent(true), 100);
+    }
   };
+
+  useEffect(() => {
+    if (modulesReady && !isLoading) {
+      setTimeout(() => setShowContent(true), 100);
+    }
+  }, [modulesReady, isLoading]);
 
   useEffect(() => {
     if (showContent && window.location.hash) {
@@ -61,6 +68,8 @@ function LandingPage() {
         {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
       </AnimatePresence>
 
+      {!isLoading && !showContent && <LandingSkeleton />}
+
       {showContent && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -70,13 +79,13 @@ function LandingPage() {
           <ScrollProgress />
           <Navbar />
 
-          <Suspense fallback={<SectionLoader />}><Hero /></Suspense>
-          <Suspense fallback={<SectionLoader />}><WhyZoomieVan /></Suspense>
-          <Suspense fallback={<SectionLoader />}><HowItWorks /></Suspense>
-          <Suspense fallback={<SectionLoader />}><BookNow /></Suspense>
-          <Suspense fallback={<SectionLoader />}><Testimonials /></Suspense>
-          <Suspense fallback={<SectionLoader />}><CTA /></Suspense>
-          <Suspense fallback={<SectionLoader />}><Footer /></Suspense>
+          <Hero />
+          <WhyZoomieVan />
+          <HowItWorks />
+          <BookNow />
+          <Testimonials />
+          <CTA />
+          <Footer />
         </motion.div>
       )}
     </div>
