@@ -23,8 +23,8 @@ const steps = [
   },
   {
     icon: Activity,
-    title: 'Your dog runs at their pace',
-    description: 'The slatmill is dog-powered, supervised, and followed by simple notes you can actually use.',
+    title: 'They control the pace',
+    description: 'The non-motorized slat mill moves only when your dog moves, creating a natural supervised run.',
     image: '/images/how-slatmill-run.jpg',
   },
 ];
@@ -49,10 +49,11 @@ export default function HowItWorks() {
             Four simple steps
           </span>
           <h2 className="font-display text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-            From booking to a happily tired dog.
+            From booking to a safe, dog-led workout.
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-white/78">
-            The whole service is designed to feel easy for owners and calm for dogs.
+            The whole service is designed to feel easy for owners, controlled for handlers,
+            and positive for dogs.
           </p>
         </motion.div>
 
@@ -90,9 +91,9 @@ export default function HowItWorks() {
           className="mt-8 grid gap-4 rounded-3xl border border-white/20 bg-white/10 p-5 shadow-xl shadow-black/10 backdrop-blur md:grid-cols-3"
         >
           {[
-            { icon: Home, label: 'Door-to-door convenience', text: 'No car rides, waiting rooms, or packed dog parks.' },
-            { icon: MessageSquareText, label: 'Useful session notes', text: 'See how your dog did and what the handler noticed.' },
-            { icon: Activity, label: 'Fitness without force', text: 'The dog-powered slatmill lets your dog control the pace.' },
+            { icon: Home, label: 'Fitness that fits your schedule', text: 'No driving, no waiting, and no crowded facilities.' },
+            { icon: MessageSquareText, label: 'Personalized goals', text: 'Sessions can support endurance, healthy weight, activity, or confidence.' },
+            { icon: Activity, label: 'Why a slat mill?', text: 'Unlike motorized treadmills, the belt moves only when your dog chooses to move.' },
           ].map(({ icon: Icon, label, text }) => (
             <div key={label} className="flex gap-3 rounded-2xl bg-white p-4">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#EAF2FF] text-[#0F3D91]">

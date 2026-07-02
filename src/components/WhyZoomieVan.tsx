@@ -13,18 +13,18 @@ import {
 const useCases = [
   {
     icon: Building2,
-    title: 'Apartment dogs',
-    description: 'A focused outlet when elevators, sidewalks, and busy streets make long runs hard.',
+    title: 'Delivered to your door',
+    description: 'No driving, waiting rooms, or crowded facilities. The professional fitness van comes to your home.',
   },
   {
     icon: Zap,
-    title: 'High-energy breeds',
-    description: 'Structured movement for dogs who need more than a quick lap around the block.',
+    title: 'Personalized workouts',
+    description: 'Each session is tailored to age, breed, fitness level, energy level, and individual goals.',
   },
   {
     icon: CloudRain,
-    title: 'Bad-weather days',
-    description: 'Keep the routine going through rain, heat, snow, and packed owner schedules.',
+    title: 'Climate-controlled comfort',
+    description: 'High-performance air conditioning keeps the van comfortable through rain, shine, heat, or snow.',
   },
   {
     icon: HeartPulse,
@@ -62,11 +62,11 @@ export default function WhyZoomieVan() {
               Designed for real dog energy
             </span>
             <h2 className="font-display text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-              For dogs who need more than another walk around the block.
+              Safe, structured exercise for healthier, happier dogs.
             </h2>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/78">
-              ZoomieVan gives owners a calm, professional way to help dogs burn energy,
-              build confidence, and come home ready to settle.
+              Every dog deserves access to safe, structured exercise that supports a healthy,
+              active lifestyle. ZoomieVan brings that care directly to your home.
             </p>
           </motion.div>
 
@@ -85,8 +85,8 @@ export default function WhyZoomieVan() {
                   Safe, kind, and built around your dog.
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-white/75">
-                  Each session is handled at your dog's pace with human supervision,
-                  calm introductions, and clear post-session notes.
+                  Every workout is tailored to your dog's age, breed, fitness level,
+                  energy level, and individual goals, with human supervision from start to finish.
                 </p>
               </div>
             </div>
@@ -134,8 +134,8 @@ export default function WhyZoomieVan() {
                 The owner promise
               </div>
               <p className="mt-5 max-w-2xl font-display text-2xl font-bold leading-snug sm:text-3xl">
-                We bring the energy outlet to your curb, so your dog gets a
-                better day without your day falling apart.
+                Our mission is to help dogs live healthier, happier, and more active lives
+                through convenient, supervised mobile fitness.
               </p>
               <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold text-white/80">
                 <span className="rounded-full bg-white/10 px-4 py-2">Less pent-up energy</span>

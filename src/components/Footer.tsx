@@ -37,8 +37,8 @@ export default function Footer() {
               <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-8 w-auto" />
             </div>
             <p className="text-sm text-dark-300 leading-relaxed max-w-xs">
-              Canada's first mobile canine fitness service. Professional slatmill workouts delivered
-              directly to your neighbourhood.
+              Mobile canine fitness delivered to your door. Safe, supervised slat mill sessions
+              in fully equipped, climate-controlled vans.
             </p>
             <div className="space-y-3 text-sm text-dark-300">
               <div className="flex items-center gap-2">
@@ -95,7 +95,7 @@ export default function Footer() {
             &copy; 2025 ZoomieVan Inc. All rights reserved. Proudly Canadian.
           </p>
           <div className="flex items-center gap-4">
-            <span className="text-xs text-dark-500">Safe, supervised mobile dog fitness.</span>
+            <span className="text-xs text-dark-500">Built for health. Born to zoom.</span>
           </div>
         </div>
       </div>

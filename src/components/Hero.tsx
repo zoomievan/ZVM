@@ -53,7 +53,7 @@ export default function Hero() {
             className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white px-4 py-2 text-sm font-semibold text-[#0F3D91] shadow-lg"
           >
             <Heart className="h-4 w-4 fill-[#f97316] text-[#f97316]" />
-            Fitness that fits your dog's life
+            Build for health. Born to zoom.
           </motion.div>
 
           <motion.h1
@@ -62,8 +62,8 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.25 }}
             className="font-display text-4xl font-bold leading-[1.05] text-white sm:text-5xl lg:text-7xl"
           >
-            Happy dogs start with a{' '}
-            <span className="text-[#ffb24b]">great run.</span>
+            Mobile canine fitness,{' '}
+            <span className="text-[#ffb24b]">delivered to your door.</span>
           </motion.h1>
 
           <motion.p
@@ -72,8 +72,8 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.4 }}
             className="mt-5 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg lg:text-xl"
           >
-            ZoomieVan brings a safe, supervised dog gym right to your neighbourhood,
-            giving busy owners an easier way to keep energetic dogs healthy and fulfilled.
+            Professional one-on-one canine fitness sessions in fully equipped,
+            climate-controlled mobile vans, built around your dog's pace, comfort, and goals.
           </motion.p>
 
           <motion.div
@@ -151,7 +151,8 @@ export default function Hero() {
           <span className="text-sm font-semibold">Friendly, focused sessions</span>
         </div>
         <p className="mt-4 text-sm leading-relaxed text-[#315B96]">
-          Dog-powered movement, calm handling, and no pressure to go faster than they are ready for.
+          A non-motorized slat mill moves only when your dog moves, creating a natural,
+          dog-controlled run with every session closely supervised.
         </p>
       </motion.div>
     </section>

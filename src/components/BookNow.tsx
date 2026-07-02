@@ -10,8 +10,8 @@ const plans = [
     name: 'First Run',
     price: 49,
     period: 'trial session',
-    description: 'A gentle first visit to see how your dog takes to the setup.',
-    features: ['30-minute supervised run', 'Handler introduction', 'Post-session notes', 'No subscription needed'],
+    description: 'A gentle first visit to understand your dog, goals, and comfort with the setup.',
+    features: ['30-minute supervised run', 'Handler introduction', 'Dog-led pace', 'No subscription needed'],
     accent: 'bg-[#EAF2FF]',
     popular: false,
   },
@@ -19,8 +19,8 @@ const plans = [
     name: 'Weekly Routine',
     price: 39,
     period: 'per session',
-    description: 'A steady energy outlet for dogs who thrive with consistency.',
-    features: ['Recurring weekly slot', 'Progress notes', 'Priority rescheduling', 'Multi-dog savings'],
+    description: 'A steady, structured fitness plan for dogs who thrive with consistency.',
+    features: ['Recurring weekly slot', 'Progress notes', 'Personalized goals', 'Priority rescheduling'],
     accent: 'bg-[#FFF7ED]',
     popular: true,
   },
@@ -29,7 +29,7 @@ const plans = [
     price: 34,
     period: 'per session',
     description: 'Flexible prepaid visits for busy owners and changing schedules.',
-    features: ['8 prepaid sessions', 'Flexible booking', 'Same route preference', 'Best session rate'],
+    features: ['8 prepaid sessions', 'Flexible booking', 'Climate-controlled van', 'Best session rate'],
     accent: 'bg-[#D6E6FF]',
     popular: false,
   },
@@ -95,10 +95,11 @@ export default function BookNow() {
             Start with one happy run
           </span>
           <h2 className="font-display text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-            Pick the routine that fits your dog.
+            Pick the fitness routine that fits your dog.
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-white/78">
-            Start with a trial or build a weekly outlet for the dog who always has a little more to give.
+            Start with a trial or build a personalized exercise routine for your dog's health,
+            energy level, and schedule.
           </p>
         </motion.div>
 

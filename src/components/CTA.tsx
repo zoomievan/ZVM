@@ -23,22 +23,22 @@ export default function CTA() {
         >
           <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-[#0F3D91] shadow-sm">
             <CalendarHeart className="h-4 w-4" />
-            A healthier routine, delivered
+            Built for health. Born to zoom.
           </div>
 
           <h2 className="mt-6 font-display text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
-            More movement. Less mischief.{' '}
-            <span className="text-[#FFB24B]">Happier days.</span>
+            Professional canine fitness,{' '}
+            <span className="text-[#FFB24B]">without leaving home.</span>
           </h2>
 
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/78">
-            Give your dog a focused workout without rearranging your whole day.
-            We bring the gym, the handler, and the energy outlet to you.
+            We bring expert care, premium equipment, and personalized exercise programs
+            directly to your door, so your dog can stay active year-round.
           </p>
 
           <div className="mt-7 grid gap-3 text-sm font-semibold text-white/86 sm:grid-cols-2">
-            <div className="flex items-center gap-2"><CheckCircle2 className="h-5 w-5 text-[#FFB24B]" /> Supervised sessions</div>
-            <div className="flex items-center gap-2"><CheckCircle2 className="h-5 w-5 text-[#FFB24B]" /> Built around your dog</div>
+            <div className="flex items-center gap-2"><CheckCircle2 className="h-5 w-5 text-[#FFB24B]" /> Supervised, dog-led sessions</div>
+            <div className="flex items-center gap-2"><CheckCircle2 className="h-5 w-5 text-[#FFB24B]" /> Climate-controlled comfort</div>
           </div>
 
           <div className="mt-9 flex flex-wrap gap-3">
