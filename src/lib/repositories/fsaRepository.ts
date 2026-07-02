@@ -1,5 +1,6 @@
 import { getItem, setItem, generateId } from '../db';
 import { FSARecord } from '../types';
+import { api, convex } from '../convexClient';
 
 const KEY = 'fsa_zones';
 
@@ -12,6 +13,7 @@ const DEFAULT_ZONES: FSARecord[] = [
 ];
 
 export async function getAllZones(): Promise<FSARecord[]> {
+  if (convex) return convex.query(api.fsaZones.list);
   await new Promise(r => setTimeout(r, 60));
   const stored = getItem<FSARecord[]>(KEY);
   if (!stored || stored.length === 0) {
@@ -22,6 +24,7 @@ export async function getAllZones(): Promise<FSARecord[]> {
 }
 
 export async function addZone(zone: Omit<FSARecord, 'id' | 'createdAt'>): Promise<FSARecord> {
+  if (convex) return convex.mutation(api.fsaZones.add, { zone });
   await new Promise(r => setTimeout(r, 100));
   const zones = await getAllZones();
   const newZone: FSARecord = { ...zone, id: generateId(), createdAt: new Date().toISOString() };
@@ -31,6 +34,7 @@ export async function addZone(zone: Omit<FSARecord, 'id' | 'createdAt'>): Promis
 }
 
 export async function updateZone(id: string, updates: Partial<FSARecord>): Promise<FSARecord> {
+  if (convex) return convex.mutation(api.fsaZones.update, { id: id as any, updates });
   await new Promise(r => setTimeout(r, 80));
   const zones = await getAllZones();
   const idx = zones.findIndex(z => z.id === id);
@@ -41,6 +45,7 @@ export async function updateZone(id: string, updates: Partial<FSARecord>): Promi
 }
 
 export async function deleteZone(id: string): Promise<void> {
+  if (convex) return convex.mutation(api.fsaZones.remove, { id: id as any });
   await new Promise(r => setTimeout(r, 60));
   const zones = await getAllZones();
   setItem(KEY, zones.filter(z => z.id !== id));

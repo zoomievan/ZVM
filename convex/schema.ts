@@ -19,18 +19,28 @@ const dogProfile = v.object({
   weight: v.number(),
   age: v.number(),
   energyLevel: v.string(),
-  reactivityNotes: v.optional(v.string()),
+  reactivityNotes: v.string(),
+});
+
+const vaccineProfile = v.object({
+  rabiesFileName: v.string(),
+  dhppFileName: v.string(),
+  vetName: v.string(),
+  vetPhone: v.string(),
 });
 
 export default defineSchema({
   users: defineTable({
     authProviderUserId: v.optional(v.string()),
     email: v.string(),
+    passwordHash: v.string(),
+    passwordSalt: v.string(),
     name: v.string(),
-    phone: v.optional(v.string()),
+    phone: v.string(),
     role: v.union(v.literal("customer"), v.literal("admin")),
     address,
-    dog: v.optional(dogProfile),
+    dog: dogProfile,
+    vaccines: vaccineProfile,
     legalAccepted: v.boolean(),
     legalAcceptedAt: v.optional(v.number()),
     ...timestampFields,
@@ -76,7 +86,7 @@ export default defineSchema({
 
   bookings: defineTable({
     userId: v.optional(v.id("users")),
-    vanId: v.optional(v.id("fleetVans")),
+    vanId: v.optional(v.string()),
     fsa: v.string(),
     customerName: v.string(),
     dogName: v.string(),

@@ -1,5 +1,6 @@
 import { getItem, setItem } from '../db';
 import { Booking } from '../types';
+import { api, convex } from '../convexClient';
 
 const KEY = 'bookings';
 
@@ -30,6 +31,7 @@ function generateSampleBookings(): Booking[] {
 }
 
 export async function getAllBookings(): Promise<Booking[]> {
+  if (convex) return convex.query(api.bookings.list);
   await new Promise(r => setTimeout(r, 80));
   const stored = getItem<Booking[]>(KEY);
   if (!stored || stored.length === 0) {

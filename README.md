@@ -4,9 +4,9 @@ React/Vite frontend for ZoomieVan, a mobile canine fitness service.
 
 ## Current State
 
-The app currently runs with a local demo data adapter backed by browser storage. Convex has been added as the intended production backend, but the production Convex deployment is not connected yet because the client-owned Convex account is not available.
+The app has a Convex-backed repository adapter for users, admin data, fleet records, FSA zones, vaccine records, bookings, and CMS settings. When `VITE_CONVEX_URL` is present, the app calls Convex. Without that variable, it falls back to the local demo browser-storage adapter for development.
 
-Do not treat the current demo adapter as production-safe. User accounts, admin data, bookings, fleet records, vaccine records, and CMS settings must move to Convex before a real launch.
+Do not treat the fallback demo adapter as production-safe. Production deployments must set the Convex environment variables and deploy the Convex backend before accepting real customer data.
 
 ## Commands
 
@@ -20,7 +20,7 @@ npm run check
 
 `npm run check` is the minimum local launch gate. GitHub Actions also runs typecheck, build, and a high-severity dependency audit on pushes to `main` and pull requests.
 
-## Convex Setup Later
+## Convex Setup
 
 Client project:
 
@@ -28,13 +28,18 @@ Client project:
 - Team slug from dashboard URL: `zoomievan87`
 - Project slug from dashboard URL: `zmv`
 
-When the Convex CLI is logged into an account with access to that team:
+Local `.env.local` should contain:
 
-1. Add the production values to Vercel and local `.env.local`.
-2. Set `VITE_CONVEX_URL`.
-3. Run `npm run convex:dev` locally to generate Convex types during development.
-4. Run `npm run convex:deploy` from CI or a controlled release machine.
-5. Replace the local repository adapter with Convex queries and mutations.
+```bash
+VITE_CONVEX_URL=https://proper-toad-507.convex.cloud
+CONVEX_DEPLOYMENT=dev:proper-toad-507
+```
+
+When the Convex CLI is logged into an account with access to that team, or when `CONVEX_DEPLOY_KEY` is configured in CI/Vercel:
+
+1. Add `VITE_CONVEX_URL`, `CONVEX_DEPLOYMENT`, and `CONVEX_DEPLOY_KEY` to Vercel.
+2. Run `npm run convex:deploy` from CI or a controlled release machine.
+3. Optionally run the demo seed mutation after the first deploy: `seed:demoData`.
 
 The local Convex CLI must be logged into a Convex account that can access the `zoomievan87` team, or a production deploy key must be configured in Vercel as `CONVEX_DEPLOY_KEY`.
 
@@ -45,7 +50,7 @@ Required environment variables are listed in `.env.example`.
 Before production launch, complete:
 
 - Server-side auth and admin authorization.
-- Convex persistence for users, dogs, bookings, CMS, fleet, FSAs, vaccines, and reports.
+- Convex deployment from an account or deploy key with access to `zoomievan87/zmv`.
 - Privacy policy, terms, liability waiver, retention/deletion policy, and support contact pages.
 - CI checks for typecheck, build, dependency audit, and tests.
 - Monitoring, rollback, and incident response.

@@ -17,16 +17,24 @@ import ProductionReadinessGate from './components/ProductionReadinessGate';
 import { isProductionBackendReady, isProductionBuild } from './lib/runtime';
 import LandingSkeleton from './components/LandingSkeleton';
 
-const Hero = lazy(() => import('./components/Hero'));
-const WhyZoomieVan = lazy(() => import('./components/WhyZoomieVan'));
-const HowItWorks = lazy(() => import('./components/HowItWorks'));
-const BookNow = lazy(() => import('./components/BookNow'));
-const Testimonials = lazy(() => import('./components/Testimonials'));
-const CTA = lazy(() => import('./components/CTA'));
-const Footer = lazy(() => import('./components/Footer'));
+const loadHero = () => import('./components/Hero');
+const loadWhyZoomieVan = () => import('./components/WhyZoomieVan');
+const loadHowItWorks = () => import('./components/HowItWorks');
+const loadBookNow = () => import('./components/BookNow');
+const loadTestimonials = () => import('./components/Testimonials');
+const loadCTA = () => import('./components/CTA');
+const loadFooter = () => import('./components/Footer');
+
+const Hero = lazy(loadHero);
+const WhyZoomieVan = lazy(loadWhyZoomieVan);
+const HowItWorks = lazy(loadHowItWorks);
+const BookNow = lazy(loadBookNow);
+const Testimonials = lazy(loadTestimonials);
+const CTA = lazy(loadCTA);
+const Footer = lazy(loadFooter);
 
 const landingModules = Promise.all([
-  Hero, WhyZoomieVan, HowItWorks, BookNow, Testimonials, CTA, Footer,
+  loadHero, loadWhyZoomieVan, loadHowItWorks, loadBookNow, loadTestimonials, loadCTA, loadFooter,
 ].map((loader) => loader()));
 
 function LandingPage() {

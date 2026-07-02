@@ -1,5 +1,6 @@
 import { getItem, setItem, generateId } from '../db';
 import { FleetVan } from '../types';
+import { api, convex } from '../convexClient';
 
 const KEY = 'fleet_vans';
 
@@ -11,6 +12,7 @@ const DEFAULT_VANS: FleetVan[] = [
 ];
 
 export async function getAllVans(): Promise<FleetVan[]> {
+  if (convex) return convex.query(api.fleet.list);
   await new Promise(r => setTimeout(r, 60));
   const stored = getItem<FleetVan[]>(KEY);
   if (!stored || stored.length === 0) {
@@ -21,6 +23,7 @@ export async function getAllVans(): Promise<FleetVan[]> {
 }
 
 export async function addVan(van: Omit<FleetVan, 'id' | 'sessionsToday' | 'totalSessions' | 'createdAt'>): Promise<FleetVan> {
+  if (convex) return convex.mutation(api.fleet.add, { van });
   await new Promise(r => setTimeout(r, 100));
   const vans = await getAllVans();
   const newVan: FleetVan = {
@@ -36,6 +39,7 @@ export async function addVan(van: Omit<FleetVan, 'id' | 'sessionsToday' | 'total
 }
 
 export async function updateVan(id: string, updates: Partial<FleetVan>): Promise<FleetVan> {
+  if (convex) return convex.mutation(api.fleet.update, { id: id as any, updates });
   await new Promise(r => setTimeout(r, 80));
   const vans = await getAllVans();
   const idx = vans.findIndex(v => v.id === id);
@@ -46,12 +50,14 @@ export async function updateVan(id: string, updates: Partial<FleetVan>): Promise
 }
 
 export async function deleteVan(id: string): Promise<void> {
+  if (convex) return convex.mutation(api.fleet.remove, { id: id as any });
   await new Promise(r => setTimeout(r, 50));
   const vans = await getAllVans();
   setItem(KEY, vans.filter(v => v.id !== id));
 }
 
 export async function incrementSession(id: string): Promise<FleetVan> {
+  if (convex) return convex.mutation(api.fleet.incrementSession, { id: id as any });
   const vans = await getAllVans();
   const idx = vans.findIndex(v => v.id === id);
   if (idx === -1) throw new Error('Van not found');

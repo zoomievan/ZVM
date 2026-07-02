@@ -1,5 +1,6 @@
 import { getItem, setItem, generateId } from '../db';
 import { VaccineRecord } from '../types';
+import { api, convex } from '../convexClient';
 
 const KEY = 'vaccine_queue';
 
@@ -10,6 +11,7 @@ const DEFAULT_VACCINES: VaccineRecord[] = [
 ];
 
 export async function getAllVaccines(): Promise<VaccineRecord[]> {
+  if (convex) return convex.query(api.vaccines.list);
   await new Promise(r => setTimeout(r, 60));
   const stored = getItem<VaccineRecord[]>(KEY);
   if (!stored || stored.length === 0) {
@@ -20,6 +22,7 @@ export async function getAllVaccines(): Promise<VaccineRecord[]> {
 }
 
 export async function addVaccine(record: Omit<VaccineRecord, 'id' | 'submittedAt' | 'status'>): Promise<VaccineRecord> {
+  if (convex) return convex.mutation(api.vaccines.add, { record });
   await new Promise(r => setTimeout(r, 80));
   const records = await getAllVaccines();
   const newRecord: VaccineRecord = {
@@ -34,6 +37,7 @@ export async function addVaccine(record: Omit<VaccineRecord, 'id' | 'submittedAt
 }
 
 export async function approveVaccine(id: string): Promise<VaccineRecord> {
+  if (convex) return convex.mutation(api.vaccines.approve, { id: id as any });
   await new Promise(r => setTimeout(r, 100));
   const records = await getAllVaccines();
   const idx = records.findIndex(r => r.id === id);
@@ -44,6 +48,7 @@ export async function approveVaccine(id: string): Promise<VaccineRecord> {
 }
 
 export async function rejectVaccine(id: string): Promise<VaccineRecord> {
+  if (convex) return convex.mutation(api.vaccines.reject, { id: id as any });
   await new Promise(r => setTimeout(r, 100));
   const records = await getAllVaccines();
   const idx = records.findIndex(r => r.id === id);
@@ -54,6 +59,7 @@ export async function rejectVaccine(id: string): Promise<VaccineRecord> {
 }
 
 export async function deleteVaccine(id: string): Promise<void> {
+  if (convex) return convex.mutation(api.vaccines.remove, { id: id as any });
   await new Promise(r => setTimeout(r, 50));
   const records = await getAllVaccines();
   setItem(KEY, records.filter(r => r.id !== id));
