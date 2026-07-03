@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Settings, MapPinned, ShieldCheck,
-  Truck, Receipt, ArrowLeft, Menu, X
+  Truck, Receipt, ArrowLeft, Menu, X, LogOut
 } from 'lucide-react';
+import { useAuth } from '../lib/auth';
 import AdminDashboard from './admin/Dashboard';
 import AdminCMSPanel from './admin/CMSPanel';
 import AdminFSAPanel from './admin/FSAPanel';
@@ -25,6 +26,7 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleTabClick = (id: string) => {
     setActiveTab(id);
@@ -43,8 +45,13 @@ export default function AdminPage() {
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
-    <div className="min-h-screen bg-dark-900 flex">
+    <div className="min-h-screen lg:h-screen bg-dark-900 flex lg:overflow-hidden">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
@@ -82,13 +89,20 @@ export default function AdminPage() {
             </button>
           ))}
         </nav>
-        <div className="p-3 border-t border-dark-600">
+        <div className="p-3 border-t border-dark-600 space-y-1">
           <button
             onClick={() => navigate('/')}
             className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-dark-400 hover:text-dark-200 rounded-xl hover:bg-dark-700/50 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Site
+          </button>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-dark-400 hover:text-red-300 rounded-xl hover:bg-red-500/10 transition-all"
+          >
+            <LogOut className="w-4 h-4" />
+            Sign Out
           </button>
         </div>
       </aside>
