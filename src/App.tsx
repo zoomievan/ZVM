@@ -14,6 +14,7 @@ import FAQPage from './pages/FAQPage';
 import LegalPage from './pages/LegalPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import ProductionReadinessGate from './components/ProductionReadinessGate';
+import AuthRedirect from './components/AuthRedirect';
 import { isProductionBackendReady, isProductionBuild } from './lib/runtime';
 import LandingSkeleton from './components/LandingSkeleton';
 
@@ -136,6 +137,7 @@ export default function App() {
         <Route path="/admin" element={<BackendRequired><ProtectedRoute requireAdmin><AdminPage /></ProtectedRoute></BackendRequired>} />
         <Route path="/login/*" element={<BackendRequired><PublicPageLayout><LoginPage /></PublicPageLayout></BackendRequired>} />
         <Route path="/signup/*" element={<BackendRequired><PublicPageLayout><SignupPage /></PublicPageLayout></BackendRequired>} />
+        <Route path="/auth/redirect" element={<BackendRequired><AuthRedirect /></BackendRequired>} />
         <Route path="/dashboard" element={<BackendRequired><ProtectedRoute><UserDashboard /></ProtectedRoute></BackendRequired>} />
         <Route path="/coverage" element={<PublicPageLayout><CoveragePage /></PublicPageLayout>} />
         <Route path="/faq" element={<PublicPageLayout><FAQPage /></PublicPageLayout>} />

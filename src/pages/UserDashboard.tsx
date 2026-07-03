@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { User, PawPrint, ShieldCheck, MapPinned, LogOut, Calendar, ChevronRight, Plus, X, Save, Loader2 } from 'lucide-react';
 import { useAuth } from '../lib/auth';
@@ -24,8 +24,11 @@ export default function UserDashboard() {
   }
 
   if (!user) {
-    navigate('/login', { replace: true });
-    return null;
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user.role === 'admin') {
+    return <Navigate to="/admin" replace />;
   }
 
   const handleLogout = () => {
