@@ -2,9 +2,68 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, ShieldCheck, Heart } from 'lucide-react';
+import { SignIn } from '@clerk/react';
 import { useAuth } from '../lib/auth';
 
 export default function LoginPage() {
+  if (import.meta.env.VITE_CLERK_PUBLISHABLE_KEY) {
+    return (
+      <main className="relative min-h-screen overflow-hidden px-4 pb-16 pt-32 sm:px-6 lg:px-8">
+        <div className="absolute left-0 top-24 h-80 w-80 rounded-full bg-brand-500/18 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-[#1557B7]/45 blur-3xl" />
+
+        <div className="relative mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <motion.section
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55 }}
+            className="hidden lg:block"
+          >
+            <span className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-[#0F3D91] shadow-sm">
+              <Heart className="h-4 w-4" />
+              Welcome back
+            </span>
+            <h1 className="font-display text-5xl font-bold leading-tight text-white">
+              Manage your dog's next happy run.
+            </h1>
+            <p className="mt-5 max-w-md text-lg leading-relaxed text-white/78">
+              Sign in with secure Clerk authentication to view bookings, session notes,
+              route updates, and your dog's ZoomieVan profile.
+            </p>
+            <div className="keep-white mt-8 rounded-3xl border border-white/15 bg-[#071A3D] p-6 text-white shadow-xl shadow-black/10">
+              <div className="flex items-start gap-3">
+                <div className="rounded-2xl bg-white/10 p-3 text-[#ffcf8a]">
+                  <ShieldCheck className="h-6 w-6" />
+                </div>
+                <div>
+                  <h2 className="font-display text-xl font-bold">Verified account access</h2>
+                  <p className="mt-1 text-sm leading-relaxed text-white/75">
+                    Clerk handles secure sessions and email verification before your profile connects to ZoomieVan.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.section>
+
+          <motion.section
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.08 }}
+            className="mx-auto flex w-full max-w-md justify-center"
+          >
+            <SignIn
+              routing="path"
+              path="/login"
+              signUpUrl="/signup"
+              forceRedirectUrl="/dashboard"
+              fallbackRedirectUrl="/dashboard"
+            />
+          </motion.section>
+        </div>
+      </main>
+    );
+  }
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPw, setShowPw] = useState(false);

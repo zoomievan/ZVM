@@ -41,6 +41,7 @@ const userPatch = {
 function userFromDoc(doc: any) {
   return {
     id: doc._id,
+    authProviderUserId: doc.authProviderUserId,
     email: doc.email,
     passwordHash: doc.passwordHash,
     passwordSalt: doc.passwordSalt,
@@ -83,8 +84,20 @@ export const getByEmail = query({
   },
 });
 
+export const getByAuthProviderUserId = query({
+  args: { authProviderUserId: v.string() },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_auth_provider_user_id", (q) => q.eq("authProviderUserId", args.authProviderUserId))
+      .first();
+    return user ? userFromDoc(user) : null;
+  },
+});
+
 export const create = mutation({
   args: {
+    authProviderUserId: v.optional(v.string()),
     email: v.string(),
     passwordHash: v.string(),
     passwordSalt: v.string(),

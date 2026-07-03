@@ -1,6 +1,12 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
-import { getUserByEmail, createUser, updateUser as updateUserRepo } from './repositories/userRepository';
-import { User } from './types';
+import { useClerk, useUser as useClerkUser } from '@clerk/react';
+import {
+  getUserByAuthProviderUserId,
+  getUserByEmail,
+  createUser,
+  updateUser as updateUserRepo,
+} from './repositories/userRepository';
+import { User, UserAddress, UserDog, UserVaccines } from './types';
 
 type SignupData = Omit<User, 'id' | 'createdAt' | 'passwordHash' | 'passwordSalt' | 'role'> & {
   password: string;
@@ -18,6 +24,11 @@ interface AuthContext {
 const AuthCtx = createContext<AuthContext | null>(null);
 
 const SESSION_KEY = 'zoomievan_session';
+const hasClerkConfig = Boolean(import.meta.env.VITE_CLERK_PUBLISHABLE_KEY);
+
+const emptyAddress: UserAddress = { line1: '', city: '', province: '', postalCode: '' };
+const emptyDog: UserDog = { name: '', breed: '', weight: 0, age: 0, energyLevel: '', reactivityNotes: '' };
+const emptyVaccines: UserVaccines = { rabiesFileName: '', dhppFileName: '', vetName: '', vetPhone: '' };
 
 function bytesToHex(bytes: ArrayBuffer): string {
   return Array.from(new Uint8Array(bytes))
@@ -36,7 +47,7 @@ async function hashDemoPassword(password: string, salt: string): Promise<string>
   return bytesToHex(await crypto.subtle.digest('SHA-256', data));
 }
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+function DemoAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -105,6 +116,106 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthCtx.Provider value={{ user, loading, login, signup, updateUser, logout }}>
       {children}
     </AuthCtx.Provider>
+  );
+}
+
+function ClerkBackedAuthProvider({ children }: { children: ReactNode }) {
+  const { isLoaded, isSignedIn, user: clerkUser } = useClerkUser();
+  const { signOut } = useClerk();
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function syncUser() {
+      if (!isLoaded) return;
+
+      if (!isSignedIn || !clerkUser) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      const email = clerkUser.primaryEmailAddress?.emailAddress ?? '';
+      const name = clerkUser.fullName || clerkUser.firstName || email.split('@')[0] || 'ZoomieVan customer';
+
+      let appUser = await getUserByAuthProviderUserId(clerkUser.id);
+
+      if (!appUser && email) {
+        appUser = await getUserByEmail(email);
+        if (appUser && !appUser.authProviderUserId) {
+          appUser = await updateUserRepo(appUser.id, { authProviderUserId: clerkUser.id });
+        }
+      }
+
+      if (!appUser) {
+        appUser = await createUser({
+          authProviderUserId: clerkUser.id,
+          email,
+          passwordHash: 'clerk-managed',
+          passwordSalt: 'clerk-managed',
+          role: 'customer',
+          name,
+          phone: clerkUser.primaryPhoneNumber?.phoneNumber ?? '',
+          address: emptyAddress,
+          dog: emptyDog,
+          vaccines: emptyVaccines,
+          legalAccepted: false,
+          legalAcceptedAt: null,
+        });
+      }
+
+      if (!cancelled) {
+        setUser(appUser);
+        setLoading(false);
+      }
+    }
+
+    syncUser().catch(() => {
+      if (!cancelled) {
+        setUser(null);
+        setLoading(false);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [clerkUser, isLoaded, isSignedIn]);
+
+  const login = useCallback(async () => {
+    return { success: false, error: 'Use the Clerk sign-in form.' };
+  }, []);
+
+  const signup = useCallback(async () => {
+    return { success: false, error: 'Use the Clerk sign-up form.' };
+  }, []);
+
+  const updateUser = useCallback(async (updates: Partial<User>) => {
+    if (!user) throw new Error('Not logged in');
+    const updated = await updateUserRepo(user.id, updates);
+    setUser(updated);
+  }, [user]);
+
+  const logout = useCallback(() => {
+    setUser(null);
+    void signOut({ redirectUrl: '/' });
+  }, [signOut]);
+
+  return (
+    <AuthCtx.Provider value={{ user, loading, login, signup, updateUser, logout }}>
+      {children}
+    </AuthCtx.Provider>
+  );
+}
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  return hasClerkConfig ? (
+    <ClerkBackedAuthProvider>{children}</ClerkBackedAuthProvider>
+  ) : (
+    <DemoAuthProvider>{children}</DemoAuthProvider>
   );
 }
 

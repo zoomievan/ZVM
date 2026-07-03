@@ -32,6 +32,7 @@ export const api = {
     list: makeFunctionReference<"query", Record<string, never>, any[]>("users:list"),
     getById: makeFunctionReference<"query", { id: any }, any>("users:getById"),
     getByEmail: makeFunctionReference<"query", { email: string }, any>("users:getByEmail"),
+    getByAuthProviderUserId: makeFunctionReference<"query", { authProviderUserId: string }, any>("users:getByAuthProviderUserId"),
     create: makeFunctionReference<"mutation", any, any>("users:create"),
     update: makeFunctionReference<"mutation", { id: any; updates: any }, any>("users:update"),
   },

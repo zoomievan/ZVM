@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { User, PenTool, Check, ChevronRight, ArrowLeft, Loader2, Eye, EyeOff, PawPrint, ShieldCheck } from 'lucide-react';
+import { SignUp } from '@clerk/react';
 import { useAuth } from '../lib/auth';
 import { UserAddress } from '../lib/types';
 
@@ -13,6 +14,56 @@ const steps = [
 const inputClass = 'h-11 w-full rounded-xl border border-[#D6E6FF] bg-[#EAF2FF] px-4 text-sm text-[#071A3D] placeholder:text-[#7E9ED2] focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20';
 
 export default function SignupPage() {
+  if (import.meta.env.VITE_CLERK_PUBLISHABLE_KEY) {
+    return (
+      <main className="relative min-h-screen overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-8">
+        <div className="absolute left-0 top-24 h-80 w-80 rounded-full bg-brand-500/18 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-[#1557B7]/45 blur-3xl" />
+
+        <div className="relative mx-auto grid max-w-6xl gap-6 lg:grid-cols-[310px_1fr]">
+          <aside className="friendly-card hidden rounded-3xl border border-white/20 bg-white p-6 shadow-xl shadow-black/10 lg:block">
+            <Link to="/" className="mb-9 flex items-center">
+              <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-8 w-auto" />
+            </Link>
+
+            <div className="keep-white mb-8 rounded-3xl bg-[#071A3D] p-5 text-white">
+              <div className="mb-4 inline-flex rounded-2xl bg-white/10 p-3 text-[#ffcf8a]">
+                <PawPrint className="h-6 w-6" />
+              </div>
+              <h1 className="font-display text-2xl font-bold leading-tight">Start with one happy run.</h1>
+              <p className="mt-2 text-sm leading-relaxed text-white/75">
+                Create a secure Clerk account first. After verification, your ZoomieVan profile is created in Convex.
+              </p>
+            </div>
+
+            <div className="space-y-3 text-sm text-[#315B96]">
+              <div className="rounded-2xl bg-[#EAF2FF] p-4 font-semibold text-[#071A3D]">
+                Email OTP and verification are handled by Clerk.
+              </div>
+              <div className="rounded-2xl bg-[#FFF7ED] p-4 font-semibold text-[#071A3D]">
+                Add dog details from your dashboard after signup.
+              </div>
+            </div>
+
+            <Link to="/login" className="mt-8 flex items-center gap-2 text-sm font-bold text-[#315B96] hover:text-brand-600">
+              <ArrowLeft className="h-4 w-4" /> Back to sign in
+            </Link>
+          </aside>
+
+          <section className="flex justify-center">
+            <SignUp
+              routing="path"
+              path="/signup"
+              signInUrl="/login"
+              forceRedirectUrl="/dashboard"
+              fallbackRedirectUrl="/dashboard"
+            />
+          </section>
+        </div>
+      </main>
+    );
+  }
+
   const [activeStep, setActiveStep] = useState(0);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);

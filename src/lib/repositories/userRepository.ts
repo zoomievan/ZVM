@@ -16,6 +16,12 @@ export async function getUserByEmail(email: string): Promise<User | null> {
   return users.find(u => u.email.toLowerCase() === email.toLowerCase()) ?? null;
 }
 
+export async function getUserByAuthProviderUserId(authProviderUserId: string): Promise<User | null> {
+  if (convex) return convex.query(api.users.getByAuthProviderUserId, { authProviderUserId });
+  const users = await getAllUsers();
+  return users.find(u => u.authProviderUserId === authProviderUserId) ?? null;
+}
+
 export async function getUserById(id: string): Promise<User | null> {
   if (convex) return convex.query(api.users.getById, { id: id as any });
   const users = await getAllUsers();
