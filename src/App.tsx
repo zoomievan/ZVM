@@ -134,8 +134,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/admin" element={<BackendRequired><ProtectedRoute requireAdmin><AdminPage /></ProtectedRoute></BackendRequired>} />
-        <Route path="/login" element={<BackendRequired><PublicPageLayout><LoginPage /></PublicPageLayout></BackendRequired>} />
-        <Route path="/signup" element={<BackendRequired><PublicPageLayout><SignupPage /></PublicPageLayout></BackendRequired>} />
+        <Route path="/login/*" element={<BackendRequired><PublicPageLayout><LoginPage /></PublicPageLayout></BackendRequired>} />
+        <Route path="/signup/*" element={<BackendRequired><PublicPageLayout><SignupPage /></PublicPageLayout></BackendRequired>} />
         <Route path="/dashboard" element={<BackendRequired><ProtectedRoute><UserDashboard /></ProtectedRoute></BackendRequired>} />
         <Route path="/coverage" element={<PublicPageLayout><CoveragePage /></PublicPageLayout>} />
         <Route path="/faq" element={<PublicPageLayout><FAQPage /></PublicPageLayout>} />
