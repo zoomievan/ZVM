@@ -1,14 +1,12 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { ArrowRight, MapPin, ShieldCheck, Clock3, Star, Heart, PawPrint } from 'lucide-react';
+import { ArrowRight, MapPin, ShieldCheck, Star, Heart, PawPrint } from 'lucide-react';
 
 const trustItems = [
-  { icon: ShieldCheck, label: 'Insured handlers' },
+  { icon: ShieldCheck, label: 'Safe, supervised setup' },
   { icon: MapPin, label: 'Door-to-door service' },
-  { icon: Clock3, label: '30-minute sessions' },
+  { icon: PawPrint, label: 'Dog-led pace' },
 ];
-
-const fitTags = ['High-energy dogs', 'Apartment dogs', 'Rainy days', 'Busy owners'];
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -112,18 +110,6 @@ export default function Hero() {
             ))}
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.82 }}
-            className="mt-6 flex flex-wrap gap-2"
-          >
-            {fitTags.map((tag) => (
-              <span key={tag} className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-bold text-white/80 backdrop-blur">
-                {tag}
-              </span>
-            ))}
-          </motion.div>
         </div>
       </motion.div>
 

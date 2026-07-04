@@ -247,9 +247,12 @@ export default function SignupPage() {
                     </div>
                     <strong className="font-display text-xl text-[#071A3D]">Liability waiver</strong>
                   </div>
-                  <p>I acknowledge that participation in ZoomieVan mobile dog gym sessions involves physical activity for my dog. I understand the risks and agree to hold ZoomieVan, its handlers, and affiliates harmless from any claims arising from my dog's participation.</p>
-                  <p className="mt-3">I confirm that my dog is in good health and that I have disclosed any known medical conditions, behavioral issues, or reactivity concerns.</p>
-                  <p className="mt-3">I consent to photo and video documentation for training and quality assurance purposes. I understand I can opt out at any time.</p>
+                  <p>I acknowledge that ZoomieVan mobile canine fitness sessions involve physical activity and that dogs can experience fatigue, stress, illness, escape, reactivity, injury, or other incidents even in a supervised environment.</p>
+                  <p className="mt-3">I understand that I remain responsible for my dog's health, behavior, suitability, and safety before, during, and after each session. ZoomieVan is not a veterinary provider and does not provide medical clearance.</p>
+                  <p className="mt-3">I confirm that my dog is in good health and that I have disclosed all known medical conditions, prior injuries, medications, behavioral issues, bite history, anxiety, reactivity, or special handling needs.</p>
+                  <p className="mt-3">I agree that ZoomieVan may refuse, pause, shorten, or stop service if the handler believes continuing could be unsafe or unsuitable. Safety-based refusal or early termination does not create a refund obligation.</p>
+                  <p className="mt-3">I understand that all paid bookings, deposits, packages, and service fees are non-refundable unless ZoomieVan cancels the service and chooses to issue a credit, reschedule, or refund.</p>
+                  <p className="mt-3">To the fullest extent permitted by law, I release ZoomieVan, its owners, handlers, contractors, and affiliates from claims, costs, damages, or losses connected to my dog's participation in the service.</p>
                 </div>
 
                 <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-[#D6E6FF] bg-white p-4">
@@ -259,7 +262,7 @@ export default function SignupPage() {
                     onChange={(event) => setLegalAccepted(event.target.checked)}
                     className="mt-1 rounded border-[#D6E6FF] text-brand-500 focus:ring-brand-500"
                   />
-                  <span className="text-sm font-semibold text-[#071A3D]">I have read and agree to the terms above.</span>
+                  <span className="text-sm font-semibold text-[#071A3D]">I have read and agree to the safety release, owner responsibility, and non-refundable payment terms above.</span>
                 </label>
               </div>
             )}
