@@ -12,6 +12,7 @@ import UserDashboard from './pages/UserDashboard';
 import CoveragePage from './pages/CoveragePage';
 import FAQPage from './pages/FAQPage';
 import LegalPage from './pages/LegalPage';
+import AboutPage from './pages/AboutPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import ProductionReadinessGate from './components/ProductionReadinessGate';
 import AuthRedirect from './components/AuthRedirect';
@@ -19,7 +20,7 @@ import { isProductionBackendReady, isProductionBuild } from './lib/runtime';
 import LandingSkeleton from './components/LandingSkeleton';
 
 const loadHero = () => import('./components/Hero');
-const loadWhyZoomieVan = () => import('./components/WhyZoomieVan');
+const loadHomeAboutPreview = () => import('./components/HomeAboutPreview');
 const loadHowItWorks = () => import('./components/HowItWorks');
 const loadBookNow = () => import('./components/BookNow');
 const loadTestimonials = () => import('./components/Testimonials');
@@ -27,7 +28,7 @@ const loadCTA = () => import('./components/CTA');
 const loadFooter = () => import('./components/Footer');
 
 const Hero = lazy(loadHero);
-const WhyZoomieVan = lazy(loadWhyZoomieVan);
+const HomeAboutPreview = lazy(loadHomeAboutPreview);
 const HowItWorks = lazy(loadHowItWorks);
 const BookNow = lazy(loadBookNow);
 const Testimonials = lazy(loadTestimonials);
@@ -35,7 +36,7 @@ const CTA = lazy(loadCTA);
 const Footer = lazy(loadFooter);
 
 const landingModules = Promise.all([
-  loadHero, loadWhyZoomieVan, loadHowItWorks, loadBookNow, loadTestimonials, loadCTA, loadFooter,
+  loadHero, loadHomeAboutPreview, loadHowItWorks, loadBookNow, loadTestimonials, loadCTA, loadFooter,
 ].map((loader) => loader()));
 
 function LandingPage() {
@@ -89,7 +90,7 @@ function LandingPage() {
           <Navbar />
 
           <Hero />
-          <WhyZoomieVan />
+          <HomeAboutPreview />
           <HowItWorks />
           <BookNow />
           <Testimonials />
@@ -139,6 +140,7 @@ export default function App() {
         <Route path="/signup/*" element={<BackendRequired><PublicPageLayout><SignupPage /></PublicPageLayout></BackendRequired>} />
         <Route path="/auth/redirect" element={<BackendRequired><AuthRedirect /></BackendRequired>} />
         <Route path="/dashboard" element={<BackendRequired><ProtectedRoute><UserDashboard /></ProtectedRoute></BackendRequired>} />
+        <Route path="/about" element={<PublicPageLayout><AboutPage /></PublicPageLayout>} />
         <Route path="/coverage" element={<PublicPageLayout><CoveragePage /></PublicPageLayout>} />
         <Route path="/faq" element={<PublicPageLayout><FAQPage /></PublicPageLayout>} />
         <Route path="/legal/:page" element={<PageLayout><LegalPage /></PageLayout>} />

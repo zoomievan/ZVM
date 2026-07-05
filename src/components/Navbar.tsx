@@ -14,7 +14,8 @@ import {
 import { useAuth } from '../lib/auth';
 
 const navLinks = [
-  { label: 'How It Works', href: '/#how-it-works', page: false },
+  { label: 'Home', href: '/', page: true },
+  { label: 'About', href: '/about', page: true },
   { label: 'Pricing', href: '/#book-now', page: false },
   { label: 'Testimonials', href: '/#testimonials', page: false },
   { label: 'Coverage', href: '/coverage', page: true },

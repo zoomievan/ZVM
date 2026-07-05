@@ -78,7 +78,34 @@ export default function UserDashboard() {
           <p className="text-dark-300 mt-1">Manage your profile and book sessions.</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.08 }}
+          className="mt-8 overflow-hidden rounded-2xl border border-brand-500/25 bg-brand-500/10"
+        >
+          <div className="grid gap-4 p-5 sm:grid-cols-[1fr_auto] sm:items-center">
+            <div>
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-brand-500/15 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-brand-300">
+                <PawPrint className="h-3.5 w-3.5" />
+                Start with one happy run
+              </div>
+              <h2 className="font-display text-2xl font-bold text-white">Set up your dog's first ZoomieVan visit.</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-dark-200">
+                Add your dog profile, confirm safety details, and choose a booking window when you are ready.
+              </p>
+            </div>
+            <button
+              onClick={openDogForm}
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-500 px-5 py-3 text-sm font-bold text-white transition hover:bg-brand-600"
+            >
+              {hasDog ? 'Review dog profile' : 'Add dog profile'}
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        </motion.section>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
           {details.map((d, i) => (
             <motion.div
               key={d.label}

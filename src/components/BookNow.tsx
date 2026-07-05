@@ -92,7 +92,7 @@ export default function BookNow() {
         >
           <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-[#0F3D91] shadow-sm">
             <Heart className="h-4 w-4" />
-            Start with one happy run
+            Plans and booking preview
           </span>
           <h2 className="font-display text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
             Pick the fitness routine that fits your dog.

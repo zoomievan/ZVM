@@ -3,13 +3,13 @@ import { MapPin, Mail, Phone, Globe, MessageCircle, Camera } from 'lucide-react'
 
 const footerLinks = {
   Service: [
-    { label: 'How It Works', href: '/#how-it-works' },
+    { label: 'Home', href: '/' },
     { label: 'Pricing', href: '/#book-now' },
     { label: 'Coverage Areas', href: '/coverage' },
     { label: 'Book a Session', href: '/#book-now' },
   ],
   Company: [
-    { label: 'About Us', href: '/#why-zoomievan' },
+    { label: 'About Us', href: '/about' },
     { label: 'FAQ', href: '/faq' },
   ],
   Support: [
