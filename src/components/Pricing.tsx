@@ -7,56 +7,64 @@ import { PricingSkeleton } from './Skeleton';
 const plans = [
   {
     name: 'Trial Run',
-    price: 49,
-    period: 'per session',
-    description: 'Perfect for first-timers. See what your dog thinks of slatmill training.',
+    price: 70,
+    period: '2 sessions',
+    description: 'Two starter sessions to help your dog become comfortable with the slat mill.',
     features: [
-      'Single 30-min slatmill session',
-      'Professional certified handler',
-      'Full van sanitization',
-      'Post-workout report card',
-      'No commitment required',
+      '2 runs, 30 minutes each',
+      'Space sessions about one week apart',
+      'Safe, positive introduction',
+      'Some dogs may need extra trial runs',
     ],
-    cta: 'Book Trial Session',
+    cta: 'Book Trial Run',
     popular: false,
     accent: 'border-dark-500',
   },
   {
-    name: 'Weekly Pack',
-    price: 39,
-    period: 'per session',
-    description: 'Our most popular option. Consistent weekly training builds results.',
+    name: 'Package 1',
+    price: 110,
+    period: '3 runs',
+    description: 'Three runs for maintaining your dog\'s fitness and overall health.',
     features: [
-      'Weekly recurring 30-min session',
-      'Auto-scheduled preferred time slot',
-      'Priority van dispatch',
-      'Live session tracking in-app',
-      'Detailed progress analytics',
-      'Cancel/reschedule 24hr before',
-      'Multi-dog family discount',
+      '3 runs, 30 minutes each',
+      'Use anytime within one month',
+      'Great for fitness maintenance',
+      'Flexible scheduling',
     ],
-    cta: 'Start Weekly Plan',
+    cta: 'Choose Package 1',
+    popular: false,
+    accent: 'border-dark-500',
+  },
+  {
+    name: 'Package 2',
+    price: 200,
+    period: '6 runs',
+    description: 'Six runs for regular cardio, conditioning, weight management, and endurance.',
+    features: [
+      '6 runs, 30 minutes each',
+      'Use anytime within one month',
+      'Ideal for regular conditioning',
+      'Best package value',
+    ],
+    cta: 'Choose Package 2',
     popular: true,
     accent: 'border-brand-500',
-    save: 'Save $40/mo',
+    save: 'Best value',
   },
   {
-    name: '8-Pack Bundle',
-    price: 34,
-    period: 'per session',
-    description: 'Buy in bulk and save. 8 sessions to use at your convenience.',
+    name: 'Single Run',
+    price: 35,
+    period: '1 session',
+    description: 'One extra workout between packages or occasional exercise session.',
     features: [
-      '8 pre-paid 30-min sessions',
-      'Use anytime within 90 days',
-      'Flexible scheduling',
-      'All standard session features',
-      'Progress tracking included',
-      'Transferable between dogs',
+      '1 run, 30 minutes',
+      'Extra workout between packages',
+      'Occasional exercise option',
+      'Maintain your dog\'s routine',
     ],
-    cta: 'Get 8-Pack',
+    cta: 'Book Single Run',
     popular: false,
     accent: 'border-dark-500',
-    save: 'Save $120 total',
   },
 ];
 
@@ -97,13 +105,9 @@ export default function Pricing() {
         </motion.div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {isLoading ? (
-            <>
-              <PricingSkeleton />
-              <PricingSkeleton />
-              <PricingSkeleton />
-            </>
+            [...Array(4)].map((_, index) => <PricingSkeleton key={index} />)
           ) : (
             plans.map((plan, index) => (
               <motion.div

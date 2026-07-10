@@ -26,7 +26,7 @@ function CMSPanel() {
         </div>
         <span className="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded">LIVE</span>
       </div>
-      {['Base Session Rate', 'Weekly Pack Rate', 'Hero Tagline', 'Emergency Banner Text'].map((field) => (
+      {['Single Run Rate', 'Package 1 Rate', 'Hero Tagline', 'Emergency Banner Text'].map((field) => (
         <div key={field} className="space-y-1">
           <label className="text-xs text-dark-400 uppercase tracking-wider">{field}</label>
           <div className="h-9 bg-dark-700 border border-dark-500 rounded-lg flex items-center px-3">

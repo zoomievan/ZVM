@@ -52,9 +52,9 @@ export const demoData = mutation({
     if ((await ctx.db.query("cmsSettings").first()) === null) {
       await ctx.db.insert("cmsSettings", {
         heroTagline: "A Professional Dog Gym That Comes to You",
-        baseSessionRate: 49,
-        weeklyPackRate: 39,
-        eightPackRate: 34,
+        baseSessionRate: 35,
+        weeklyPackRate: 110,
+        eightPackRate: 200,
         emergencyBannerText: "",
         emergencyBannerActive: false,
         createdAt: now,

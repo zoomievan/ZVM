@@ -7,30 +7,39 @@ import { Skeleton } from './Skeleton';
 
 const plans = [
   {
-    name: 'First Run',
-    price: 49,
-    period: 'trial session',
-    description: 'A gentle first visit to understand your dog, goals, and comfort with the setup.',
-    features: ['30-minute supervised run', 'Handler introduction', 'Dog-led pace', 'No subscription needed'],
+    name: 'Trial Run',
+    price: 70,
+    period: '2 sessions',
+    description: 'Two 30-minute sessions to help your dog become comfortable with the slat mill.',
+    features: ['2 runs, 30 minutes each', 'Space sessions about one week apart', 'Safe, positive introduction', 'Move to a package when ready'],
     accent: 'bg-[#EAF2FF]',
     popular: false,
   },
   {
-    name: 'Weekly Routine',
-    price: 39,
-    period: 'per session',
-    description: 'A steady, structured fitness plan for dogs who thrive with consistency.',
-    features: ['Recurring weekly slot', 'Progress notes', 'Personalized goals', 'Priority rescheduling'],
+    name: 'Package 1',
+    price: 110,
+    period: '3 runs',
+    description: 'Three 30-minute runs to maintain your dog\'s fitness and overall health.',
+    features: ['3 runs, 30 minutes each', 'Use anytime within one month', 'Great for routine maintenance', 'Flexible scheduling'],
     accent: 'bg-[#FFF7ED]',
+    popular: false,
+  },
+  {
+    name: 'Package 2',
+    price: 200,
+    period: '6 runs',
+    description: 'Six 30-minute runs for regular cardio, conditioning, weight management, and endurance.',
+    features: ['6 runs, 30 minutes each', 'Use anytime within one month', 'Ideal for regular conditioning', 'Best package value'],
+    accent: 'bg-[#D6E6FF]',
     popular: true,
   },
   {
-    name: 'Run Pack',
-    price: 34,
-    period: 'per session',
-    description: 'Flexible prepaid visits for busy owners and changing schedules.',
-    features: ['8 prepaid sessions', 'Flexible booking', 'Climate-controlled van', 'Best session rate'],
-    accent: 'bg-[#D6E6FF]',
+    name: 'Single Run',
+    price: 35,
+    period: '1 session',
+    description: 'One 30-minute session for an extra workout, occasional exercise, or routine maintenance.',
+    features: ['1 run, 30 minutes', 'Add between packages', 'Occasional exercise option', 'Keep your dog\'s routine going'],
+    accent: 'bg-[#F7FBFF]',
     popular: false,
   },
 ];
@@ -58,7 +67,7 @@ const trustSignals = [
 
 export default function BookNow() {
   const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
-  const [selectedPlan, setSelectedPlan] = useState(1);
+  const [selectedPlan, setSelectedPlan] = useState(0);
   const [selectedDay, setSelectedDay] = useState(2);
   const [selectedSlot, setSelectedSlot] = useState<number | null>(2);
   const [isLoading, setIsLoading] = useState(true);
@@ -98,8 +107,8 @@ export default function BookNow() {
             Pick the fitness routine that fits your dog.
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-white/78">
-            Start with a trial or build a personalized exercise routine for your dog's health,
-            energy level, and schedule.
+            Start with a trial, choose a monthly package, or add a single run when your dog
+            needs an extra outlet.
           </p>
         </motion.div>
 
@@ -108,7 +117,7 @@ export default function BookNow() {
             initial={{ opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="grid gap-4 md:grid-cols-3 lg:grid-cols-1"
+            className="grid gap-4 md:grid-cols-2 lg:grid-cols-1"
           >
             {plans.map((plan, index) => (
               <button
@@ -121,7 +130,7 @@ export default function BookNow() {
               >
                 {plan.popular && (
                   <div className="absolute right-4 top-4 rounded-full bg-brand-500 px-3 py-1 text-xs font-black uppercase tracking-[0.1em] text-white">
-                    Most loved
+                    Best value
                   </div>
                 )}
                 <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl ${plan.accent} text-[#0F3D91]`}>
@@ -245,11 +254,11 @@ export default function BookNow() {
             className="group inline-flex items-center gap-2.5 rounded-2xl bg-brand-500 px-8 py-4 text-sm font-bold text-white shadow-xl shadow-brand-500/25 transition hover:-translate-y-0.5 hover:bg-brand-600"
           >
             <ShieldCheck className="h-4 w-4" />
-            Book a first run
+            Create account to book
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </button>
           <p className="mt-3 text-sm text-white/75">
-            No credit card required to create an account. Start with a trial session.
+            Build for health. Born to zoom.
           </p>
 
           <div className="mt-7 flex flex-wrap justify-center gap-6">

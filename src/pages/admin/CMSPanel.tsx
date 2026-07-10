@@ -39,9 +39,9 @@ export default function AdminCMSPanel() {
 
   const fields: Array<{ key: keyof CMSSettings; label: string; type: 'text' | 'number' | 'textarea'; placeholder?: string }> = [
     { key: 'heroTagline', label: 'Hero Tagline', type: 'text', placeholder: 'A Professional Dog Gym That Comes to You' },
-    { key: 'baseSessionRate', label: 'Base Session Rate ($)', type: 'number' },
-    { key: 'weeklyPackRate', label: 'Weekly Pack Rate ($/session)', type: 'number' },
-    { key: 'eightPackRate', label: '8-Pack Rate ($/session)', type: 'number' },
+    { key: 'baseSessionRate', label: 'Single Run ($)', type: 'number' },
+    { key: 'weeklyPackRate', label: 'Package 1 - 3 Runs ($)', type: 'number' },
+    { key: 'eightPackRate', label: 'Package 2 - 6 Runs ($)', type: 'number' },
     { key: 'emergencyBannerText', label: 'Emergency Banner Text', type: 'text', placeholder: 'Weather delays in your area...' },
   ];
 

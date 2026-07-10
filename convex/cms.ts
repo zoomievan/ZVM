@@ -3,9 +3,9 @@ import { mutation, query } from "./_generated/server";
 
 const defaultSettings = {
   heroTagline: "A Professional Dog Gym That Comes to You",
-  baseSessionRate: 49,
-  weeklyPackRate: 39,
-  eightPackRate: 34,
+  baseSessionRate: 35,
+  weeklyPackRate: 110,
+  eightPackRate: 200,
   emergencyBannerText: "",
   emergencyBannerActive: false,
 };
