@@ -86,8 +86,8 @@ export interface User {
   id: string;
   authProviderUserId?: string;
   email: string;
-  passwordHash: string;
-  passwordSalt: string;
+  passwordHash?: string;
+  passwordSalt?: string;
   role: 'customer' | 'admin';
   name: string;
   phone: string;
@@ -96,5 +96,6 @@ export interface User {
   vaccines: UserVaccines;
   legalAccepted: boolean;
   legalAcceptedAt: string | null;
+  legalVersion?: string;
   createdAt: string;
 }

@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { requireAdmin } from "./auth";
 
 function vanFromDoc(doc: any) {
   return {
@@ -16,6 +17,7 @@ function vanFromDoc(doc: any) {
 export const list = query({
   args: {},
   handler: async (ctx) => {
+    await requireAdmin(ctx);
     const vans = await ctx.db.query("fleetVans").collect();
     return vans.map(vanFromDoc);
   },
@@ -30,6 +32,7 @@ export const add = mutation({
     }),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     const now = Date.now();
     const id = await ctx.db.insert("fleetVans", {
       ...args.van,
@@ -56,6 +59,7 @@ export const update = mutation({
     }),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     const { createdAt, ...updates } = args.updates;
     void createdAt;
     await ctx.db.patch(args.id, { ...updates, updatedAt: Date.now() });
@@ -67,6 +71,7 @@ export const update = mutation({
 export const incrementSession = mutation({
   args: { id: v.id("fleetVans") },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     const van = await ctx.db.get(args.id);
     if (!van) throw new Error("Van not found");
     await ctx.db.patch(args.id, {
@@ -82,6 +87,7 @@ export const incrementSession = mutation({
 export const remove = mutation({
   args: { id: v.id("fleetVans") },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     await ctx.db.delete(args.id);
   },
 });

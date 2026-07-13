@@ -50,7 +50,10 @@ export async function updateVan(id: string, updates: Partial<FleetVan>): Promise
 }
 
 export async function deleteVan(id: string): Promise<void> {
-  if (convex) return convex.mutation(api.fleet.remove, { id: id as any });
+  if (convex) {
+    await convex.mutation(api.fleet.remove, { id: id as any });
+    return;
+  }
   await new Promise(r => setTimeout(r, 50));
   const vans = await getAllVans();
   setItem(KEY, vans.filter(v => v.id !== id));

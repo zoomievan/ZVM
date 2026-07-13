@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { requireAdmin } from "./auth";
 
 function vaccineFromDoc(doc: any) {
   return {
@@ -15,6 +16,7 @@ function vaccineFromDoc(doc: any) {
 export const list = query({
   args: {},
   handler: async (ctx) => {
+    await requireAdmin(ctx);
     const records = await ctx.db.query("vaccineRecords").collect();
     return records.map(vaccineFromDoc);
   },
@@ -29,6 +31,7 @@ export const add = mutation({
     }),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     const now = Date.now();
     const id = await ctx.db.insert("vaccineRecords", {
       ...args.record,
@@ -45,7 +48,8 @@ export const add = mutation({
 export const approve = mutation({
   args: { id: v.id("vaccineRecords") },
   handler: async (ctx, args) => {
-    await ctx.db.patch(args.id, { status: "approved", reviewedAt: Date.now(), updatedAt: Date.now() });
+    const admin = await requireAdmin(ctx);
+    await ctx.db.patch(args.id, { status: "approved", reviewedBy: admin._id, reviewedAt: Date.now(), updatedAt: Date.now() });
     const record = await ctx.db.get(args.id);
     return vaccineFromDoc(record);
   },
@@ -54,7 +58,8 @@ export const approve = mutation({
 export const reject = mutation({
   args: { id: v.id("vaccineRecords") },
   handler: async (ctx, args) => {
-    await ctx.db.patch(args.id, { status: "rejected", reviewedAt: Date.now(), updatedAt: Date.now() });
+    const admin = await requireAdmin(ctx);
+    await ctx.db.patch(args.id, { status: "rejected", reviewedBy: admin._id, reviewedAt: Date.now(), updatedAt: Date.now() });
     const record = await ctx.db.get(args.id);
     return vaccineFromDoc(record);
   },
@@ -63,6 +68,7 @@ export const reject = mutation({
 export const remove = mutation({
   args: { id: v.id("vaccineRecords") },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     await ctx.db.delete(args.id);
   },
 });

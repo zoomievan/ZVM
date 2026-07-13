@@ -11,8 +11,8 @@ export default function ProductionReadinessGate() {
           Production backend is not connected
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-dark-200">
-          This deployment is configured as a production build, but Convex is not connected yet.
-          Add `VITE_CONVEX_URL` and deploy the Convex backend before accepting real customer data.
+          This deployment is missing its production Clerk or Convex configuration.
+          Connect both services and deploy the authenticated backend before accepting customer data.
         </p>
         <a
           href="/"
@@ -25,4 +25,3 @@ export default function ProductionReadinessGate() {
     </main>
   );
 }
-

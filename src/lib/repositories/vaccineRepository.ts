@@ -59,7 +59,10 @@ export async function rejectVaccine(id: string): Promise<VaccineRecord> {
 }
 
 export async function deleteVaccine(id: string): Promise<void> {
-  if (convex) return convex.mutation(api.vaccines.remove, { id: id as any });
+  if (convex) {
+    await convex.mutation(api.vaccines.remove, { id: id as any });
+    return;
+  }
   await new Promise(r => setTimeout(r, 50));
   const records = await getAllVaccines();
   setItem(KEY, records.filter(r => r.id !== id));

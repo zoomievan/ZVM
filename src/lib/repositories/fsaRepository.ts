@@ -45,7 +45,10 @@ export async function updateZone(id: string, updates: Partial<FSARecord>): Promi
 }
 
 export async function deleteZone(id: string): Promise<void> {
-  if (convex) return convex.mutation(api.fsaZones.remove, { id: id as any });
+  if (convex) {
+    await convex.mutation(api.fsaZones.remove, { id: id as any });
+    return;
+  }
   await new Promise(r => setTimeout(r, 60));
   const zones = await getAllZones();
   setItem(KEY, zones.filter(z => z.id !== id));

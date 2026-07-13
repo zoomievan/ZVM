@@ -1,12 +1,16 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import { useClerk, useUser as useClerkUser } from '@clerk/react';
+import { useConvexAuth } from 'convex/react';
 import {
-  getUserByAuthProviderUserId,
   getUserByEmail,
   createUser,
+  getOrCreateCurrent,
+  acceptLegal as acceptLegalRepo,
   updateUser as updateUserRepo,
 } from './repositories/userRepository';
-import { User, UserAddress, UserDog, UserVaccines } from './types';
+import { User } from './types';
+import { usesConvexBackend } from './convexClient';
+import { hasClerkConfig } from './runtime';
 
 type SignupData = Omit<User, 'id' | 'createdAt' | 'passwordHash' | 'passwordSalt' | 'role'> & {
   password: string;
@@ -18,17 +22,13 @@ interface AuthContext {
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   signup: (data: SignupData) => Promise<{ success: boolean; error?: string }>;
   updateUser: (updates: Partial<User>) => Promise<void>;
+  acceptLegal: () => Promise<void>;
   logout: () => void;
 }
 
 const AuthCtx = createContext<AuthContext | null>(null);
 
 const SESSION_KEY = 'zoomievan_session';
-const hasClerkConfig = Boolean(import.meta.env.VITE_CLERK_PUBLISHABLE_KEY);
-
-const emptyAddress: UserAddress = { line1: '', city: '', province: '', postalCode: '' };
-const emptyDog: UserDog = { name: '', breed: '', weight: 0, age: 0, energyLevel: '', reactivityNotes: '' };
-const emptyVaccines: UserVaccines = { rabiesFileName: '', dhppFileName: '', vetName: '', vetPhone: '' };
 
 function bytesToHex(bytes: ArrayBuffer): string {
   return Array.from(new Uint8Array(bytes))
@@ -64,7 +64,7 @@ function DemoAuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (email: string, password: string) => {
     const found = await getUserByEmail(email);
-    if (!found) return { success: false, error: 'Invalid email or password.' };
+    if (!found?.passwordHash || !found.passwordSalt) return { success: false, error: 'Invalid email or password.' };
     const passwordHash = await hashDemoPassword(password, found.passwordSalt);
     if (found.passwordHash !== passwordHash) return { success: false, error: 'Invalid email or password.' };
     sessionStorage.setItem(SESSION_KEY, found.id);
@@ -107,13 +107,23 @@ function DemoAuthProvider({ children }: { children: ReactNode }) {
     setUser(updated);
   }, [user]);
 
+  const acceptLegal = useCallback(async () => {
+    if (!user) throw new Error('Not logged in');
+    const updated = await updateUserRepo(user.id, {
+      legalAccepted: true,
+      legalAcceptedAt: new Date().toISOString(),
+      legalVersion: '2026-07-14',
+    });
+    setUser(updated);
+  }, [user]);
+
   const logout = useCallback(() => {
     sessionStorage.removeItem(SESSION_KEY);
     setUser(null);
   }, []);
 
   return (
-    <AuthCtx.Provider value={{ user, loading, login, signup, updateUser, logout }}>
+    <AuthCtx.Provider value={{ user, loading, login, signup, updateUser, acceptLegal, logout }}>
       {children}
     </AuthCtx.Provider>
   );
@@ -121,6 +131,7 @@ function DemoAuthProvider({ children }: { children: ReactNode }) {
 
 function ClerkBackedAuthProvider({ children }: { children: ReactNode }) {
   const { isLoaded, isSignedIn, user: clerkUser } = useClerkUser();
+  const { isAuthenticated, isLoading: convexLoading } = useConvexAuth();
   const { signOut } = useClerk();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -129,7 +140,7 @@ function ClerkBackedAuthProvider({ children }: { children: ReactNode }) {
     let cancelled = false;
 
     async function syncUser() {
-      if (!isLoaded) return;
+      if (!isLoaded || convexLoading) return;
 
       if (!isSignedIn || !clerkUser) {
         setUser(null);
@@ -137,35 +148,13 @@ function ClerkBackedAuthProvider({ children }: { children: ReactNode }) {
         return;
       }
 
+      if (!isAuthenticated) return;
+
       setLoading(true);
-      const email = clerkUser.primaryEmailAddress?.emailAddress ?? '';
-      const name = clerkUser.fullName || clerkUser.firstName || email.split('@')[0] || 'ZoomieVan customer';
-
-      let appUser = await getUserByAuthProviderUserId(clerkUser.id);
-
-      if (!appUser && email) {
-        appUser = await getUserByEmail(email);
-        if (appUser && !appUser.authProviderUserId) {
-          appUser = await updateUserRepo(appUser.id, { authProviderUserId: clerkUser.id });
-        }
-      }
-
-      if (!appUser) {
-        appUser = await createUser({
-          authProviderUserId: clerkUser.id,
-          email,
-          passwordHash: 'clerk-managed',
-          passwordSalt: 'clerk-managed',
-          role: 'customer',
-          name,
-          phone: clerkUser.primaryPhoneNumber?.phoneNumber ?? '',
-          address: emptyAddress,
-          dog: emptyDog,
-          vaccines: emptyVaccines,
-          legalAccepted: false,
-          legalAcceptedAt: null,
-        });
-      }
+      const appUser = await getOrCreateCurrent(
+        clerkUser.fullName || clerkUser.firstName || undefined,
+        clerkUser.primaryPhoneNumber?.phoneNumber,
+      );
 
       if (!cancelled) {
         setUser(appUser);
@@ -183,7 +172,7 @@ function ClerkBackedAuthProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, [clerkUser, isLoaded, isSignedIn]);
+  }, [clerkUser, convexLoading, isAuthenticated, isLoaded, isSignedIn]);
 
   const login = useCallback(async () => {
     return { success: false, error: 'Use the Clerk sign-in form.' };
@@ -199,23 +188,42 @@ function ClerkBackedAuthProvider({ children }: { children: ReactNode }) {
     setUser(updated);
   }, [user]);
 
+  const acceptLegal = useCallback(async () => {
+    const updated = await acceptLegalRepo();
+    setUser(updated);
+  }, []);
+
   const logout = useCallback(() => {
     setUser(null);
     void signOut({ redirectUrl: '/' });
   }, [signOut]);
 
   return (
-    <AuthCtx.Provider value={{ user, loading, login, signup, updateUser, logout }}>
+    <AuthCtx.Provider value={{ user, loading, login, signup, updateUser, acceptLegal, logout }}>
       {children}
     </AuthCtx.Provider>
   );
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  return hasClerkConfig ? (
+  if (hasClerkConfig && usesConvexBackend) return (
     <ClerkBackedAuthProvider>{children}</ClerkBackedAuthProvider>
-  ) : (
-    <DemoAuthProvider>{children}</DemoAuthProvider>
+  );
+
+  if (!import.meta.env.PROD) return <DemoAuthProvider>{children}</DemoAuthProvider>;
+
+  return (
+    <AuthCtx.Provider value={{
+      user: null,
+      loading: false,
+      login: async () => ({ success: false, error: 'Production authentication is not configured.' }),
+      signup: async () => ({ success: false, error: 'Production authentication is not configured.' }),
+      updateUser: async () => { throw new Error('Production authentication is not configured.'); },
+      acceptLegal: async () => { throw new Error('Production authentication is not configured.'); },
+      logout: () => undefined,
+    }}>
+      {children}
+    </AuthCtx.Provider>
   );
 }
 

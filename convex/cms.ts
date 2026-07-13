@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { requireAdmin } from "./auth";
 
 const defaultSettings = {
   heroTagline: "A Professional Dog Gym That Comes to You",
@@ -41,6 +42,7 @@ export const update = mutation({
     }),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     const now = Date.now();
     const existing = await ctx.db.query("cmsSettings").first();
     if (existing) {

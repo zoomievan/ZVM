@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { requireAdmin } from "./auth";
 
 function zoneFromDoc(doc: any) {
   return {
@@ -34,6 +35,7 @@ export const add = mutation({
     }),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     const now = Date.now();
     const id = await ctx.db.insert("fsaZones", {
       ...args.zone,
@@ -60,6 +62,7 @@ export const update = mutation({
     }),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     const { createdAt, ...updates } = args.updates;
     void createdAt;
     await ctx.db.patch(args.id, {
@@ -75,6 +78,7 @@ export const update = mutation({
 export const remove = mutation({
   args: { id: v.id("fsaZones") },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     await ctx.db.delete(args.id);
   },
 });

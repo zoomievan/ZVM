@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { internalMutation } from "./_generated/server";
 
 const zones = [
   { fsa: "M5V", city: "Toronto", province: "ON", tier: "Tier 1" as const, surcharge: 0, status: "active" as const },
@@ -21,7 +21,7 @@ const vaccines = [
   { dogName: "Luna", ownerName: "David P.", vaccineType: "DHPP", status: "approved" as const },
 ];
 
-export const demoData = mutation({
+export const demoData = internalMutation({
   args: {},
   handler: async (ctx) => {
     const now = Date.now();

@@ -1,4 +1,5 @@
 import { query } from "./_generated/server";
+import { requireAdmin } from "./auth";
 
 function bookingFromDoc(doc: any) {
   return {
@@ -18,6 +19,7 @@ function bookingFromDoc(doc: any) {
 export const list = query({
   args: {},
   handler: async (ctx) => {
+    await requireAdmin(ctx);
     const bookings = await ctx.db.query("bookings").collect();
     return bookings.map(bookingFromDoc);
   },

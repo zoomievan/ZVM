@@ -33,8 +33,8 @@ export default defineSchema({
   users: defineTable({
     authProviderUserId: v.optional(v.string()),
     email: v.string(),
-    passwordHash: v.string(),
-    passwordSalt: v.string(),
+    passwordHash: v.optional(v.string()),
+    passwordSalt: v.optional(v.string()),
     name: v.string(),
     phone: v.string(),
     role: v.union(v.literal("customer"), v.literal("admin")),
@@ -43,6 +43,7 @@ export default defineSchema({
     vaccines: vaccineProfile,
     legalAccepted: v.boolean(),
     legalAcceptedAt: v.optional(v.number()),
+    legalVersion: v.optional(v.string()),
     ...timestampFields,
   })
     .index("by_email", ["email"])
@@ -100,6 +101,28 @@ export default defineSchema({
   })
     .index("by_user", ["userId"])
     .index("by_date", ["date"])
+    .index("by_status", ["status"]),
+
+  payments: defineTable({
+    userId: v.optional(v.id("users")),
+    stripeCheckoutSessionId: v.string(),
+    stripePaymentIntentId: v.optional(v.string()),
+    planKey: v.string(),
+    planName: v.string(),
+    amountCents: v.number(),
+    currency: v.string(),
+    customerEmail: v.string(),
+    status: v.union(
+      v.literal("checkout_created"),
+      v.literal("paid"),
+      v.literal("cancelled"),
+      v.literal("failed"),
+      v.literal("refunded"),
+    ),
+    ...timestampFields,
+  })
+    .index("by_user", ["userId"])
+    .index("by_checkout_session", ["stripeCheckoutSessionId"])
     .index("by_status", ["status"]),
 
   cmsSettings: defineTable({

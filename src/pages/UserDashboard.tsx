@@ -1,19 +1,27 @@
 import { useState } from 'react';
 import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { User, PawPrint, ShieldCheck, MapPinned, LogOut, Calendar, ChevronRight, Plus, X, Save, Loader2 } from 'lucide-react';
+import { User, PawPrint, ShieldCheck, MapPinned, LogOut, Calendar, ChevronRight, Plus, X, Save, Loader2, CreditCard } from 'lucide-react';
 import { useAuth } from '../lib/auth';
 import { UserDog } from '../lib/types';
+import { createCheckoutSession, STRIPE_PLANS, StripePlanKey } from '../lib/payments';
 
+const CURRENT_LEGAL_VERSION = '2026-07-14';
 const emptyDog: UserDog = { name: '', breed: '', weight: 0, age: 0, energyLevel: '', reactivityNotes: '' };
 
 export default function UserDashboard() {
-  const { user, updateUser, logout, loading } = useAuth();
+  const { user, updateUser, acceptLegal, logout, loading } = useAuth();
   const navigate = useNavigate();
 
   const [showDogForm, setShowDogForm] = useState(false);
   const [dogForm, setDogForm] = useState<UserDog>(emptyDog);
   const [savingDog, setSavingDog] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<StripePlanKey>('trial_run');
+  const [checkoutPlan, setCheckoutPlan] = useState<StripePlanKey | null>(null);
+  const [checkoutError, setCheckoutError] = useState('');
+  const [consentChecked, setConsentChecked] = useState(false);
+  const [savingConsent, setSavingConsent] = useState(false);
+  const checkoutStatus = new URLSearchParams(window.location.search).get('checkout');
 
   if (loading) {
     return (
@@ -53,7 +61,38 @@ export default function UserDashboard() {
     setShowDogForm(false);
   };
 
+  const startCheckout = async () => {
+    if (!user.legalAccepted || user.legalVersion !== CURRENT_LEGAL_VERSION) {
+      setCheckoutError('Accept the current service terms before checkout.');
+      return;
+    }
+    setCheckoutPlan(selectedPlan);
+    setCheckoutError('');
+    try {
+      const session = await createCheckoutSession(selectedPlan);
+      window.location.assign(session.url);
+    } catch (error) {
+      setCheckoutError(error instanceof Error ? error.message : 'Stripe checkout could not be started.');
+      setCheckoutPlan(null);
+    }
+  };
+
+  const saveConsent = async () => {
+    if (!consentChecked) return;
+    setSavingConsent(true);
+    setCheckoutError('');
+    try {
+      await acceptLegal();
+      setConsentChecked(false);
+    } catch (error) {
+      setCheckoutError(error instanceof Error ? error.message : 'Consent could not be saved.');
+    } finally {
+      setSavingConsent(false);
+    }
+  };
+
   const hasDog = !!user.dog.name;
+  const hasCurrentConsent = user.legalAccepted && user.legalVersion === CURRENT_LEGAL_VERSION;
 
   const details = [
     { icon: User, label: 'Name', value: user.name },
@@ -164,14 +203,72 @@ export default function UserDashboard() {
           transition={{ delay: 0.4 }}
           className="mt-6 p-5 bg-brand-500/5 rounded-xl border border-brand-500/20"
         >
+          {checkoutStatus === 'success' && (
+            <p className="mb-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+              Checkout completed. We are verifying the payment before confirming your booking.
+            </p>
+          )}
+          {checkoutStatus === 'cancelled' && (
+            <p className="mb-4 rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
+              Checkout was cancelled. No payment was taken.
+            </p>
+          )}
+          {!hasCurrentConsent && (
+            <div className="mb-5 rounded-xl border border-amber-500/25 bg-amber-500/10 p-4">
+              <p className="text-sm font-semibold text-amber-100">Service agreement required</p>
+              <label className="mt-3 flex cursor-pointer items-start gap-3 text-sm leading-relaxed text-dark-200">
+                <input
+                  type="checkbox"
+                  checked={consentChecked}
+                  onChange={event => setConsentChecked(event.target.checked)}
+                  className="mt-1 h-4 w-4 accent-orange-500"
+                />
+                <span>
+                  I agree to the{' '}
+                  <Link to="/legal/terms" target="_blank" rel="noreferrer" className="font-semibold text-brand-300 underline">Terms of Service</Link>
+                  {', '}
+                  <Link to="/legal/waiver" target="_blank" rel="noreferrer" className="font-semibold text-brand-300 underline">Liability Waiver</Link>
+                  {' and '}
+                  <Link to="/legal/privacy" target="_blank" rel="noreferrer" className="font-semibold text-brand-300 underline">Privacy Policy</Link>.
+                </span>
+              </label>
+              <button
+                onClick={saveConsent}
+                disabled={!consentChecked || savingConsent}
+                className="mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-400 px-4 py-2 text-sm font-bold text-dark-900 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {savingConsent && <Loader2 className="h-4 w-4 animate-spin" />}
+                Accept current terms
+              </button>
+            </div>
+          )}
           <p className="text-sm text-dark-300 mb-4">
             Ready for a session? Check availability and book a visit.
           </p>
-          <Link
-            to="/#book-now"
-            className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-brand-600 to-brand-500 rounded-xl hover:from-brand-500 hover:to-brand-400 transition-all shadow-lg shadow-brand-500/25"
-          >
-            <Calendar className="w-4 h-4" /> Book a Session <ChevronRight className="w-4 h-4" />
+          <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
+            <select
+              value={selectedPlan}
+              onChange={event => setSelectedPlan(event.target.value as StripePlanKey)}
+              className="h-11 rounded-xl border border-dark-500 bg-dark-900 px-4 text-sm text-white focus:outline-none focus:border-brand-500/50"
+            >
+              {STRIPE_PLANS.map(plan => (
+                <option key={plan.key} value={plan.key}>
+                  {plan.name} - ${plan.price} CAD, {plan.summary}
+                </option>
+              ))}
+            </select>
+            <button
+              onClick={startCheckout}
+              disabled={checkoutPlan !== null || !hasCurrentConsent || !hasDog}
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/25 transition-all hover:from-brand-500 hover:to-brand-400 disabled:opacity-60"
+            >
+              {checkoutPlan ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
+              Pay with Stripe
+            </button>
+          </div>
+          {checkoutError && <p className="mt-3 text-sm text-red-300">{checkoutError}</p>}
+          <Link to="/#book-now" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-300 hover:text-brand-200">
+            <Calendar className="w-4 h-4" /> Review pricing preview <ChevronRight className="w-4 h-4" />
           </Link>
         </motion.div>
       </div>
