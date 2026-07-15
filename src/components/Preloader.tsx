@@ -3,10 +3,6 @@ import { useEffect, useState, useRef } from 'react';
 
 const LOADER_DURATION_MS = 3000;
 const LOADER_PLAYBACK_RATE = 1.96;
-const LOADER_SOURCE_DURATION_SECONDS = 5.875;
-const DOG_SLOW_AT_SECONDS = 1.5;
-const DOG_SLOW_DURATION_MS = 2000;
-const DOG_SLOW_PLAYBACK_RATE = 0.1;
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
@@ -16,18 +12,15 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
     let done = false;
     let completionTimer: ReturnType<typeof setTimeout> | undefined;
     let loaderTimer: ReturnType<typeof setTimeout> | undefined;
-    let restoreSpeedTimer: ReturnType<typeof setTimeout> | undefined;
     let progressFrame: number | undefined;
-    let dogSlowed = false;
     const finish = () => {
       if (done) return;
       done = true;
       if (progressFrame) cancelAnimationFrame(progressFrame);
-      clearTimeout(restoreSpeedTimer);
       setProgress(100);
       completionTimer = setTimeout(onComplete, 400);
     };
-    const fallbackTimer = setTimeout(finish, LOADER_DURATION_MS + DOG_SLOW_DURATION_MS + 1000);
+    const fallbackTimer = setTimeout(finish, LOADER_DURATION_MS + 2000);
 
     const v = videoRef.current;
     if (!v) return;
@@ -35,20 +28,13 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
     const startTimeline = () => {
       if (loaderTimer) return;
       v.playbackRate = LOADER_PLAYBACK_RATE;
+      const startedAt = performance.now();
       const updateProgress = () => {
-        if (!dogSlowed && v.currentTime >= DOG_SLOW_AT_SECONDS) {
-          dogSlowed = true;
-          v.currentTime = DOG_SLOW_AT_SECONDS;
-          v.playbackRate = DOG_SLOW_PLAYBACK_RATE;
-          restoreSpeedTimer = setTimeout(() => {
-            v.playbackRate = LOADER_PLAYBACK_RATE;
-          }, DOG_SLOW_DURATION_MS);
-        }
-        setProgress(Math.min((v.currentTime / LOADER_SOURCE_DURATION_SECONDS) * 100, 100));
+        setProgress(Math.min(((performance.now() - startedAt) / LOADER_DURATION_MS) * 100, 100));
         progressFrame = requestAnimationFrame(updateProgress);
       };
       updateProgress();
-      loaderTimer = setTimeout(finish, LOADER_DURATION_MS + DOG_SLOW_DURATION_MS + 500);
+      loaderTimer = setTimeout(finish, LOADER_DURATION_MS);
     };
     const onEnd = () => finish();
 
@@ -59,7 +45,6 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
 
     return () => {
       clearTimeout(loaderTimer);
-      clearTimeout(restoreSpeedTimer);
       clearTimeout(fallbackTimer);
       clearTimeout(completionTimer);
       if (progressFrame) cancelAnimationFrame(progressFrame);
