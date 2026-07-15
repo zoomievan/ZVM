@@ -10,6 +10,7 @@ test("the replacement loader keeps the established three-second timeline", async
   assert.match(source, /v\.addEventListener\('playing', startTimeline\)/);
   assert.match(source, /LOADER_PLAYBACK_RATE = 1\.96/);
   assert.match(source, /v\.playbackRate = LOADER_PLAYBACK_RATE/);
+  assert.match(source, /requestAnimationFrame\(updateProgress\)/);
   assert.match(source, /absolute inset-0 overflow-hidden/);
-  assert.match(source, /h-full w-full object-cover opacity-45/);
+  assert.match(source, /object-contain mix-blend-screen opacity-80 md:object-cover md:mix-blend-normal md:opacity-45/);
 });

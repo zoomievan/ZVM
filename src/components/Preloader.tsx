@@ -12,9 +12,11 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
     let done = false;
     let completionTimer: ReturnType<typeof setTimeout> | undefined;
     let loaderTimer: ReturnType<typeof setTimeout> | undefined;
+    let progressFrame: number | undefined;
     const finish = () => {
       if (done) return;
       done = true;
+      if (progressFrame) cancelAnimationFrame(progressFrame);
       setProgress(100);
       completionTimer = setTimeout(onComplete, 400);
     };
@@ -26,16 +28,18 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
     const startTimeline = () => {
       if (loaderTimer) return;
       v.playbackRate = LOADER_PLAYBACK_RATE;
+      const startedAt = performance.now();
+      const updateProgress = () => {
+        setProgress(Math.min(((performance.now() - startedAt) / LOADER_DURATION_MS) * 100, 100));
+        progressFrame = requestAnimationFrame(updateProgress);
+      };
+      updateProgress();
       loaderTimer = setTimeout(finish, LOADER_DURATION_MS);
-    };
-    const onTime = () => {
-      if (Number.isFinite(v.duration) && v.duration > 0) setProgress((v.currentTime / v.duration) * 100);
     };
     const onEnd = () => finish();
 
     if (!v.paused) startTimeline();
     v.addEventListener('playing', startTimeline);
-    v.addEventListener('timeupdate', onTime);
     v.addEventListener('ended', onEnd);
     void v.play();
 
@@ -43,8 +47,8 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       clearTimeout(loaderTimer);
       clearTimeout(fallbackTimer);
       clearTimeout(completionTimer);
+      if (progressFrame) cancelAnimationFrame(progressFrame);
       v.removeEventListener('playing', startTimeline);
-      v.removeEventListener('timeupdate', onTime);
       v.removeEventListener('ended', onEnd);
     };
   }, [onComplete]);
@@ -63,23 +67,20 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             muted
             playsInline
             preload="auto"
-            className="h-full w-full object-cover opacity-45"
-            style={{ objectPosition: 'center 35%' }}
+            className="h-full w-full object-contain mix-blend-screen opacity-80 md:object-cover md:mix-blend-normal md:opacity-45"
           >
             <source src="/loader2.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(15,61,145,0.24),rgba(7,26,61,0.86)_70%)]" />
+          <div className="absolute inset-0 bg-[#071A3D]/55 md:bg-[radial-gradient(ellipse_at_center,rgba(15,61,145,0.24),rgba(7,26,61,0.86)_70%)]" />
         </div>
 
         <div className="relative z-10 flex w-full max-w-[248px] flex-col items-center px-4 text-center lg:hidden">
           <img src="/images/zvm_companyname_logo.png" alt="ZoomieVan" className="h-14 w-auto" />
           <p className="mt-4 text-sm font-medium text-white/82">Getting tails moving...</p>
           <div className="mt-5 h-1 w-full overflow-hidden rounded-full bg-white/20">
-            <motion.div
+            <div
               className="h-full bg-gradient-to-r from-brand-600 to-brand-400 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${Math.min(progress, 100)}%` }}
-              transition={{ ease: 'easeOut' }}
+              style={{ width: `${Math.min(progress, 100)}%` }}
             />
           </div>
         </div>
@@ -90,11 +91,9 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             <p className="text-sm font-medium text-white/82">Getting tails moving...</p>
           </div>
           <div className="h-1.5 w-48 overflow-hidden rounded-full bg-white shadow-inner">
-            <motion.div
+            <div
               className="h-full rounded-full bg-gradient-to-r from-brand-600 to-brand-400"
-              initial={{ width: 0 }}
-              animate={{ width: `${Math.min(progress, 100)}%` }}
-              transition={{ ease: 'easeOut' }}
+              style={{ width: `${Math.min(progress, 100)}%` }}
             />
           </div>
         </div>
