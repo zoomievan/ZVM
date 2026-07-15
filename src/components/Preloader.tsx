@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, useRef } from 'react';
 
 const LOADER_DURATION_MS = 3000;
+const LOADER_PLAYBACK_RATE = 1.96;
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
@@ -23,12 +24,12 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
     if (!v) return;
 
     const startTimeline = () => {
-      if (loaderTimer || v.duration <= 0) return;
-      v.playbackRate = v.duration / (LOADER_DURATION_MS / 1000);
+      if (loaderTimer) return;
+      v.playbackRate = LOADER_PLAYBACK_RATE;
       loaderTimer = setTimeout(finish, LOADER_DURATION_MS);
     };
     const onTime = () => {
-      if (v.duration) setProgress((v.currentTime / v.duration) * 100);
+      if (Number.isFinite(v.duration) && v.duration > 0) setProgress((v.currentTime / v.duration) * 100);
     };
     const onEnd = () => finish();
 
