@@ -67,11 +67,11 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             muted
             playsInline
             preload="auto"
-            className="h-full w-full object-contain mix-blend-screen opacity-80 md:object-cover md:mix-blend-normal md:opacity-45"
+            className="h-full w-full object-cover opacity-45"
           >
             <source src="/loader2.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-[#071A3D]/55 md:bg-[radial-gradient(ellipse_at_center,rgba(15,61,145,0.24),rgba(7,26,61,0.86)_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(15,61,145,0.24),rgba(7,26,61,0.86)_70%)]" />
         </div>
 
         <div className="relative z-10 flex w-full max-w-[248px] flex-col items-center px-4 text-center lg:hidden">
