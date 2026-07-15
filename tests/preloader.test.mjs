@@ -8,7 +8,7 @@ test("the replacement loader keeps the established three-second timeline", async
   assert.match(source, /LOADER_DURATION_MS = 3000/);
   assert.match(source, /src="\/loader2\.mp4"/);
   assert.match(source, /v\.playbackRate = v\.duration \/ \(LOADER_DURATION_MS \/ 1000\)/);
-  assert.match(source, /max-w-\[340px\] object-contain/);
-  assert.match(source, /justify-start bg-\[#071A3D\] motion-reduce:justify-center lg:justify-center/);
-  assert.match(source, /pt-52 text-center motion-reduce:pt-0 lg:hidden/);
+  assert.match(source, /h-40 w-full max-w-\[320px\]/);
+  assert.match(source, /object-contain opacity-85 lg:object-cover lg:opacity-45/);
+  assert.match(source, /mt-6 flex w-full max-w-\[248px\]/);
 });
